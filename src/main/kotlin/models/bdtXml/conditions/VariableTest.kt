@@ -1,7 +1,7 @@
-package models.bdt.conditions
+package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.bdt.variables.Variable
+import models.bdtXml.variables.Variable
 
 data class VariableTest(
     val operator: String,

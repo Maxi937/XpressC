@@ -1,7 +1,7 @@
-package models.bdt.actions
+package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.bdt.variables.Variable
+import models.bdtXml.variables.Variable
 
 
 data class Define(val inputParameters: List<Variable>, val variables: List<Variable> = ArrayList()) : Action {

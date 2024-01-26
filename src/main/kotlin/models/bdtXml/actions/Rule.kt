@@ -1,4 +1,4 @@
-package models.bdt.actions
+package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 

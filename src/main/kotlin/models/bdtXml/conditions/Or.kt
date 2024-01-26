@@ -1,14 +1,14 @@
-package models.bdt.conditions
+package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 
-data class And(
+data class Or(
     val conditions: ArrayList<Condition>
 ) : Condition {
     companion object {
-        fun xml(k: Konsumer): And {
-            k.checkCurrent("And")
+        fun xml(k: Konsumer): Or {
+            k.checkCurrent("Or")
 
             val conditions: ArrayList<Condition> = ArrayList()
 
@@ -19,7 +19,7 @@ data class And(
                     conditions.add(condition)
                 }
             }
-            return And(conditions)
+            return Or(conditions)
         }
     }
 

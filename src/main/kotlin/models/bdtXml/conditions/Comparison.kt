@@ -1,11 +1,11 @@
-package models.bdt.conditions
+package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.bdt.variables.DbField
-import models.bdt.variables.Value
-import models.bdt.variables.Variable
+import models.bdtXml.variables.DbField
+import models.bdtXml.variables.Value
+import models.bdtXml.variables.Variable
 
 data class Comparison(
     val operator: String,

@@ -1,10 +1,10 @@
-package models.bdt.actions
+package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.bdt.conditions.Condition
-import models.bdt.conditions.whichCondition
+import models.bdtXml.conditions.Condition
+import models.bdtXml.conditions.whichCondition
 
 
 data class If(

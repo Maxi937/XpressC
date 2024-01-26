@@ -1,10 +1,10 @@
-package models.bdt
+package models.bdtXml
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.bdt.actions.*
-import models.CandidateXml.CandidateXml
+import models.bdtXml.actions.*
+import models.CandidateXml.Candidate
 
 val globalElementsAccountedFor =
     setOf("Define", "DBQuery", "GetRSFieldValue", "Assign", "If", "ReplaceVariables", "CurrentRule", "InsertSection")
@@ -28,7 +28,7 @@ data class BDT(
         return results
     }
 
-    fun solve(candidateXml: CandidateXml) {
+    fun solve(candidateXml: Candidate) {
         sequence.forEach {
             it.evaluate()
         }

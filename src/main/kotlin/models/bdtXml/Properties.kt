@@ -1,4 +1,4 @@
-package models.bdt
+package models.bdtXml
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 

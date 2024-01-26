@@ -16,7 +16,9 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-./TestData/**
+./TestData/
+src/TestData/
+./src/TestData/
 
 ### Eclipse ###
 .apt_generated
@@ -44,3 +46,4 @@ bin/
 .DS_Store
 /TestData/
 /TestData/
+/src/TestData/Stop_Loss_Contract/

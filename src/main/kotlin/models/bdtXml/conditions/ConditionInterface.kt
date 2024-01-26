@@ -1,4 +1,4 @@
-package models.bdt.conditions
+package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names

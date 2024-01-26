@@ -1,11 +1,11 @@
-package models.bdt.actions
+package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.bdt.conditions.Comparison
-import models.bdt.DbTable
-import models.bdt.variables.RecordSetVar
+import models.bdtXml.conditions.Comparison
+import models.bdtXml.DbTable
+import models.bdtXml.variables.RecordSetVar
 
 data class DbQuery(
 

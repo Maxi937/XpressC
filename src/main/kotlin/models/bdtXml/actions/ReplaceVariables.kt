@@ -1,11 +1,11 @@
-package models.bdt.actions
+package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.bdt.variables.RecordSetVar
-import models.bdt.variables.Var
-import models.bdt.variables.Variable
+import models.bdtXml.variables.RecordSetVar
+import models.bdtXml.variables.Var
+import models.bdtXml.variables.Variable
 
 data class ReplaceVariables(
     val id: String?, val validThrough: String, val variables: List<Var>

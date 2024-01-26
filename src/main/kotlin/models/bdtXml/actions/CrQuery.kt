@@ -1,9 +1,9 @@
-package models.bdt.actions
+package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
-import models.bdt.CrQueryLogicRef
-import models.bdt.ObjectRefListVar
+import models.bdtXml.CrQueryLogicRef
+import models.bdtXml.ObjectRefListVar
 
 data class CrQuery(
     val objectRefListVar: ObjectRefListVar, val crQueryLogicRef: CrQueryLogicRef

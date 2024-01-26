@@ -1,14 +1,11 @@
 package models.CandidateXml
 
-import com.gitlab.mvysny.konsumexml.Konsumer
-import com.gitlab.mvysny.konsumexml.Names
-import com.gitlab.mvysny.konsumexml.textRecursively
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.XML
 import java.io.File
 
-data class CandidateXml(
+data class Candidate(
     val elements: JSONObject
 ) {
     /**
@@ -84,9 +81,14 @@ data class CandidateXml(
     }
 
     companion object {
-        fun fromFile(file: File): CandidateXml {
+        fun fromFile(file: File): Candidate {
             val elements = XML.toJSONObject(file.readText())
-            return CandidateXml(elements)
+            return Candidate(elements)
+        }
+
+        fun fromString(xmlString: String): Candidate {
+            val elements = XML.toJSONObject(xmlString)
+            return Candidate(elements)
         }
     }
 

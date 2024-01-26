@@ -1,11 +1,11 @@
-package models.bdt.actions
+package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.bdt.variables.DbField
-import models.bdt.variables.RecordSetVar
-import models.bdt.variables.Variable
+import models.bdtXml.variables.DbField
+import models.bdtXml.variables.RecordSetVar
+import models.bdtXml.variables.Variable
 
 
 data class GetRSFieldValue(
