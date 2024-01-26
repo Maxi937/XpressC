@@ -1,0 +1,851 @@
+
+<?xml version="1.0" ?>
+<BDT name="Your_Right_Responsibility" primaryDataSource="Stop_Loss_Contract_DS" serverVer="4.7.0.19">
+	<Define>
+		<InputParameters>
+			<Variable dtype="integer" name="CONTRACTPK"/>
+			<Variable dtype="string" name="STATUS">APPROVED</Variable>
+			<Variable dtype="integer" name="optionalObjectsMode">3</Variable>
+		</InputParameters>
+		<Variable dtype="integer" name="PRODUCT_ID">Dummy value</Variable>
+		<Variable dtype="integer" name="TEXTCLASS_ID">-1</Variable>
+	</Define>
+	<GlobalJavaScript/>
+	<DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<SelectFields/>
+		<FromTables>
+			<DBTable tableName="CONTRACT"/>
+		</FromTables>
+		<WhereCondition>
+			<Comparison operator="eq">
+				<DBField columnName="CONTRACTPK"/>
+				<Variable dtype="integer" name="CONTRACTPK"/>
+			</Comparison>
+		</WhereCondition>
+	</DBQuery>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="BASE_VARIATION_INDICATOR"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQBASEVARIATIONCD"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="dateTime" name="EFFECTIVE_DATE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQSYSTEMDATE"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="LANGUAGE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQLANGUAGE"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="SITUS_STATE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="STATE"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="dateTime" name="WITHDRAW_DATE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQSYSTEMDATE"/>
+	</GetRSFieldValue>
+	<InsertSection name="DUMMY">
+		<Block/>
+	</InsertSection>
+	<CurrentRule name="Set_Footer_Variables"/>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="Stop_Loss_Contract_DSG:CONTRACT.XQYRRGTRSPLFT"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQYRRGTRSPLFT"/>
+	</GetRSFieldValue>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDLEFTSIDEFOOTER" static="false"/>
+		<Variable dtype="string" name="Stop_Loss_Contract_DSG:CONTRACT.XQYRRGTRSPLFT"/>
+	</Assign>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="Stop_Loss_Contract_DSG:CONTRACT.XQYRRGTRSPRGT"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQYRRGTRSPRGT"/>
+	</GetRSFieldValue>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDRIGHTSIDEFOOTER" static="false"/>
+		<Variable dtype="string" name="Stop_Loss_Contract_DSG:CONTRACT.XQYRRGTRSPRGT"/>
+	</Assign>
+	<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+		<Variable dtype="string" name="SUDLEFTSIDEFOOTER"/>
+		<Variable dtype="string" name="SUDRIGHTSIDEFOOTER"/>
+	</ReplaceVariables>
+	<CurrentRule name="Set_Header_Variables"/>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW1RIGHT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW2RIGHT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW3RIGHT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW4RIGHT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW1LEFT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW2LEFT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW3LEFT" static="false"/>
+		<Value dtype="string">Section IV</Value>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW4LEFT" static="false"/>
+		<Value dtype="string">Your Rights and Responsibilities</Value>
+	</Assign>
+	<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+		<Variable dtype="string" name="SUDHEADERTEXTROW1RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW3RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW4RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW1LEFT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2LEFT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW3LEFT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW4LEFT"/>
+	</ReplaceVariables>
+	<CurrentRule name="READ:Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC"/>
+	<GetRSFieldValue>
+		<Variable dtype="float" name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTPK"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="CONTRACTPK"/>
+	</GetRSFieldValue>
+	<DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+		<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC"/>
+		<SelectFields/>
+		<FromTables>
+			<DBTable tableName="STOPLOSSSPECIFIC"/>
+		</FromTables>
+		<WhereCondition>
+			<Comparison operator="eq">
+				<DBField columnName="CONTRACTFK"/>
+				<Variable dtype="integer" name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTPK"/>
+			</Comparison>
+		</WhereCondition>
+	</DBQuery>
+	<If>
+		<Condition>
+			<RecordsetTest operator="noteod">
+				<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC"/>
+			</RecordsetTest>
+		</Condition>
+		<Block>
+			<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+				<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC"/>
+			</ReplaceVariables>
+		</Block>
+	</If>
+	<CurrentRule name="READ:Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+	<GetRSFieldValue>
+		<Variable dtype="float" name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTPK"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="CONTRACTPK"/>
+	</GetRSFieldValue>
+	<DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+		<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+		<SelectFields/>
+		<FromTables>
+			<DBTable tableName="STOPLOSSAGGREGATE"/>
+		</FromTables>
+		<WhereCondition>
+			<Comparison operator="eq">
+				<DBField columnName="CONTRACTFK"/>
+				<Variable dtype="integer" name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTPK"/>
+			</Comparison>
+		</WhereCondition>
+	</DBQuery>
+	<If>
+		<Condition>
+			<RecordsetTest operator="noteod">
+				<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+			</RecordsetTest>
+		</Condition>
+		<Block>
+			<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+				<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+			</ReplaceVariables>
+		</Block>
+	</If>
+	<CurrentRule name="YRR_Header_Footer"/>
+	<InsertSection name="YRR_Header_Footer">
+		<RevisionUnit>
+			
+  
+			<UnitName value="YRR_Header_Footer"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="Header_Footer_With_Page_Number"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="Header_Footer_With_Page_Number" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="YRR_Authorizations_to_Release_Information"/>
+	<InsertSection name="YRR_Authorizations_to_Release_Information">
+		<RevisionUnit>
+			
+  
+			<UnitName value="YRR_Authorizations_to_Release_Information"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="YRR_Authorizations_to_Release_Information"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Authorizations_to_Release_Information" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="YRR_Disclosure_Requirements"/>
+	<InsertSection name="YRR_Disclosure_Requirements">
+		<RevisionUnit>
+			
+  
+			<UnitName value="YRR_Disclosure_Requirements"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="YRR_Disclosure_Requirements"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Disclosure_Requirements" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+			<CurrentRule name="YRR_Disclosure_Requirements_Your_Signature"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Disclosure_Requirements_Your_Signature" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+			<CurrentRule name="YRR_Disclosure_Requirements_If_You_Fail"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Disclosure_Requirements_If_You_Fail" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="YRR_Reporting_Requirements"/>
+	<InsertSection name="YRR_Reporting_Requirements">
+		<RevisionUnit>
+			
+  
+			<UnitName value="YRR_Reporting_Requirements"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="YRR_Reporting_Requirements"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Reporting_Requirements" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+			<CurrentRule name="YRR_Reporting_Requirements_Specific_Benefit"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<If>
+				<Condition>
+					<RecordsetTest operator="noteod">
+						<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC"/>
+					</RecordsetTest>
+				</Condition>
+				<Block>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">1234</Value>
+					</Assign>
+					<CRQuery>
+						<ObjectRefListVar name="DLSTP"/>
+						<CRQueryLogicRef name=""/>
+					</CRQuery>
+				</Block>
+				<Block>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">-1</Value>
+					</Assign>
+				</Block>
+			</If>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Reporting_Requirements_Specific_Benefit" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+			<CurrentRule name="YRR_Reporting_Requirements_Aggregate_Benefit"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<If>
+				<Condition>
+					<RecordsetTest operator="noteod">
+						<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+					</RecordsetTest>
+				</Condition>
+				<Block>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">1234</Value>
+					</Assign>
+					<CRQuery>
+						<ObjectRefListVar name="DLSTP"/>
+						<CRQueryLogicRef name=""/>
+					</CRQuery>
+				</Block>
+				<Block>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">-1</Value>
+					</Assign>
+				</Block>
+			</If>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Reporting_Requirements_Aggregate_Benefit" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+			<CurrentRule name="YRR_Reporting_Requirements_Renewal"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Reporting_Requirements_Renewal" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="YRR_Rx_Service"/>
+	<InsertSection name="YRR_Rx_Service">
+		<RevisionUnit>
+			
+  
+			<UnitName value="YRR_Rx_Service"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="YRR_Rx_Plus"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<GetRSFieldValue>
+				<Variable dtype="string" name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC.PRESCRIPTIONDRUGCOVIND"/>
+				<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC"/>
+				<DBField columnName="PRESCRIPTIONDRUGCOVIND"/>
+			</GetRSFieldValue>
+			<GetRSFieldValue>
+				<Variable dtype="string" name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC.RXCLAIMSSERVICE"/>
+				<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC"/>
+				<DBField columnName="RXCLAIMSSERVICE"/>
+			</GetRSFieldValue>
+			<If>
+				<Condition>
+					<And>
+						<Comparison operator="eq">
+							<Variable dtype="string" name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC.PRESCRIPTIONDRUGCOVIND"/>
+							<Value dtype="string">Y</Value>
+						</Comparison>
+						<Comparison operator="eq">
+							<Variable dtype="string" name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC.RXCLAIMSSERVICE"/>
+							<Value dtype="string">RX PLUS</Value>
+						</Comparison>
+					</And>
+				</Condition>
+				<Block>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">1234</Value>
+					</Assign>
+					<CRQuery>
+						<ObjectRefListVar name="DLSTP"/>
+						<CRQueryLogicRef name=""/>
+					</CRQuery>
+				</Block>
+				<Block>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">-1</Value>
+					</Assign>
+				</Block>
+			</If>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Rx_Plus" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+			<CurrentRule name="YRR_Rx_Standard"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<GetRSFieldValue>
+				<Variable dtype="string" name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC.PRESCRIPTIONDRUGCOVIND"/>
+				<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC"/>
+				<DBField columnName="PRESCRIPTIONDRUGCOVIND"/>
+			</GetRSFieldValue>
+			<GetRSFieldValue>
+				<Variable dtype="string" name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC.RXCLAIMSSERVICE"/>
+				<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC"/>
+				<DBField columnName="RXCLAIMSSERVICE"/>
+			</GetRSFieldValue>
+			<If>
+				<Condition>
+					<And>
+						<Comparison operator="eq">
+							<Variable dtype="string" name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC.PRESCRIPTIONDRUGCOVIND"/>
+							<Value dtype="string">Y</Value>
+						</Comparison>
+						<Comparison operator="eq">
+							<Variable dtype="string" name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC.RXCLAIMSSERVICE"/>
+							<Value dtype="string">RX STANDARD</Value>
+						</Comparison>
+					</And>
+				</Condition>
+				<Block>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">1234</Value>
+					</Assign>
+					<CRQuery>
+						<ObjectRefListVar name="DLSTP"/>
+						<CRQueryLogicRef name=""/>
+					</CRQuery>
+				</Block>
+				<Block>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">-1</Value>
+					</Assign>
+				</Block>
+			</If>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Rx_Standard" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="YRR_Plan_Changes"/>
+	<InsertSection name="YRR_Plan_Changes">
+		<RevisionUnit>
+			
+  
+			<UnitName value="YRR_Plan_Changes"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="YRR_Plan_Changes"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Plan_Changes" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="YRR_Notice_of_Legal_Action"/>
+	<InsertSection name="YRR_Notice_of_Legal_Action">
+		<RevisionUnit>
+			
+  
+			<UnitName value="YRR_Notice_of_Legal_Action"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="YRR_Notice_of_Legal_Action"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Notice_of_Legal_Action" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="YRR_Hold_Harmless"/>
+	<InsertSection name="YRR_Hold_Harmless">
+		<RevisionUnit>
+			
+  
+			<UnitName value="YRR_Hold_Harmless"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="YRR_Hold_Harmless"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Hold_Harmless" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="YRR_Refund_of_Overpayment"/>
+	<InsertSection name="YRR_Refund_of_Overpayment">
+		<RevisionUnit>
+			
+  
+			<UnitName value="YRR_Refund_of_Overpayment"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="YRR_Refund_of_Overpayment"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Refund_of_Overpayment" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="YRR_Reponsibility_For_Your_TPA"/>
+	<InsertSection name="YRR_Reponsibility_For_Your_TPA">
+		<RevisionUnit>
+			
+  
+			<UnitName value="YRR_Reponsibility_For_Your_TPA"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="YRR_Reponsibility_For_Your_TPA"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Reponsibility_For_Your_TPA" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="YRR_Right_of_Recovery"/>
+	<InsertSection name="YRR_Right_of_Recovery">
+		<RevisionUnit>
+			
+  
+			<UnitName value="YRR_Right_of_Recovery"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="YRR_Right_of_Recovery"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="YRR_Right_of_Recovery" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name=""/>
+	<ResolveOPFields/>
+	<ReplaceVariables validThrough="all">
+		<Variable dtype="string" name="SUDHEADERTEXTROW3RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW3LEFT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW1RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2LEFT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW4LEFT"/>
+		<Variable dtype="string" name="SUDLEFTSIDEFOOTER"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW4RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW1LEFT"/>
+		<Variable dtype="string" name="SUDRIGHTSIDEFOOTER"/>
+	</ReplaceVariables>
+	<ReplaceVariables validThrough="all">
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+	</ReplaceVariables>
+</BDT>

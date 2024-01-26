@@ -1,0 +1,166 @@
+
+<?xml version="1.0" ?>
+<BDT name="GSLOT-11133-XP_Texas_Notice" primaryDataSource="Stop_Loss_Contract_DS" serverVer="4.7.0.19">
+	<Define>
+		<InputParameters>
+			<Variable dtype="integer" name="CONTRACTPK"/>
+			<Variable dtype="string" name="STATUS">APPROVED</Variable>
+			<Variable dtype="integer" name="optionalObjectsMode">3</Variable>
+		</InputParameters>
+		<Variable dtype="integer" name="PRODUCT_ID">Dummy value</Variable>
+		<Variable dtype="integer" name="TEXTCLASS_ID">-1</Variable>
+	</Define>
+	<GlobalJavaScript/>
+	<DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<SelectFields/>
+		<FromTables>
+			<DBTable tableName="CONTRACT"/>
+		</FromTables>
+		<WhereCondition>
+			<Comparison operator="eq">
+				<DBField columnName="CONTRACTPK"/>
+				<Variable dtype="integer" name="CONTRACTPK"/>
+			</Comparison>
+		</WhereCondition>
+	</DBQuery>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="BASE_VARIATION_INDICATOR"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQBASEVARIATIONCD"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="dateTime" name="EFFECTIVE_DATE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQSYSTEMDATE"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="LANGUAGE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQLANGUAGE"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="SITUS_STATE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="STATE"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="dateTime" name="WITHDRAW_DATE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQSYSTEMDATE"/>
+	</GetRSFieldValue>
+	<InsertSection name="DUMMY">
+		<Block/>
+	</InsertSection>
+	<CurrentRule name="Set_Footer_Variables"/>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDLEFTSIDEFOOTER" static="false"/>
+		<Value dtype="string">22-SL</Value>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDRIGHTSIDEFOOTER" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+		<Variable dtype="string" name="SUDLEFTSIDEFOOTER"/>
+		<Variable dtype="string" name="SUDRIGHTSIDEFOOTER"/>
+	</ReplaceVariables>
+	<CurrentRule name="Set_Header_Variables"/>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW1RIGHT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW1LEFT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW2LEFT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW2RIGHT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+		<Variable dtype="string" name="SUDHEADERTEXTROW1RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW1LEFT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2LEFT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2RIGHT"/>
+	</ReplaceVariables>
+	<CurrentRule name="TXN_Header_Footer"/>
+	<InsertSection name="TXN_Header_Footer">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_TN_Header_Footer"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="Header_Footer_No_Page_Number_F18"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="Header_Footer_No_Page_Number_F18" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="TXN_Regarding"/>
+	<Reset>
+		<ObjectRefListVar name="DLSTP"/>
+	</Reset>
+	<Assign>
+		<Variable dtype="integer" name="TEXTCLASS_ID"/>
+		<Value dtype="integer">1234</Value>
+	</Assign>
+	<CRQuery>
+		<ObjectRefListVar name="DLSTP"/>
+		<CRQueryLogicRef name=""/>
+	</CRQuery>
+	<If>
+		<Condition>
+			<Comparison operator="ne">
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">0</Value>
+			</Comparison>
+		</Condition>
+		<Block>
+			<InsertTextpiece name="TXN_Regarding" noOfObject="1" requiredFlag="false">
+				<ObjectRefListVar name="DLSTP"/>
+			</InsertTextpiece>
+		</Block>
+	</If>
+	<CurrentRule name=""/>
+	<ResolveOPFields/>
+	<ReplaceVariables validThrough="all">
+		<Variable dtype="string" name="SUDHEADERTEXTROW1RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2LEFT"/>
+		<Variable dtype="string" name="SUDLEFTSIDEFOOTER"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW1LEFT"/>
+		<Variable dtype="string" name="SUDRIGHTSIDEFOOTER"/>
+	</ReplaceVariables>
+	<ReplaceVariables validThrough="all">
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+	</ReplaceVariables>
+</BDT>

@@ -1,0 +1,21 @@
+Document,SubDoc Name,Content Item Name,Content Group,Major Version,Minor Version,Shared Content Item,Item Author,States
+Claim_Provisions,Claim_Provisions,CP_Aggregate,CP_Aggregate,1,0,0,US\uv90," AK, AL, AR, AZ, CO, CT, DC, DE, FL, GA, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MS, MT, NC, ND, NE, NH, NJ, NM, NV, OH, OK, OR, PA, PR, RI, SC, SD, TN, TX, UT, VA, VT, WA, WI, WV, WY"
+Claim_Provisions,Claim_Provisions,CP_Aggregate_CA,CP_Aggregate,1,0,0,YS20us, CA
+Claim_Provisions,Claim_Provisions,CP_Aggregate_NY,CP_Aggregate,1,0,0,y159us, NY
+Claim_Provisions,Claim_Provisions,CP_Appeal_Claim_Determine,CP_Appeal_Claim_Determine,1,0,0,US\k347," AK, AL, AR, AZ, CA, CO, CT, DC, DE, FL, GA, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MT, NC, ND, NE, NJ, NM, NV, NY, OH, OK, OR, PA, PR, RI, SC, SD, TN, TX, UT, VA, VT, WA, WI, WV, WY"
+Claim_Provisions,Claim_Provisions,CP_Appeal_Claim_Determine_MS_NH,CP_Appeal_Claim_Determine,1,0,0,US\k347," MS, NH"
+Claim_Provisions,Claim_Provisions,CP_Appeal_Claim_Determine_NY,CP_Appeal_Claim_Determine,1,0,0,US\k347, NY
+Claim_Provisions,Claim_Provisions,CP_Deferred_Pay,CP_Deferred_Pay,1,0,0,us\kl63," AK, AL, AR, AZ, CA, CO, CT, DC, DE, FL, GA, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MS, MT, NC, ND, NE, NH, NJ, NM, NV, NY, OH, OK, OR, PA, PR, RI, SC, SD, TN, TX, UT, VA, VT, WA, WI, WV, WY"
+Claim_Provisions,Claim_Provisions,CP_Notice_Of_Claim,CP_Notice_Of_Claim,1,0,0,y159us, NY
+Claim_Provisions,Claim_Provisions,CP_Payment_of_Claims,CP_Payment_of_Claims,1,0,0,US\k347," AK, AL, AR, AZ, CA, CO, CT, DC, DE, GA, HI, IA, ID, IL, IN, KS, LA, MA, MD, ME, MI, MN, MO, MS, MT, NC, ND, NE, NH, NJ, NM, NV, OH, OK, OR, PA, PR, RI, SC, SD, TN, TX, UT, VA, VT, WA, WV, WY"
+Claim_Provisions,Claim_Provisions,CP_Payment_of_Claims_FL,CP_Payment_of_Claims,1,0,0,US\k347, FL
+Claim_Provisions,Claim_Provisions,CP_Payment_of_Claims_KY,CP_Payment_of_Claims,1,0,0,US\k347, KY
+Claim_Provisions,Claim_Provisions,CP_Payment_of_Claims_NY,CP_Payment_of_Claims,2,0,0,y159us, NY
+Claim_Provisions,Claim_Provisions,CP_Payment_of_Claims_WI,CP_Payment_of_Claims,2,0,0,US\k347, WI
+Claim_Provisions,Claim_Provisions,CP_Proof_Of_Claim,CP_Proof_Of_Claim,1,0,0,US\uu49," AK, AL, AR, AZ, CA, CO, CT, DC, DE, FL, GA, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MS, MT, NC, ND, NE, NH, NJ, NM, NV, NY, OH, OK, OR, PA, PR, RI, SC, SD, TN, TX, VA, VT, WA, WI, WV, WY"
+Claim_Provisions,Claim_Provisions,CP_Proof_Of_Claim_UT,CP_Proof_Of_Claim,1,0,0,US\uu49, UT
+Claim_Provisions,Claim_Provisions,CP_Specific,CP_Specific,1,0,0,US\uu49," AK, AL, AR, AZ, CO, CT, DC, DE, FL, GA, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MS, MT, ND, NE, NH, NJ, NM, NV, OH, OK, OR, PA, PR, RI, SC, SD, TN, TX, UT, VA, VT, WA, WI, WV, WY"
+Claim_Provisions,Claim_Provisions,CP_Specific_CA,CP_Specific,1,0,0,YS20us, CA
+Claim_Provisions,Claim_Provisions,CP_Specific_NC,CP_Specific,1,0,0,us\uu49, NC
+Claim_Provisions,Claim_Provisions,CP_Specific_NY,CP_Specific,1,0,0,y159us, NY
+Claim_Provisions,Claim_Provisions,Header_Footer_With_Page_Number,Header_Footer_With_Page_Number,5,0,1,US\uv90," AK, AL, AR, AZ, CA, CO, CT, DC, DE, FL, GA, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MS, MT, NC, ND, NE, NH, NJ, NM, NV, NY, OH, OK, OR, PA, PR, RI, SC, SD, TN, TX, UT, VA, VT, WA, WI, WV, WY"

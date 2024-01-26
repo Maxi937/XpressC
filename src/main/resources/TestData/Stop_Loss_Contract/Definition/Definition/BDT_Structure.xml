@@ -1,0 +1,1611 @@
+<BDT name="Definition" primaryDataSource="Stop_Loss_Contract_DS" serverVer="4.7.0.19">
+	<Define>
+		<InputParameters>
+			<Variable dtype="integer" name="CONTRACTPK"/>
+			<Variable dtype="string" name="STATUS">APPROVED</Variable>
+			<Variable dtype="integer" name="optionalObjectsMode">3</Variable>
+		</InputParameters>
+		<Variable dtype="integer" name="PRODUCT_ID">Dummy value</Variable>
+		<Variable dtype="integer" name="TEXTCLASS_ID">-1</Variable>
+	</Define>
+	<GlobalJavaScript/>
+	<DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<SelectFields/>
+		<FromTables>
+			<DBTable tableName="CONTRACT"/>
+		</FromTables>
+		<WhereCondition>
+			<Comparison operator="eq">
+				<DBField columnName="CONTRACTPK"/>
+				<Variable dtype="integer" name="CONTRACTPK"/>
+			</Comparison>
+		</WhereCondition>
+	</DBQuery>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="BASE_VARIATION_INDICATOR"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQBASEVARIATIONCD"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="dateTime" name="EFFECTIVE_DATE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQSYSTEMDATE"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="LANGUAGE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQLANGUAGE"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="SITUS_STATE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="STATE"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="dateTime" name="WITHDRAW_DATE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQSYSTEMDATE"/>
+	</GetRSFieldValue>
+	<InsertSection name="DUMMY">
+		<Block/>
+	</InsertSection>
+	<CurrentRule name="Set_Footer_Variables"/>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="Stop_Loss_Contract_DSG:CONTRACT.XQDEFSLFT"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQDEFSLFT"/>
+	</GetRSFieldValue>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDLEFTSIDEFOOTER" static="false"/>
+		<Variable dtype="string" name="Stop_Loss_Contract_DSG:CONTRACT.XQDEFSLFT"/>
+	</Assign>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="Stop_Loss_Contract_DSG:CONTRACT.XQDEFRGT"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQDEFRGT"/>
+	</GetRSFieldValue>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDRIGHTSIDEFOOTER" static="false"/>
+		<Variable dtype="string" name="Stop_Loss_Contract_DSG:CONTRACT.XQDEFRGT"/>
+	</Assign>
+	<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+		<Variable dtype="string" name="SUDLEFTSIDEFOOTER"/>
+		<Variable dtype="string" name="SUDRIGHTSIDEFOOTER"/>
+	</ReplaceVariables>
+	<CurrentRule name="Set_Header_Variables"/>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW1RIGHT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW2RIGHT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW3RIGHT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW4RIGHT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW1LEFT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW2LEFT" static="false"/>
+		<Value dtype="string"/>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW4LEFT" static="false"/>
+		<Value dtype="string">Definitions</Value>
+	</Assign>
+	<Assign>
+		<Variable dtype="string" global="false" name="SUDHEADERTEXTROW3LEFT" static="false"/>
+		<Value dtype="string">Section I</Value>
+	</Assign>
+	<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+		<Variable dtype="string" name="SUDHEADERTEXTROW1RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW3RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW4RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW1LEFT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2LEFT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW4LEFT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW3LEFT"/>
+	</ReplaceVariables>
+	<CurrentRule name="READ:Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+	<GetRSFieldValue>
+		<Variable dtype="float" name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTPK"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="CONTRACTPK"/>
+	</GetRSFieldValue>
+	<DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+		<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+		<SelectFields/>
+		<FromTables>
+			<DBTable tableName="STOPLOSSAGGREGATE"/>
+		</FromTables>
+		<WhereCondition>
+			<Comparison operator="eq">
+				<DBField columnName="CONTRACTFK"/>
+				<Variable dtype="integer" name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTPK"/>
+			</Comparison>
+		</WhereCondition>
+	</DBQuery>
+	<If>
+		<Condition>
+			<RecordsetTest operator="noteod">
+				<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+			</RecordsetTest>
+		</Condition>
+		<Block>
+			<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+				<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+			</ReplaceVariables>
+		</Block>
+	</If>
+	<CurrentRule name="READ:Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC"/>
+	<GetRSFieldValue>
+		<Variable dtype="float" name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTPK"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="CONTRACTPK"/>
+	</GetRSFieldValue>
+	<DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+		<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC"/>
+		<SelectFields/>
+		<FromTables>
+			<DBTable tableName="STOPLOSSSPECIFIC"/>
+		</FromTables>
+		<WhereCondition>
+			<Comparison operator="eq">
+				<DBField columnName="CONTRACTFK"/>
+				<Variable dtype="integer" name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTPK"/>
+			</Comparison>
+		</WhereCondition>
+	</DBQuery>
+	<If>
+		<Condition>
+			<RecordsetTest operator="noteod">
+				<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC"/>
+			</RecordsetTest>
+		</Condition>
+		<Block>
+			<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+				<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC"/>
+			</ReplaceVariables>
+		</Block>
+	</If>
+	<CurrentRule name="DEF_Header_Footer"/>
+	<InsertSection name="DEF_Header_Footer">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Header_Footer"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="Header_Footer_With_Page_Number"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="Header_Footer_With_Page_Number" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Alternative_Care"/>
+	<InsertSection name="DEF_Alternative_Care">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Alternative_Care"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Alternative_Care"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Alternative_Care" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Benefit_Month"/>
+	<InsertSection name="DEF_Benefit_Month">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Benefit_Month"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Benefit_Month"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Benefit_Month" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Catastrophic_Diagnosis"/>
+	<InsertSection name="DEF_Catastrophic_Diagnosis">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Catastrophic_Diagnosis"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Catastrophic_Diagnosis"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Catastrophic_Diagnosis" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Claims_Basis"/>
+	<InsertSection name="DEF_Claims_Basis">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Claims_Basis"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Claims_Basis"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Claims_Basis" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Covered_Benefits"/>
+	<InsertSection name="DEF_Covered_Benefits">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Covered_Benefits"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Covered_Benefits"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Covered_Benefits" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Covered_Person"/>
+	<InsertSection name="DEF_Covered_Person">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Covered_Person"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Covered_Person"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Covered_Person" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Covered_Unit"/>
+	<InsertSection name="DEF_Covered_Unit">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Covered_Unit"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Covered_Unit"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Covered_Unit" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Dependents"/>
+	<InsertSection name="DEF_Dependents">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Dependents"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Dependents"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Dependents" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Drug_or_Alcohol_Depdence"/>
+	<InsertSection name="DEF_Drug_or_Alcohol_Depdence">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Drug_or_Alcohol_Depdence"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Drug_or_Alcohol_Depdence"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Drug_or_Alcohol_Depdence" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Experimental_or_Investigational_Treatment"/>
+	<InsertSection name="DEF_Experimental_or_Investigational_Treatment">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Experimental_or_Investigational_Treatment"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Experimental_or_Investigational_Treatment"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Experimental_or_Investigational_Treatment" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Incurred"/>
+	<InsertSection name="DEF_Incurred">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Incurred"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Incurred"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Incurred" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Independent_Review_Panel"/>
+	<InsertSection name="DEF_Independent_Review_Panel">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Independent_Review_Panel"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Independent_Review_Panel"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Independent_Review_Panel" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Medical_Management_Vendor"/>
+	<InsertSection name="DEF_Medical_Management_Vendor">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Medical_Management_Vendor"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Medical_Management_Vendor"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Medical_Management_Vendor" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Medically_Necessary_and_Appropriate"/>
+	<InsertSection name="DEF_Medically_Necessary_and_Appropriate">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Medically_Necessary_and_Appropriate"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Medically_Necessary_and_Appropriate"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Medically_Necessary_and_Appropriate" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Mental_Illness"/>
+	<InsertSection name="DEF_Mental_Illness">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Mental_Illness"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Mental_Illness"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Mental_Illness" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Off_Label_Drug_Use"/>
+	<InsertSection name="DEF_Off_Label_Drug_Use">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Off_Label_Drug_Use"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Off_Label_Drug_Use"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Off_Label_Drug_Use" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Original_Aggregate_Benefit_Effective_Date"/>
+	<InsertSection name="DEF_Original_Aggregate_Benefit_Effective_Date">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Original_Aggregate_Benefit_Effective_Date"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Original_Aggregate_Benefit_Effective_Date"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Original_Aggregate_Benefit_Effective_Date" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Original_Specific_Benefit_Effective_Date"/>
+	<InsertSection name="DEF_Original_Specific_Benefit_Effective_Date">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Original_Specific_Benefit_Effective_Date"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Original_Specific_Benefit_Effective_Date"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Original_Specific_Benefit_Effective_Date" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Paid"/>
+	<InsertSection name="DEF_Paid">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Paid"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Paid"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Paid" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Plan"/>
+	<InsertSection name="DEF_Plan">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Plan"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Plan"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Plan" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Policy_Holder"/>
+	<InsertSection name="DEF_Policy_Holder">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Policy_Holder"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Policy_Holder"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Policy_Holder" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Prescription_Drugs"/>
+	<InsertSection name="DEF_Prescription_Drugs">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Prescription_Drugs"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Prescription_Drugs"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Prescription_Drugs" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Prescription_Drug_Plan"/>
+	<InsertSection name="DEF_Prescription_Drug_Plan">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Prescription_Drug_Plan"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Prescription_Drug_Plan"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Prescription_Drug_Plan" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Provider_Network"/>
+	<InsertSection name="DEF_Provider_Network">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Provider_Network"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Provider_Network"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Provider_Network" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Reimbursement_Percentage"/>
+	<InsertSection name="DEF_Reimbursement_Percentage">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Reimbursement_Percentage"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Reimbursement_Percentage"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Reimbursement_Percentage" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Related_Provider_Outer_Section"/>
+	<GetRSFieldValue>
+		<Variable dtype="float" name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC.RELATEDPROVIDERREIMBURSE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC"/>
+		<DBField columnName="RELATEDPROVIDERREIMBURSE"/>
+	</GetRSFieldValue>
+	<If>
+		<Condition>
+			<RecordsetTest operator="noteod">
+				<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+			</RecordsetTest>
+		</Condition>
+		<Block>
+			<GetRSFieldValue>
+				<Variable dtype="float" name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE.RELATEDPROVIDERREIMBURSE"/>
+				<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+				<DBField columnName="RELATEDPROVIDERREIMBURSE"/>
+			</GetRSFieldValue>
+		</Block>
+	</If>
+	<If>
+		<Condition>
+			<Or>
+				<And>
+					<Comparison operator="ne">
+						<Variable dtype="float" name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC.RELATEDPROVIDERREIMBURSE"/>
+						<Value dtype="float">1</Value>
+					</Comparison>
+					<VariableTest operator="notNull">
+						<Variable name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC.RELATEDPROVIDERREIMBURSE"/>
+					</VariableTest>
+				</And>
+				<And>
+					<And>
+						<RecordsetTest operator="noteod">
+							<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+						</RecordsetTest>
+						<Comparison operator="ne">
+							<Variable dtype="float" name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE.RELATEDPROVIDERREIMBURSE"/>
+							<Value dtype="float">1</Value>
+						</Comparison>
+					</And>
+					<VariableTest operator="notNull">
+						<Variable name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE.RELATEDPROVIDERREIMBURSE"/>
+					</VariableTest>
+				</And>
+			</Or>
+		</Condition>
+		<Block>
+			<InsertSection name="DEF_Related_Provider_Outer_Section">
+				<Block>
+					<CurrentRule name="DEF_Related_Provider"/>
+					<InsertSection name="DEF_Related_Provider">
+						<RevisionUnit>
+							
+  
+							<UnitName value="DEF_Related_Provider"/>
+							
+
+						</RevisionUnit>
+						<Block>
+							<CurrentRule name="DEF_Related_Provider"/>
+							<Reset>
+								<ObjectRefListVar name="DLSTP"/>
+							</Reset>
+							<Assign>
+								<Variable dtype="integer" name="TEXTCLASS_ID"/>
+								<Value dtype="integer">1234</Value>
+							</Assign>
+							<CRQuery>
+								<ObjectRefListVar name="DLSTP"/>
+								<CRQueryLogicRef name=""/>
+							</CRQuery>
+							<If>
+								<Condition>
+									<Comparison operator="ne">
+										<Variable dtype="integer" name="TEXTCLASS_ID"/>
+										<Value dtype="integer">0</Value>
+									</Comparison>
+								</Condition>
+								<Block>
+									<InsertTextpiece name="DEF_Related_Provider" noOfObject="1" requiredFlag="false">
+										<ObjectRefListVar name="DLSTP"/>
+									</InsertTextpiece>
+								</Block>
+							</If>
+						</Block>
+					</InsertSection>
+					<CurrentRule name="DEF_Related_Provider_Reimbursement_Percentage"/>
+					<InsertSection name="DEF_Related_Provider_Reimbursement_Percentage">
+						<RevisionUnit>
+							
+  
+							<UnitName value="DEF_Related_Provider_Reimbursement_Percentage"/>
+							
+
+						</RevisionUnit>
+						<Block>
+							<CurrentRule name="DEF_Related_Provider_Reimbursement_Percentage"/>
+							<Reset>
+								<ObjectRefListVar name="DLSTP"/>
+							</Reset>
+							<Assign>
+								<Variable dtype="integer" name="TEXTCLASS_ID"/>
+								<Value dtype="integer">1234</Value>
+							</Assign>
+							<CRQuery>
+								<ObjectRefListVar name="DLSTP"/>
+								<CRQueryLogicRef name=""/>
+							</CRQuery>
+							<If>
+								<Condition>
+									<Comparison operator="ne">
+										<Variable dtype="integer" name="TEXTCLASS_ID"/>
+										<Value dtype="integer">0</Value>
+									</Comparison>
+								</Condition>
+								<Block>
+									<InsertTextpiece name="DEF_Related_Provider_Reimbursement_Percentage" noOfObject="1" requiredFlag="false">
+										<ObjectRefListVar name="DLSTP"/>
+									</InsertTextpiece>
+								</Block>
+							</If>
+						</Block>
+					</InsertSection>
+				</Block>
+			</InsertSection>
+		</Block>
+	</If>
+	<CurrentRule name="DEF_Schedule_of_Benefits"/>
+	<InsertSection name="DEF_Schedule_of_Benefits">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Schedule_of_Benefits"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Schedule_of_Benefits"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Schedule_of_Benefits" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Special_Risk_Questionnaire"/>
+	<InsertSection name="DEF_Special_Risk_Questionnaire">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Special_Risk_Questionnaire"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Special_Risk_Questionnaire"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Special_Risk_Questionnaire" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Third_Party_Administrator"/>
+	<InsertSection name="DEF_Third_Party_Administrator">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Third_Party_Administrator"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Third_Party_Administrator"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Third_Party_Administrator" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Transplant_Outer_Section"/>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC.TRANSPLANTCOVG"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC"/>
+		<DBField columnName="TRANSPLANTCOVG"/>
+	</GetRSFieldValue>
+	<If>
+		<Condition>
+			<Or>
+				<Comparison operator="eq">
+					<Variable dtype="string" name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC.TRANSPLANTCOVG"/>
+					<Value dtype="string">FULL COVERAGE</Value>
+				</Comparison>
+				<Comparison operator="eq">
+					<Variable dtype="string" name="Stop_Loss_Contract_DSG:STOPLOSSSPECIFIC.TRANSPLANTCOVG"/>
+					<Value dtype="string">SUPPLEMENTAL</Value>
+				</Comparison>
+			</Or>
+		</Condition>
+		<Block>
+			<InsertSection name="DEF_Transplant_Outer_Section">
+				<Block>
+					<CurrentRule name="DEF_Transplant"/>
+					<InsertSection name="DEF_Transplant">
+						<RevisionUnit>
+							
+  
+							<UnitName value="DEF_Transplant"/>
+							
+
+						</RevisionUnit>
+						<Block>
+							<CurrentRule name="DEF_Transplant"/>
+							<Reset>
+								<ObjectRefListVar name="DLSTP"/>
+							</Reset>
+							<Assign>
+								<Variable dtype="integer" name="TEXTCLASS_ID"/>
+								<Value dtype="integer">1234</Value>
+							</Assign>
+							<CRQuery>
+								<ObjectRefListVar name="DLSTP"/>
+								<CRQueryLogicRef name=""/>
+							</CRQuery>
+							<If>
+								<Condition>
+									<Comparison operator="ne">
+										<Variable dtype="integer" name="TEXTCLASS_ID"/>
+										<Value dtype="integer">0</Value>
+									</Comparison>
+								</Condition>
+								<Block>
+									<InsertTextpiece name="DEF_Transplant" noOfObject="1" requiredFlag="false">
+										<ObjectRefListVar name="DLSTP"/>
+									</InsertTextpiece>
+								</Block>
+							</If>
+						</Block>
+					</InsertSection>
+					<CurrentRule name="DEF_Transplant_Facility"/>
+					<InsertSection name="DEF_Transplant_Facility">
+						<RevisionUnit>
+							
+  
+							<UnitName value="DEF_Transplant_Facility"/>
+							
+
+						</RevisionUnit>
+						<Block>
+							<CurrentRule name="DEF_Transplant_Facility"/>
+							<Reset>
+								<ObjectRefListVar name="DLSTP"/>
+							</Reset>
+							<Assign>
+								<Variable dtype="integer" name="TEXTCLASS_ID"/>
+								<Value dtype="integer">1234</Value>
+							</Assign>
+							<CRQuery>
+								<ObjectRefListVar name="DLSTP"/>
+								<CRQueryLogicRef name=""/>
+							</CRQuery>
+							<If>
+								<Condition>
+									<Comparison operator="ne">
+										<Variable dtype="integer" name="TEXTCLASS_ID"/>
+										<Value dtype="integer">0</Value>
+									</Comparison>
+								</Condition>
+								<Block>
+									<InsertTextpiece name="DEF_Transplant_Facility" noOfObject="1" requiredFlag="false">
+										<ObjectRefListVar name="DLSTP"/>
+									</InsertTextpiece>
+								</Block>
+							</If>
+						</Block>
+					</InsertSection>
+				</Block>
+			</InsertSection>
+		</Block>
+	</If>
+	<CurrentRule name="DEF_Treatment"/>
+	<InsertSection name="DEF_Treatment">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Treatment"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Treatment"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Treatment" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_Usual_and_Customary_Charge"/>
+	<InsertSection name="DEF_Usual_and_Customary_Charge">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_Usual_and_Customary_Charge"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_Usual_and_Customary_Charge"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_Usual_and_Customary_Charge" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="DEF_US_Headquarters"/>
+	<InsertSection name="DEF_US_Headquarters">
+		<RevisionUnit>
+			
+  
+			<UnitName value="DEF_US_Headquarters"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="DEF_US_Headquarters"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="DEF_US_Headquarters" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name=""/>
+	<ResolveOPFields/>
+	<ReplaceVariables validThrough="all">
+		<Variable dtype="string" name="SUDHEADERTEXTROW3RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW3LEFT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW1RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2LEFT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW4LEFT"/>
+		<Variable dtype="string" name="SUDLEFTSIDEFOOTER"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW4RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW1LEFT"/>
+		<Variable dtype="string" name="SUDRIGHTSIDEFOOTER"/>
+	</ReplaceVariables>
+	<ReplaceVariables validThrough="all">
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+	</ReplaceVariables>
+</BDT>

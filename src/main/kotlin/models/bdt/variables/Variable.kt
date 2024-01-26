@@ -1,4 +1,4 @@
-package models.Bdt.Variables
+package models.bdt.variables
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 

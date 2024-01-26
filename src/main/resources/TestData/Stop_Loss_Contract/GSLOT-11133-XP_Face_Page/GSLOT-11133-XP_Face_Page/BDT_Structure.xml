@@ -1,0 +1,736 @@
+
+<?xml version="1.0" ?>
+<BDT name="GSLOT-11133-XP_Face_Page" primaryDataSource="Stop_Loss_Contract_DS" serverVer="4.7.0.19">
+	<Define>
+		<InputParameters>
+			<Variable dtype="integer" name="CONTRACTPK"/>
+			<Variable dtype="string" name="STATUS">APPROVED</Variable>
+			<Variable dtype="integer" name="optionalObjectsMode">3</Variable>
+		</InputParameters>
+		<Variable dtype="integer" name="PRODUCT_ID">Dummy value</Variable>
+		<Variable dtype="integer" name="TEXTCLASS_ID">-1</Variable>
+	</Define>
+	<GlobalJavaScript/>
+	<DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<SelectFields/>
+		<FromTables>
+			<DBTable tableName="CONTRACT"/>
+		</FromTables>
+		<WhereCondition>
+			<Comparison operator="eq">
+				<DBField columnName="CONTRACTPK"/>
+				<Variable dtype="integer" name="CONTRACTPK"/>
+			</Comparison>
+		</WhereCondition>
+	</DBQuery>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="BASE_VARIATION_INDICATOR"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQBASEVARIATIONCD"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="dateTime" name="EFFECTIVE_DATE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQSYSTEMDATE"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="LANGUAGE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQLANGUAGE"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="SITUS_STATE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="STATE"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="dateTime" name="WITHDRAW_DATE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQSYSTEMDATE"/>
+	</GetRSFieldValue>
+	<InsertSection name="DUMMY">
+		<Block/>
+	</InsertSection>
+	<CurrentRule name="XUC_Secretary_Signature_Image"/>
+	<UCD name="XUC_Secretary_Signature_Image" src="file" type="Image">
+		<UniversalContentName field="XQIMAGEFILEPATH" group="Stop_Loss_Contract_DSG" table="CONTRACT"/>
+		<UniversalContentName field="XQSECRETARYSIGFILENAME" group="Stop_Loss_Contract_DSG" table="CONTRACT"/>
+		<UniversalContentName value=".JPG" version=""/>
+	</UCD>
+	<CurrentRule name="XUC_Secretary_Signature_Text"/>
+	<UCD name="XUC_Secretary_Signature_Text" src="file" type="WordDocX">
+		<UniversalContentName field="XQDOCXFILEPATH" group="Stop_Loss_Contract_DSG" table="CONTRACT"/>
+		<UniversalContentName field="XQSECRETARYSIGFILENAME" group="Stop_Loss_Contract_DSG" table="CONTRACT"/>
+		<UniversalContentName value=".docx" version=""/>
+	</UCD>
+	<CurrentRule name="XUC_President_Signature_Image"/>
+	<UCD name="XUC_President_Signature_Image" src="file" type="Image">
+		<UniversalContentName field="XQIMAGEFILEPATH" group="Stop_Loss_Contract_DSG" table="CONTRACT"/>
+		<UniversalContentName field="XQPRESIDENTSIGFILENAME" group="Stop_Loss_Contract_DSG" table="CONTRACT"/>
+		<UniversalContentName value=".JPG" version=""/>
+	</UCD>
+	<CurrentRule name="XUC_President_Signature_Text"/>
+	<UCD name="XUC_President_Signature_Text" src="file" type="WordDocX">
+		<UniversalContentName field="XQDOCXFILEPATH" group="Stop_Loss_Contract_DSG" table="CONTRACT"/>
+		<UniversalContentName field="XQPRESIDENTSIGFILENAME" group="Stop_Loss_Contract_DSG" table="CONTRACT"/>
+		<UniversalContentName value=".docx" version=""/>
+	</UCD>
+	<CurrentRule name="XUC_Sun_Life_Logo_Image"/>
+	<UCD name="XUC_Sun_Life_Logo_Image" src="file" type="Image">
+		<UniversalContentName field="XQIMAGEFILEPATH" group="Stop_Loss_Contract_DSG" table="CONTRACT"/>
+		<UniversalContentName field="XQLOGOFILENAME" group="Stop_Loss_Contract_DSG" table="CONTRACT"/>
+		<UniversalContentName value=".JPG" version=""/>
+	</UCD>
+	<CurrentRule name="Local_Variables"/>
+	<InsertSection name="Local_Variables">
+		<Block>
+			<CurrentRule name="Company_Name"/>
+			<InsertSection name="Company_Name">
+				<Block>
+					<CurrentRule name="Set_Company_Name"/>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUD_COMPANY_NAME" static="false"/>
+						<Variable dtype="string" name="SUD_COMPANY_NAME"/>
+					</Assign>
+					<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+						<Variable dtype="string" name="SUD_COMPANY_NAME"/>
+					</ReplaceVariables>
+				</Block>
+			</InsertSection>
+			<CurrentRule name="Company_Address"/>
+			<InsertSection name="Company_Address">
+				<Block>
+					<CurrentRule name="Set_Company_Address_Variables"/>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUD_COMPANY_ADDRESSLINE_1" static="false"/>
+						<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_1"/>
+					</Assign>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUD_COMPANY_ADDRESSLINE_2" static="false"/>
+						<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_2"/>
+					</Assign>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUD_COMPANY_ADDRESSLINE_STATE" static="false"/>
+						<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_STATE"/>
+					</Assign>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUD_COMPANY_ADDRESSLINE_POSTCODE" static="false"/>
+						<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_POSTCODE"/>
+					</Assign>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUD_COMPANY_ADDRESSLINE_CONTACTNO" static="false"/>
+						<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_CONTACTNO"/>
+					</Assign>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUD_COMPANY_ADDRESSLINE_WEBSITE" static="true"/>
+						<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_WEBSITE"/>
+					</Assign>
+					<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+						<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_1"/>
+						<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_2"/>
+						<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_STATE"/>
+						<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_POSTCODE"/>
+						<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_CONTACTNO"/>
+						<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_WEBSITE"/>
+					</ReplaceVariables>
+				</Block>
+			</InsertSection>
+			<CurrentRule name="Signature"/>
+			<InsertSection name="Signature">
+				<Block>
+					<CurrentRule name="Set_Sun_Life_Logo_Image"/>
+					<Assign>
+						<Variable dtype="string" global="false" name="LOGO" static="false"/>
+						<Value dtype="string">f:\xpressiondata\External\SunLife-US_2c_R2022.jpg</Value>
+					</Assign>
+					<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+						<Variable dtype="string" name="LOGO"/>
+					</ReplaceVariables>
+					<CurrentRule name="Set_Signature_Variables"/>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUD_PRESIDENT_NAME" static="false"/>
+						<Variable dtype="string" name="SUD_PRESIDENT_NAME"/>
+					</Assign>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUD_PRESIDENT_TITLE" static="false"/>
+						<Variable dtype="string" name="SUD_PRESIDENT_TITLE"/>
+					</Assign>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUD_CO_SIGNATURE_NAME" static="false"/>
+						<Variable dtype="string" name="SUD_CO_SIGNATURE_NAME"/>
+					</Assign>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUD_CO_SIGNATURE_TITLE" static="false"/>
+						<Variable dtype="string" name="SUD_CO_SIGNATURE_TITLE"/>
+					</Assign>
+					<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+						<Variable dtype="string" name="SUD_PRESIDENT_NAME"/>
+						<Variable dtype="string" name="SUD_PRESIDENT_TITLE"/>
+						<Variable dtype="string" name="SUD_CO_SIGNATURE_NAME"/>
+						<Variable dtype="string" name="SUD_CO_SIGNATURE_TITLE"/>
+					</ReplaceVariables>
+				</Block>
+			</InsertSection>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="FP_Header_Footer_Outer_Section"/>
+	<InsertSection name="FP_Header_Footer_Outer_Section">
+		<Block>
+			<CurrentRule name="FP_Header_Footer"/>
+			<InsertSection name="FP_Header_Footer">
+				<RevisionUnit>
+					
+  
+					<UnitName value="SL23_FP_Header_Footer"/>
+					
+
+				</RevisionUnit>
+				<Block>
+					<CurrentRule name="Set_Footer_Variables"/>
+					<GetRSFieldValue>
+						<Variable dtype="string" name="Stop_Loss_Contract_DSG:CONTRACT.XQFACEPAGELFT"/>
+						<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+						<DBField columnName="XQFACEPAGELFT"/>
+					</GetRSFieldValue>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUDLEFTSIDEFOOTER" static="false"/>
+						<Variable dtype="string" name="Stop_Loss_Contract_DSG:CONTRACT.XQFACEPAGELFT"/>
+					</Assign>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUDRIGHTSIDEFOOTER" static="false"/>
+						<Value dtype="string"/>
+					</Assign>
+					<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+						<Variable dtype="string" name="SUDLEFTSIDEFOOTER"/>
+						<Variable dtype="string" name="SUDRIGHTSIDEFOOTER"/>
+					</ReplaceVariables>
+					<CurrentRule name="Set_Header_Variables"/>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUDHEADERTEXTROW1RIGHT" static="false"/>
+						<Value dtype="string"/>
+					</Assign>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUDHEADERTEXTROW2RIGHT" static="false"/>
+						<Value dtype="string"/>
+					</Assign>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUDHEADERTEXTROW2LEFT" static="false"/>
+						<Value dtype="string">STOP LOSS POLICY</Value>
+					</Assign>
+					<Assign>
+						<Variable dtype="string" global="false" name="SUDHEADERTEXTROW1LEFT" static="false"/>
+						<Variable dtype="string" name="SUD_COMPANY_NAME"/>
+					</Assign>
+					<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+						<Variable dtype="string" name="SUDHEADERTEXTROW1RIGHT"/>
+						<Variable dtype="string" name="SUDHEADERTEXTROW2RIGHT"/>
+						<Variable dtype="string" name="SUDHEADERTEXTROW2LEFT"/>
+						<Variable dtype="string" name="SUDHEADERTEXTROW1LEFT"/>
+					</ReplaceVariables>
+					<CurrentRule name="Header_Footer_No_Page_Number_F18"/>
+					<Reset>
+						<ObjectRefListVar name="DLSTP"/>
+					</Reset>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">1234</Value>
+					</Assign>
+					<CRQuery>
+						<ObjectRefListVar name="DLSTP"/>
+						<CRQueryLogicRef name=""/>
+					</CRQuery>
+					<If>
+						<Condition>
+							<Comparison operator="ne">
+								<Variable dtype="integer" name="TEXTCLASS_ID"/>
+								<Value dtype="integer">0</Value>
+							</Comparison>
+						</Condition>
+						<Block>
+							<InsertTextpiece name="Header_Footer_No_Page_Number_F18" noOfObject="1" requiredFlag="false">
+								<ObjectRefListVar name="DLSTP"/>
+							</InsertTextpiece>
+						</Block>
+					</If>
+				</Block>
+			</InsertSection>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="FP_Policy_Holder"/>
+	<InsertSection name="FP_Policy_Holder">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_FP_Policy_Holder"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="FP_Policy_Holder"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="FP_Policy_Holder" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="FP_Policy_Number"/>
+	<InsertSection name="FP_Policy_Number">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_FP_Policy_Number"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="FP_Policy_Number"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="FP_Policy_Number" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="FP_Policy_Effective_Date"/>
+	<GetRSFieldValue>
+		<Variable dtype="dateTime" name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTEFFDT"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="CONTRACTEFFDT"/>
+	</GetRSFieldValue>
+	<If>
+		<Condition>
+			<VariableTest operator="notNull">
+				<Variable name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTEFFDT"/>
+			</VariableTest>
+		</Condition>
+		<Block>
+			<InsertSection name="FP_Policy_Effective_Date">
+				<RevisionUnit>
+					
+  
+					<UnitName value="SL23_FP_Policy_Effective_Date"/>
+					
+
+				</RevisionUnit>
+				<Block>
+					<CurrentRule name="FP_Policy_Effective_Date"/>
+					<Reset>
+						<ObjectRefListVar name="DLSTP"/>
+					</Reset>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">1234</Value>
+					</Assign>
+					<CRQuery>
+						<ObjectRefListVar name="DLSTP"/>
+						<CRQueryLogicRef name=""/>
+					</CRQuery>
+					<If>
+						<Condition>
+							<Comparison operator="ne">
+								<Variable dtype="integer" name="TEXTCLASS_ID"/>
+								<Value dtype="integer">0</Value>
+							</Comparison>
+						</Condition>
+						<Block>
+							<InsertTextpiece name="FP_Policy_Effective_Date" noOfObject="1" requiredFlag="false">
+								<ObjectRefListVar name="DLSTP"/>
+							</InsertTextpiece>
+						</Block>
+					</If>
+				</Block>
+			</InsertSection>
+		</Block>
+	</If>
+	<CurrentRule name="FP_Policy_Renewal_Effective_Date"/>
+	<InsertSection name="FP_Policy_Renewal_Effective_Date">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_FP_Policy_Renewal_Effective_Date"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="FP_Policy_Renewal_Effective_Date"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<GetRSFieldValue>
+				<Variable dtype="dateTime" name="Stop_Loss_Contract_DSG:CONTRACT.ANNIVEFFDT"/>
+				<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+				<DBField columnName="ANNIVEFFDT"/>
+			</GetRSFieldValue>
+			<If>
+				<Condition>
+					<VariableTest operator="notNull">
+						<Variable name="Stop_Loss_Contract_DSG:CONTRACT.ANNIVEFFDT"/>
+					</VariableTest>
+				</Condition>
+				<Block>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">1234</Value>
+					</Assign>
+					<CRQuery>
+						<ObjectRefListVar name="DLSTP"/>
+						<CRQueryLogicRef name=""/>
+					</CRQuery>
+				</Block>
+				<Block>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">-1</Value>
+					</Assign>
+				</Block>
+			</If>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="FP_Policy_Renewal_Effective_Date" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="FP_Policy_Revision_Effective_Date"/>
+	<InsertSection name="FP_Policy_Revision_Effective_Date">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_FP_Policy_Revision_effective_Date"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="FP_Policy_Revision_effective_Date"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<GetRSFieldValue>
+				<Variable dtype="dateTime" name="Stop_Loss_Contract_DSG:CONTRACT.AMMENDEFFDT"/>
+				<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+				<DBField columnName="AMMENDEFFDT"/>
+			</GetRSFieldValue>
+			<GetRSFieldValue>
+				<Variable dtype="dateTime" name="Stop_Loss_Contract_DSG:CONTRACT.ANNIVEFFDT"/>
+				<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+				<DBField columnName="ANNIVEFFDT"/>
+			</GetRSFieldValue>
+			<If>
+				<Condition>
+					<Or>
+						<And>
+							<VariableTest operator="notNull">
+								<Variable name="Stop_Loss_Contract_DSG:CONTRACT.AMMENDEFFDT"/>
+							</VariableTest>
+							<And>
+								<Comparison operator="gt">
+									<Variable dtype="dateTime" name="Stop_Loss_Contract_DSG:CONTRACT.AMMENDEFFDT"/>
+									<Variable dtype="dateTime" name="Stop_Loss_Contract_DSG:CONTRACT.ANNIVEFFDT"/>
+								</Comparison>
+								<VariableTest operator="notNull">
+									<Variable name="Stop_Loss_Contract_DSG:CONTRACT.ANNIVEFFDT"/>
+								</VariableTest>
+							</And>
+						</And>
+						<And>
+							<VariableTest operator="isNull">
+								<Variable name="Stop_Loss_Contract_DSG:CONTRACT.ANNIVEFFDT"/>
+							</VariableTest>
+							<VariableTest operator="notNull">
+								<Variable name="Stop_Loss_Contract_DSG:CONTRACT.AMMENDEFFDT"/>
+							</VariableTest>
+						</And>
+					</Or>
+				</Condition>
+				<Block>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">1234</Value>
+					</Assign>
+					<CRQuery>
+						<ObjectRefListVar name="DLSTP"/>
+						<CRQueryLogicRef name=""/>
+					</CRQuery>
+				</Block>
+				<Block>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">-1</Value>
+					</Assign>
+				</Block>
+			</If>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="FP_Policy_Revision_effective_Date" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="FP_Policy_Delivered"/>
+	<InsertSection name="FP_Policy_Delivered">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_FP_Policy_Delivered"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="FP_Policy_Delivered"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="FP_Policy_Delivered" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+			<CurrentRule name="FP_Signature_With_President_and_Secretary"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="FP_Signature_With_President_and_Secretary" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="FP_Please_Read"/>
+	<InsertSection name="FP_Please_Read">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_FP_Please_Read"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="FP_Please_Read"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="FP_Please_Read" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+			<CurrentRule name="FP_Reimbursement"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="FP_Reimbursement" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="FP_Sun_Life_Logo"/>
+	<InsertSection name="FP_Sun_Life_Logo">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_FP_XUC_Sun_Life_Logo"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="FP_Sun_Life_Logo_Header"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="FP_Sun_Life_Logo_Header" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+			<CurrentRule name="FP_Sun_Life_Logo"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="FP_Sun_Life_Logo" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name=""/>
+	<ResolveOPFields/>
+	<ReplaceVariables validThrough="all">
+		<Variable dtype="string" name="SUD_COMPANY_NAME"/>
+		<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_CONTACTNO"/>
+		<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_2"/>
+		<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_1"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW1RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2LEFT"/>
+		<Variable dtype="string" name="LOGO"/>
+		<Variable dtype="string" name="SUDLEFTSIDEFOOTER"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW1LEFT"/>
+		<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_WEBSITE"/>
+		<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_STATE"/>
+		<Variable dtype="string" name="SUD_CO_SIGNATURE_NAME"/>
+		<Variable dtype="string" name="SUD_CO_SIGNATURE_TITLE"/>
+		<Variable dtype="string" name="SUD_COMPANY_ADDRESSLINE_POSTCODE"/>
+		<Variable dtype="string" name="SUD_PRESIDENT_NAME"/>
+		<Variable dtype="string" name="SUD_PRESIDENT_TITLE"/>
+		<Variable dtype="string" name="SUDRIGHTSIDEFOOTER"/>
+	</ReplaceVariables>
+	<ReplaceVariables validThrough="all">
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+	</ReplaceVariables>
+</BDT>

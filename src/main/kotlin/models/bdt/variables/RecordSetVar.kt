@@ -1,7 +1,6 @@
 package models.bdt.variables
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.Bdt.Variables.Var
 
 data class RecordSetVar(
     val name: String,

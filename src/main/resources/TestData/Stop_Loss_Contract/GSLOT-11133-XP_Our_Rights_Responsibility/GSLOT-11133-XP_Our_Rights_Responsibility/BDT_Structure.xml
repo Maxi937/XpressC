@@ -1,0 +1,499 @@
+
+<?xml version="1.0" ?>
+<BDT name="GSLOT-11133-XP_Our_Rights_Responsibility" primaryDataSource="Stop_Loss_Contract_DS" serverVer="4.7.0.19">
+	<Define>
+		<InputParameters>
+			<Variable dtype="integer" name="CONTRACTPK"/>
+			<Variable dtype="string" name="STATUS">APPROVED</Variable>
+			<Variable dtype="integer" name="optionalObjectsMode">3</Variable>
+		</InputParameters>
+		<Variable dtype="integer" name="PRODUCT_ID">Dummy value</Variable>
+		<Variable dtype="integer" name="TEXTCLASS_ID">-1</Variable>
+	</Define>
+	<GlobalJavaScript/>
+	<DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<SelectFields/>
+		<FromTables>
+			<DBTable tableName="CONTRACT"/>
+		</FromTables>
+		<WhereCondition>
+			<Comparison operator="eq">
+				<DBField columnName="CONTRACTPK"/>
+				<Variable dtype="integer" name="CONTRACTPK"/>
+			</Comparison>
+		</WhereCondition>
+	</DBQuery>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="BASE_VARIATION_INDICATOR"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQBASEVARIATIONCD"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="dateTime" name="EFFECTIVE_DATE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQSYSTEMDATE"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="LANGUAGE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQLANGUAGE"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="string" name="SITUS_STATE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="STATE"/>
+	</GetRSFieldValue>
+	<GetRSFieldValue>
+		<Variable dtype="dateTime" name="WITHDRAW_DATE"/>
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+		<DBField columnName="XQSYSTEMDATE"/>
+	</GetRSFieldValue>
+	<InsertSection name="DUMMY">
+		<Block/>
+	</InsertSection>
+	<CurrentRule name="ORR_Header_Footer"/>
+	<InsertSection name="ORR_Header_Footer">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_ORR_Header_Footer"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="Set_Footer_Variables"/>
+			<GetRSFieldValue>
+				<Variable dtype="string" name="Stop_Loss_Contract_DSG:CONTRACT.XQOURRGTRSPLFT"/>
+				<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+				<DBField columnName="XQOURRGTRSPLFT"/>
+			</GetRSFieldValue>
+			<Assign>
+				<Variable dtype="string" global="false" name="SUDLEFTSIDEFOOTER" static="false"/>
+				<Variable dtype="string" name="Stop_Loss_Contract_DSG:CONTRACT.XQOURRGTRSPLFT"/>
+			</Assign>
+			<Assign>
+				<Variable dtype="string" global="false" name="SUDRIGHTSIDEFOOTER" static="false"/>
+				<Value dtype="string"/>
+			</Assign>
+			<Assign>
+				<Variable dtype="string" global="false" name="SUDLEFTSIDEFOOTER_CHILD" static="false"/>
+				<Variable dtype="string" name="SUDLEFTSIDEFOOTER_CHILD"/>
+			</Assign>
+			<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+				<Variable dtype="string" name="SUDLEFTSIDEFOOTER"/>
+				<Variable dtype="string" name="SUDRIGHTSIDEFOOTER"/>
+				<Variable dtype="string" name="SUDLEFTSIDEFOOTER_CHILD"/>
+			</ReplaceVariables>
+			<CurrentRule name="Set_Header_Variables"/>
+			<Assign>
+				<Variable dtype="string" global="false" name="SUDHEADERTEXTROW1RIGHT" static="false"/>
+				<Value dtype="string"/>
+			</Assign>
+			<Assign>
+				<Variable dtype="string" global="false" name="SUDHEADERTEXTROW2RIGHT" static="false"/>
+				<Value dtype="string"/>
+			</Assign>
+			<Assign>
+				<Variable dtype="string" global="false" name="SUDHEADERTEXTROW3RIGHT" static="false"/>
+				<Value dtype="string"/>
+			</Assign>
+			<Assign>
+				<Variable dtype="string" global="false" name="SUDHEADERTEXTROW4RIGHT" static="false"/>
+				<Value dtype="string"/>
+			</Assign>
+			<Assign>
+				<Variable dtype="string" global="false" name="SUDHEADERTEXTROW1LEFT" static="false"/>
+				<Value dtype="string"/>
+			</Assign>
+			<Assign>
+				<Variable dtype="string" global="false" name="SUDHEADERTEXTROW2LEFT" static="false"/>
+				<Value dtype="string"/>
+			</Assign>
+			<Assign>
+				<Variable dtype="string" global="false" name="SUDHEADERTEXTROW3LEFT" static="false"/>
+				<Value dtype="string">Section V</Value>
+			</Assign>
+			<Assign>
+				<Variable dtype="string" global="false" name="SUDHEADERTEXTROW4LEFT" static="false"/>
+				<Value dtype="string">Our Rights and Responsibilities</Value>
+			</Assign>
+			<ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+				<Variable dtype="string" name="SUDHEADERTEXTROW1RIGHT"/>
+				<Variable dtype="string" name="SUDHEADERTEXTROW2RIGHT"/>
+				<Variable dtype="string" name="SUDHEADERTEXTROW3RIGHT"/>
+				<Variable dtype="string" name="SUDHEADERTEXTROW4RIGHT"/>
+				<Variable dtype="string" name="SUDHEADERTEXTROW1LEFT"/>
+				<Variable dtype="string" name="SUDHEADERTEXTROW2LEFT"/>
+				<Variable dtype="string" name="SUDHEADERTEXTROW3LEFT"/>
+				<Variable dtype="string" name="SUDHEADERTEXTROW4LEFT"/>
+			</ReplaceVariables>
+			<CurrentRule name="Stop_Loss_2023SL_Header_Footer_Normal_Numbering"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<GetRSFieldValue>
+				<Variable dtype="string" name="Stop_Loss_Contract_DSG:CONTRACT.STATE"/>
+				<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+				<DBField columnName="STATE"/>
+			</GetRSFieldValue>
+			<If>
+				<Condition>
+					<Comparison operator="eq">
+						<Variable dtype="string" name="Stop_Loss_Contract_DSG:CONTRACT.STATE"/>
+						<Value dtype="string">NEVERSHOW</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">1234</Value>
+					</Assign>
+					<CRQuery>
+						<ObjectRefListVar name="DLSTP"/>
+						<CRQueryLogicRef name=""/>
+					</CRQuery>
+				</Block>
+				<Block>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">-1</Value>
+					</Assign>
+				</Block>
+			</If>
+			<If>
+				<Condition>
+					<Comparison operator="eq">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">-1</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<Assign>
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">1234</Value>
+					</Assign>
+					<CRQuery>
+						<ObjectRefListVar name="DLSTP"/>
+						<CRQueryLogicRef name=""/>
+					</CRQuery>
+				</Block>
+			</If>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="Stop_Loss_2023SL_Header_Footer_Normal_Numbering" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+			<CurrentRule name="ORR_Bookmark"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="ORR_Bookmark" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="ORR_Audit"/>
+	<InsertSection name="ORR_Audit">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_ORR_Audit"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="ORR_Audit"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="ORR_Audit" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="ORR_Eligible_Expenses"/>
+	<InsertSection name="ORR_Eligible_Expenses">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_ORR_Eligible_Expenses"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="ORR_Eligible_Expenses"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="ORR_Eligible_Expenses" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="ORR_Cost_Containment"/>
+	<InsertSection name="ORR_Cost_Containment">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_ORR_Cost_Containment"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="ORR_Cost_Containment"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="ORR_Cost_Containment" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="ORR_Confidentially"/>
+	<InsertSection name="ORR_Confidentially">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_ORR_Confidentially"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="ORR_Confidentially"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="ORR_Confidentially" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="ORR_Recoupment"/>
+	<InsertSection name="ORR_Recoupment">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_ORR_Recoupment"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="ORR_Recoupment"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="ORR_Recoupment" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="ORR_Right_To_Recalculate"/>
+	<InsertSection name="ORR_Right_To_Recalculate">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_ORR_Right_To_Recalculate"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="ORR_Right_To_Recalculate"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="ORR_Right_To_Recalculate" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name="ORR_Right_Of_Reimbursement"/>
+	<InsertSection name="ORR_Right_Of_Reimbursement">
+		<RevisionUnit>
+			
+  
+			<UnitName value="SL23_ORR_Right_Of_Reimbursement"/>
+			
+
+		</RevisionUnit>
+		<Block>
+			<CurrentRule name="ORR_Right_Of_Reimbursement"/>
+			<Reset>
+				<ObjectRefListVar name="DLSTP"/>
+			</Reset>
+			<Assign>
+				<Variable dtype="integer" name="TEXTCLASS_ID"/>
+				<Value dtype="integer">1234</Value>
+			</Assign>
+			<CRQuery>
+				<ObjectRefListVar name="DLSTP"/>
+				<CRQueryLogicRef name=""/>
+			</CRQuery>
+			<If>
+				<Condition>
+					<Comparison operator="ne">
+						<Variable dtype="integer" name="TEXTCLASS_ID"/>
+						<Value dtype="integer">0</Value>
+					</Comparison>
+				</Condition>
+				<Block>
+					<InsertTextpiece name="ORR_Right_Of_Reimbursement" noOfObject="1" requiredFlag="false">
+						<ObjectRefListVar name="DLSTP"/>
+					</InsertTextpiece>
+				</Block>
+			</If>
+		</Block>
+	</InsertSection>
+	<CurrentRule name=""/>
+	<ResolveOPFields/>
+	<ReplaceVariables validThrough="all">
+		<Variable dtype="string" name="SUDHEADERTEXTROW3RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW3LEFT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW1RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2LEFT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW4LEFT"/>
+		<Variable dtype="string" name="SUDLEFTSIDEFOOTER_CHILD"/>
+		<Variable dtype="string" name="SUDLEFTSIDEFOOTER"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW2RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW4RIGHT"/>
+		<Variable dtype="string" name="SUDHEADERTEXTROW1LEFT"/>
+		<Variable dtype="string" name="SUDRIGHTSIDEFOOTER"/>
+	</ReplaceVariables>
+	<ReplaceVariables validThrough="all">
+		<RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+	</ReplaceVariables>
+</BDT>
