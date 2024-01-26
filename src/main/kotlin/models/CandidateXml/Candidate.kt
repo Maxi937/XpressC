@@ -86,7 +86,7 @@ data class Candidate(
             return Candidate(elements)
         }
 
-        fun fromString(xmlString: String): Candidate {
+        fun fromXmlString(xmlString: String): Candidate {
             val elements = XML.toJSONObject(xmlString)
             return Candidate(elements)
         }

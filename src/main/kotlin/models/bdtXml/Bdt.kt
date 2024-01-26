@@ -3,6 +3,7 @@ package models.bdtXml
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
+import com.gitlab.mvysny.konsumexml.konsumeXml
 import models.bdtXml.actions.*
 import models.CandidateXml.Candidate
 
@@ -37,6 +38,9 @@ data class BDT(
 
 
     companion object {
+        fun fromXmlString(xmlString: String) : BDT {
+            return xmlString.konsumeXml().child("BDT") { xml(this) }
+        }
         fun xml(k: Konsumer): BDT {
             k.checkCurrent("BDT")
 
