@@ -9,7 +9,8 @@ import models.bdtXml.variables.Var
 import models.bdtXml.variables.Variable
 
 class BdtSolver(private val bdt: BDT, private val dataSource: DataSource, private val contentDb: ContentItemsDb) {
-    val variables: ArrayList<Var> = ArrayList()
+    private val variables: ArrayList<Var> = ArrayList()
+    private val labels: ArrayList<Label> = ArrayList()
     private val basesequence: ArrayList<Action> = ArrayList()
     private val sequence: ArrayList<Action> = ArrayList()
     private var recordSet: String = ""
@@ -89,6 +90,13 @@ class BdtSolver(private val bdt: BDT, private val dataSource: DataSource, privat
         } else {
             variables.add(variable)
 
+        }
+    }
+
+    fun addLabel(label: Label) {
+       val l = labels.find { it.name == label.name }
+        if(l == null) {
+            labels.add(label)
         }
     }
 

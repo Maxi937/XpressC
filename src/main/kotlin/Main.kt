@@ -2,6 +2,8 @@
 import models.CandidateXml.DataSource
 import models.Content.ContentItemsDb
 import models.bdtXml.BDT
+import models.bdtXml.actions.Action
+import utils.deleteResultFile
 import utils.writeSequenceToFile
 import java.io.File
 import java.math.RoundingMode
@@ -25,7 +27,17 @@ fun main(args: Array<String>) {
     val contentDb = ContentItemsDb.fromCsv(File("./src/Test-Data/Stop_Loss_Contract/${bdt.name}/${bdt.name}_Content_Items.csv"))
 
     val (basesequence, sequence) = bdt.solve(dataSource, contentDb)
+    debugSequence(basesequence)
+    printResult(basesequence, sequence)
+}
 
+fun debugSequence(sequence: ArrayList<Action>) {
+    sequence.forEach {
+        println(it)
+    }
+}
+
+fun printResult(basesequence: ArrayList<Action>, sequence: ArrayList<Action>) {
     val df = DecimalFormat("#.##")
     df.roundingMode = RoundingMode.CEILING
     val percentage = (sequence.count().toDouble()/basesequence.count()) * 100
@@ -33,6 +45,8 @@ fun main(args: Array<String>) {
     println("Path Taken: ${sequence.count()}")
     println("Coverage: ${df.format(percentage)}%")
 
+    deleteResultFile("basesequence")
+    deleteResultFile("sequence")
     writeSequenceToFile(basesequence, "basesequence")
     writeSequenceToFile(sequence, "sequence")
 }

@@ -26,6 +26,8 @@ fun whichAction(k: Konsumer): Action? {
         "InsertSection" -> Section.xml(k)
         "RecordsetMoveNext" -> RecordSetMoveNext.xml(k)
         "SubDocument" -> SubDocument.xml(k)
+        "Label" -> Label.xml(k)
+        "Jump" -> Jump.xml(k)
         else -> {
             null
         }

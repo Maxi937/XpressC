@@ -10,8 +10,12 @@ fun writeSequenceToFile(sequence: ArrayList<Action>, fileName: String) {
     sequence.forEach {
         File("./src/Test-Data/$fileName.txt").appendText("$it\n")
     }
-
 }
+
+fun deleteResultFile(fileName: String) {
+    File("./src/Test-Data/$fileName.txt").delete()
+}
+
 fun stringToDate(dateStr: String) {
 
 }
