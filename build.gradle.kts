@@ -19,6 +19,7 @@ dependencies {
     testImplementation(kotlin("test"))
     implementation("org.json:json:20231013")
     implementation("com.gitlab.mvysny.konsume-xml:konsume-xml:1.1")
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.9.3")
 }
 
 tasks.test {

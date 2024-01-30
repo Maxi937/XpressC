@@ -3,6 +3,7 @@ package models.bdtXml.actions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
+import models.bdtXml.BdtSolver
 
 data class Section(
     val name: String, val revisionUnit: String?, val block: Block?
@@ -26,7 +27,14 @@ data class Section(
         }
     }
 
-    override fun evaluate() {
-        println(this)
+    override fun evaluate(bdtSolver: BdtSolver) {
+        bdtSolver.addActionToSequence(this)
+        block?.evaluate(bdtSolver)
+    }
+
+    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
+        sequence.add(this)
+        block?.gather(sequence)
+        return sequence
     }
 }

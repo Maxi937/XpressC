@@ -2,6 +2,7 @@ package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
+import models.bdtXml.BdtSolver
 
 data class Block(
     val actions: ArrayList<Action>,
@@ -25,7 +26,16 @@ data class Block(
         }
     }
 
-    override fun evaluate() {
-        println(this)
+    override fun evaluate(bdtSolver: BdtSolver) {
+        actions.forEach {
+            it.evaluate(bdtSolver)
+        }
+    }
+
+    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
+        actions.forEach {
+            it.gather(sequence)
+        }
+        return sequence
     }
 }

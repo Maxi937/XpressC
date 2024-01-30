@@ -5,7 +5,8 @@ import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
 import com.gitlab.mvysny.konsumexml.konsumeXml
 import models.bdtXml.actions.*
-import models.CandidateXml.Candidate
+import models.CandidateXml.DataSource
+import models.Content.ContentItemsDb
 
 val globalElementsAccountedFor =
     setOf("Define", "DBQuery", "GetRSFieldValue", "Assign", "If", "ReplaceVariables", "CurrentRule", "InsertSection")
@@ -14,8 +15,10 @@ data class BDT(
     val name: String,
     val primaryDataSource: String,
     val serverVer: String,
-    val sequence: List<Action>
+    val sequence: ArrayList<Action>,
+    val subsequences: ArrayList<ArrayList<Action>> = ArrayList()
 ) {
+
     fun getRevisionUnits(): ArrayList<String> {
         val results: ArrayList<String> = ArrayList()
 
@@ -29,17 +32,19 @@ data class BDT(
         return results
     }
 
-    fun solve(candidateXml: Candidate) {
-        sequence.forEach {
-            it.evaluate()
-        }
-
+    fun solve(dataSource: DataSource, contentDb: ContentItemsDb): Pair<ArrayList<Action>, ArrayList<Action>> {
+        val bdtSolver = BdtSolver(this, dataSource, contentDb)
+        bdtSolver.go()
+        return bdtSolver.result()
     }
 
-
     companion object {
+        private fun excludeXMLVersioningInfo(xmlString: String) : String {
+            return xmlString.replace("\\<\\?xml(.+?)\\?\\>", "").trim();
+        }
         fun fromXmlString(xmlString: String) : BDT {
-            return xmlString.konsumeXml().child("BDT") { xml(this) }
+            val xml = excludeXMLVersioningInfo(xmlString)
+            return xml.konsumeXml().child("BDT") { xml(this) }
         }
         fun xml(k: Konsumer): BDT {
             k.checkCurrent("BDT")

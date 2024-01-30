@@ -2,9 +2,14 @@ package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
+import models.bdtXml.BdtSolver
+
 
 interface Action {
-    fun evaluate()
+    fun evaluate(bdtSolver: BdtSolver)
+
+    fun gather(sequence: ArrayList<Action>) : ArrayList<Action>
+
 }
 
 fun whichAction(k: Konsumer): Action? {
@@ -19,6 +24,8 @@ fun whichAction(k: Konsumer): Action? {
         "CRQuery" -> CrQuery.xml(k)
         "InsertTextpiece" -> InsertTextpiece.xml(k)
         "InsertSection" -> Section.xml(k)
+        "RecordsetMoveNext" -> RecordSetMoveNext.xml(k)
+        "SubDocument" -> SubDocument.xml(k)
         else -> {
             null
         }

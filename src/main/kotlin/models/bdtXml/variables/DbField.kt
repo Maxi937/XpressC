@@ -1,10 +1,14 @@
 package models.bdtXml.variables
 
+
 import com.gitlab.mvysny.konsumexml.Konsumer
+import models.bdtXml.BdtSolver
 
 data class DbField(
-    val columnName: String,
-) {
+    override val name: String,
+    override var value: String = "",
+    override var dType: String = "field"
+) : Var {
     companion object {
         fun xml(k: Konsumer): DbField {
             k.checkCurrent("DBField")
@@ -12,4 +16,13 @@ data class DbField(
             return DbField(columnName)
         }
     }
+
+    override fun bind(bdtSolver: BdtSolver): Var? {
+        value = bdtSolver.getDbVariable(name).toString()
+        return this
+    }
+
+//    override fun set(value: String, bdtState: BdtState): Var {
+//        throw Exception("Cannot set a DB Variable")
+//    }
 }

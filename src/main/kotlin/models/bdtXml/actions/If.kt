@@ -3,6 +3,7 @@ package models.bdtXml.actions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
+import models.bdtXml.BdtSolver
 import models.bdtXml.conditions.Condition
 import models.bdtXml.conditions.whichCondition
 
@@ -28,7 +29,14 @@ data class If(
         }
     }
 
-    override fun evaluate() {
-        println(this)
+    override fun evaluate(bdtSolver: BdtSolver) {
+        if(condition?.evaluate(bdtSolver) == true) {
+            block.evaluate(bdtSolver)
+        }
+    }
+
+    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
+        block.gather(sequence)
+        return sequence
     }
 }

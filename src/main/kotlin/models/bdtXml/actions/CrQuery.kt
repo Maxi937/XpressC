@@ -2,6 +2,7 @@ package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
+import models.bdtXml.BdtSolver
 import models.bdtXml.CrQueryLogicRef
 import models.bdtXml.ObjectRefListVar
 
@@ -25,8 +26,13 @@ data class CrQuery(
             return CrQuery(objectRefListVar!!, crQueryLogicRef!!)
         }
     }
+    override fun evaluate(bdtSolver: BdtSolver) {
 
-    override fun evaluate() {
-        println(this)
+
+    }
+
+    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
+//        sequence.add(this)
+        return sequence
     }
 }

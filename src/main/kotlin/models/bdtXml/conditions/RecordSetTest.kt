@@ -1,7 +1,8 @@
 package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.bdtXml.variables.RecordSetVar
+import models.bdtXml.BdtSolver
+import models.bdtXml.actions.RecordSetVar
 
 data class RecordSetTest(
     val operator: String,
@@ -20,8 +21,10 @@ data class RecordSetTest(
         }
     }
 
-    override fun evaluate() : Boolean {
-        print(this)
-        return true
+    // operate can be noteod - NOT END OF DOCUMENT
+    // operator can probably be eod - IS END OF DOCUMENT
+    override fun evaluate(bdtSolver: BdtSolver) : Boolean {
+        bdtSolver.setRecordSet(recordSetVar.name)
+        return false
     }
 }

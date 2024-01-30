@@ -1,6 +1,7 @@
 package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
+import models.bdtXml.BdtSolver
 import models.bdtXml.variables.Variable
 
 
@@ -14,7 +15,20 @@ data class Define(val inputParameters: List<Variable>, val variables: List<Varia
         }
     }
 
-    override fun evaluate() {
-        println(this)
+    override fun evaluate(bdtSolver: BdtSolver) {
+        variables.forEach {
+            bdtSolver.bindVariable(it)
+        }
+
+        inputParameters.forEach {
+            bdtSolver.bindInputParam(it)
+        }
+
+        bdtSolver.addActionToSequence(this)
+    }
+
+    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
+        sequence.add(this)
+        return sequence
     }
 }

@@ -1,6 +1,7 @@
 package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
+import models.bdtXml.BdtSolver
 import models.bdtXml.ObjectRefListVar
 
 data class Reset(
@@ -20,7 +21,12 @@ data class Reset(
         }
     }
 
-    override fun evaluate() {
-        println(this)
+    override fun evaluate(bdtSolver: BdtSolver) {
+//        return true
+    }
+
+    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
+        sequence.add(this)
+        return sequence
     }
 }

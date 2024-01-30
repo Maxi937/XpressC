@@ -1,10 +1,12 @@
 package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
+import models.Content.ContentItem
+import models.bdtXml.BdtSolver
 import models.bdtXml.ObjectRefListVar
 
 data class InsertTextpiece(
-    val name: String, val noOfObject: String, val requiredFlag: String, val objectRefListVar: ObjectRefListVar
+    val name: String, val noOfObject: String, val requiredFlag: String, val objectRefListVar: ObjectRefListVar, var contentItem: ContentItem? = null
 ) : Action {
     companion object {
         fun xml(k: Konsumer): InsertTextpiece {
@@ -23,7 +25,13 @@ data class InsertTextpiece(
         }
     }
 
-    override fun evaluate() {
-        println(this)
+    override fun evaluate(bdtSolver: BdtSolver) {
+        contentItem = bdtSolver.bindContentItem(name, requiredFlag.toBoolean())
+        bdtSolver.addActionToSequence(this)
+    }
+
+    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
+        sequence.add(this)
+        return sequence
     }
 }

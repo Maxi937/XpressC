@@ -3,17 +3,17 @@ package models.bdtXml.actions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
+import models.bdtXml.BdtSolver
 import models.bdtXml.conditions.Comparison
 import models.bdtXml.DbTable
-import models.bdtXml.variables.RecordSetVar
 
 data class DbQuery(
 
     val dataSourceName: String,
     val dsGroupName: String,
-    val recordSetVar: RecordSetVar?,
+    val recordSetVar: RecordSetVar,
     val fromTables: List<DbTable>,
-    val conditions: List<Comparison>
+    val condition: Comparison
 ) : Action {
     companion object {
         fun xml(k: Konsumer): DbQuery {
@@ -24,23 +24,34 @@ data class DbQuery(
 
             var recordSetVar: RecordSetVar? = null
             val fromTables: ArrayList<DbTable> = ArrayList()
-            val conditions: ArrayList<Comparison> = ArrayList()
+            var condition: Comparison? = null
 
 
             k.allChildrenAutoIgnore(Names.of("RecordsetVar", "FromTables", "WhereCondition")) {
                 when (localName) {
                     "RecordsetVar" -> recordSetVar = RecordSetVar.xml(this)
                     "FromTables" -> this.children("DBTable") { fromTables.add(DbTable.xml(this)) }
-                    "WhereCondition" -> this.children("Comparison") { conditions.add(Comparison.xml(this)) }
+                    "WhereCondition" -> this.children("Comparison") { condition = Comparison.xml(this) }
                 }
             }
 
-            return DbQuery(dataSourceName, dsGroupName, recordSetVar, fromTables, conditions)
+            return DbQuery(dataSourceName, dsGroupName, recordSetVar!!, fromTables, condition!!)
         }
     }
 
-    override fun evaluate() {
-        println(this)
+    override fun evaluate(bdtSolver: BdtSolver) {
+        recordSetVar.evaluate(bdtSolver)
+
+        if(condition.evaluate(bdtSolver)) {
+            bdtSolver.addActionToSequence(this)
+        } else {
+//            throw Exception("${condition.compares}\nnot ${condition.operator}")
+        }
+    }
+
+    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
+        sequence.add(this)
+        return sequence
     }
 }
 

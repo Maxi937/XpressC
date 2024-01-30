@@ -1,6 +1,7 @@
 package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
+import models.bdtXml.BdtSolver
 import models.bdtXml.variables.Variable
 
 data class VariableTest(
@@ -21,8 +22,17 @@ data class VariableTest(
         }
     }
 
-    override fun evaluate() : Boolean{
-        print(this)
-        return true
+    private fun notNull(value: String?) : Boolean {
+        return !(value.isNullOrEmpty() || value === "null")
+    }
+
+    override fun evaluate(bdtSolver: BdtSolver) : Boolean{
+        variable.bind(bdtSolver)
+        val value = variable.value
+
+        return when(operator) {
+            "notNull" -> notNull(value)
+            else -> false
+        }
     }
 }

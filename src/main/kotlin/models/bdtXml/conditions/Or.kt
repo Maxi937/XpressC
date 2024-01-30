@@ -2,6 +2,7 @@ package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
+import models.bdtXml.BdtSolver
 
 data class Or(
     val conditions: ArrayList<Condition>
@@ -23,9 +24,7 @@ data class Or(
         }
     }
 
-    override fun evaluate(): Boolean {
-        println(conditions[0])
-        println(conditions[1])
-        return true
+    override fun evaluate(bdtSolver: BdtSolver): Boolean {
+        return conditions[0].evaluate(bdtSolver) || conditions[1].evaluate(bdtSolver)
     }
 }
