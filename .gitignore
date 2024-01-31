@@ -4,6 +4,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
@@ -15,11 +17,14 @@ build/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+!**/src/test/**/Test-Data/
+!**/src/test/**/resources/Test-Data
 
 ./TestData/
 src/Test-Data/
 ./src/TestData/
 ./src/Test-Data/
+**/resources/Test-Data
 
 ### Eclipse ###
 .apt_generated

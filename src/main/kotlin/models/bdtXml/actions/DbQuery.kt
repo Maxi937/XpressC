@@ -6,6 +6,8 @@ import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
 import models.bdtXml.BdtSolver
 import models.bdtXml.conditions.Comparison
 import models.bdtXml.DbTable
+import models.bdtXml.conditions.Condition
+import models.bdtXml.conditions.whichCondition
 
 data class DbQuery(
 
@@ -13,7 +15,7 @@ data class DbQuery(
     val dsGroupName: String,
     val recordSetVar: RecordSetVar,
     val fromTables: List<DbTable>,
-    val condition: Comparison
+    val condition: Condition
 ) : Action {
     companion object {
         fun xml(k: Konsumer): DbQuery {
@@ -24,14 +26,14 @@ data class DbQuery(
 
             var recordSetVar: RecordSetVar? = null
             val fromTables: ArrayList<DbTable> = ArrayList()
-            var condition: Comparison? = null
+            var condition: Condition? = null
 
 
             k.allChildrenAutoIgnore(Names.of("RecordsetVar", "FromTables", "WhereCondition")) {
                 when (localName) {
                     "RecordsetVar" -> recordSetVar = RecordSetVar.xml(this)
                     "FromTables" -> this.children("DBTable") { fromTables.add(DbTable.xml(this)) }
-                    "WhereCondition" -> this.children("Comparison") { condition = Comparison.xml(this) }
+                    "WhereCondition" -> condition = whichCondition(this)
                 }
             }
 

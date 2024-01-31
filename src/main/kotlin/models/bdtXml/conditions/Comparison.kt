@@ -32,12 +32,12 @@ data class Comparison(
         }
     }
 
-    private fun equals(variable1: Var?, variable2: Var?) : Boolean {
-        return variable1?.value == variable2?.value
+    private fun equals(variable1: Var, variable2: Var) : Boolean {
+        return variable1.value == variable2.value
     }
 
-    private fun notEquals(variable1: Var?, variable2: Var?) : Boolean {
-        return variable1?.value == variable2?.value
+    private fun notEquals(variable1: Var, variable2: Var) : Boolean {
+        return variable1.value != variable2.value
     }
 
     private fun notEod() : Boolean {
@@ -45,30 +45,34 @@ data class Comparison(
         return true
     }
 
-    private fun lessThan(variable1: Var?, variable2: Var?) : Boolean {
-        when(variable1!!.dType) {
-            "dateTime" -> return LocalDate.parse(variable1.value) < LocalDate.parse(variable2!!.value)
+    private fun lessThan(variable1: Var, variable2: Var) : Boolean {
+        when(variable1.dType) {
+            "dateTime" -> return LocalDate.parse(variable1.value) < LocalDate.parse(variable2.value)
+            "string" -> return variable1.value.toFloat() > variable2.value.toFloat()
         }
         return false
     }
 
-    private fun greaterThan(variable1: Var?, variable2: Var?) : Boolean {
-        when(variable1!!.dType) {
-            "dateTime" -> return LocalDate.parse(variable1.value) > LocalDate.parse(variable2!!.value)
+    private fun greaterThan(variable1: Var, variable2: Var) : Boolean {
+        when(variable1.dType) {
+            "dateTime" -> return LocalDate.parse(variable1.value) > LocalDate.parse(variable2.value)
+            "string" -> return variable1.value.toFloat() > variable2.value.toFloat()
         }
         return false
     }
 
-    private fun lessThanOrEqualTo(variable1: Var?, variable2: Var?) : Boolean {
-        when(variable1!!.dType) {
-            "dateTime" -> return LocalDate.parse(variable1.value) <= LocalDate.parse(variable2!!.value)
+    private fun lessThanOrEqualTo(variable1: Var, variable2: Var) : Boolean {
+        when(variable1.dType) {
+            "dateTime" -> return LocalDate.parse(variable1.value) <= LocalDate.parse(variable2.value)
+            "string" -> return variable1.value.toFloat() <= variable2.value.toFloat()
         }
         return false
     }
 
-    private fun greaterThanOrEqualTo(variable1: Var?, variable2: Var?) : Boolean {
-        when(variable1!!.dType) {
-            "dateTime" -> return LocalDate.parse(variable1.value) >= LocalDate.parse(variable2!!.value)
+    private fun greaterThanOrEqualTo(variable1: Var, variable2: Var) : Boolean {
+        when(variable1.dType) {
+            "dateTime" -> return LocalDate.parse(variable1.value) >= LocalDate.parse(variable2.value)
+            "string" -> return variable1.value.toFloat() >= variable2.value.toFloat()
         }
         return false
     }

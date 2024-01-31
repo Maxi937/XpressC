@@ -23,7 +23,6 @@ data class RecordSetVar(
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
-//        sequence.add(this)
         return sequence
     }
 

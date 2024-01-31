@@ -15,7 +15,7 @@ data class Label(
     }
 
     override fun evaluate(bdtSolver: BdtSolver) {
-        bdtSolver.addLabel(this)
+        bdtSolver.addActionToSequence(this)
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {

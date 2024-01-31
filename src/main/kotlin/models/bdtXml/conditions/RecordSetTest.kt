@@ -2,6 +2,7 @@ package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import models.bdtXml.BdtSolver
+import models.bdtXml.actions.Action
 import models.bdtXml.actions.RecordSetVar
 
 data class RecordSetTest(
@@ -21,10 +22,23 @@ data class RecordSetTest(
         }
     }
 
-    // operate can be noteod - NOT END OF DOCUMENT
-    // operator can probably be eod - IS END OF DOCUMENT
-    override fun evaluate(bdtSolver: BdtSolver) : Boolean {
-        bdtSolver.setRecordSet(recordSetVar.name)
+
+    // The bdtSolver will return True for End of Document and False for Not End of Document
+    // If this method returns True the condition calling it will be evaluated so it must return inversely for the correct outcome
+    override fun evaluate(bdtSolver: BdtSolver): Boolean {
+
+        when (operator) {
+            "noteod" -> {
+                println("Checking EOD: ${recordSetVar.name}")
+                if(bdtSolver.isNotEod(recordSetVar.name)) {
+                    println("NOT EOD: ${recordSetVar.name}")
+                    recordSetVar.evaluate(bdtSolver)
+                    return true
+                }
+            }
+            "eod" -> return bdtSolver.isEod(recordSetVar.name)
+        }
+        println("EOD: ${recordSetVar.name}")
         return false
     }
 }

@@ -18,6 +18,11 @@ class ContentItemsDb(private val contentItems: ArrayList<ContentItem>) {
     }
 
     companion object {
+
+        fun fromCsv(path: String) : ContentItemsDb {
+            val csvFile = File(path)
+            return fromCsv(csvFile)
+        }
         fun fromCsv(csvFile: File): ContentItemsDb {
             val contentItems: ArrayList<ContentItem> = ArrayList()
 
@@ -31,15 +36,6 @@ class ContentItemsDb(private val contentItems: ArrayList<ContentItem>) {
                     }
                 }
             }
-
-//            contentItems.forEach { content ->
-//               val filtered = contentItems.filter { it.name == content.name }
-//                filtered.forEach {f ->
-//                    println(f.name)
-//                }
-//                println("\n")
-//            }
-
             return ContentItemsDb(contentItems)
 
         }

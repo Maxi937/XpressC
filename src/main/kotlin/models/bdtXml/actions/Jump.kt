@@ -18,6 +18,7 @@ data class Jump(
 
     override fun evaluate(bdtSolver: BdtSolver) {
         bdtSolver.addActionToSequence(this)
+        bdtSolver.jump(toLabel)
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {

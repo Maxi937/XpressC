@@ -7,16 +7,16 @@ import com.gitlab.mvysny.konsumexml.konsumeXml
 import models.bdtXml.actions.*
 import models.CandidateXml.DataSource
 import models.Content.ContentItemsDb
+import java.io.File
 
 val globalElementsAccountedFor =
     setOf("Define", "DBQuery", "GetRSFieldValue", "Assign", "If", "ReplaceVariables", "CurrentRule", "InsertSection")
 
-data class BDT(
+data class Bdt(
     val name: String,
     val primaryDataSource: String,
     val serverVer: String,
     val sequence: ArrayList<Action>,
-    val subsequences: ArrayList<ArrayList<Action>> = ArrayList()
 ) {
 
     fun getRevisionUnits(): ArrayList<String> {
@@ -24,8 +24,8 @@ data class BDT(
 
         for (s in sequence) {
             if (s is Section) {
-                if(s.revisionUnit != null) {
-                    results.add(s.revisionUnit)
+                if(s.revisionUnits.isNotEmpty()) {
+                    results += s.revisionUnits
                 }
             }
         }
@@ -33,8 +33,14 @@ data class BDT(
     }
 
     fun solve(dataSource: DataSource, contentDb: ContentItemsDb): Pair<ArrayList<Action>, ArrayList<Action>> {
-        val bdtSolver = BdtSolver(this, dataSource, contentDb)
-        bdtSolver.go()
+        val bdtSolver = BdtSolver(sequence, dataSource, contentDb)
+
+        try {
+            bdtSolver.go()
+        } catch (e: Exception) {
+            throw Exception("$name\n", e)
+        }
+
         return bdtSolver.result()
     }
 
@@ -42,11 +48,16 @@ data class BDT(
         private fun excludeXMLVersioningInfo(xmlString: String) : String {
             return xmlString.replace("\\<\\?xml(.+?)\\?\\>", "").trim();
         }
-        fun fromXmlString(xmlString: String) : BDT {
+
+        fun fromFilePath(path: String) : Bdt {
+            val xml = File(path).readText()
+            return fromXmlString(xml)
+        }
+        fun fromXmlString(xmlString: String) : Bdt {
             val xml = excludeXMLVersioningInfo(xmlString)
             return xml.konsumeXml().child("BDT") { xml(this) }
         }
-        fun xml(k: Konsumer): BDT {
+        fun xml(k: Konsumer): Bdt {
             k.checkCurrent("BDT")
 
             val name = k.attributes.getValue("name")
@@ -72,7 +83,7 @@ data class BDT(
                 }
 
             }
-            return BDT(
+            return Bdt(
                 name,
                 primaryDataSource,
                 serverVer,

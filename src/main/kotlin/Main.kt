@@ -1,7 +1,6 @@
-
 import models.CandidateXml.DataSource
 import models.Content.ContentItemsDb
-import models.bdtXml.BDT
+import models.bdtXml.Bdt
 import models.bdtXml.actions.Action
 import utils.deleteResultFile
 import utils.writeSequenceToFile
@@ -17,18 +16,25 @@ object bdtFolder {
 }
 
 fun main(args: Array<String>) {
-    val bdts = "GSLOT-11133-XP_Stop_Loss_Contract"
+    val bdts = "GSLOT-11133-XP_Schedule_of_Benefit_Aggregate_ADF_Table"
 
     val bdtString = File("./src/Test-Data/Stop_Loss_Contract/$bdts/$bdts/BDT_Structure.xml").readText()
     val candidateXmlString = File("./src/Test-Data/alaska.xml").readText()
 
-    val bdt = BDT.fromXmlString(bdtString)
-    val dataSource = DataSource.fromXmlString(candidateXmlString)
+    val bdt = Bdt.fromXmlString(bdtString)
+    val dataSource = DataSource.fromXmlString(bdt.primaryDataSource, candidateXmlString)
     val contentDb = ContentItemsDb.fromCsv(File("./src/Test-Data/Stop_Loss_Contract/${bdt.name}/${bdt.name}_Content_Items.csv"))
-
     val (basesequence, sequence) = bdt.solve(dataSource, contentDb)
-    debugSequence(basesequence)
-    printResult(basesequence, sequence)
+//    debugSequence(sequence)
+//
+//    printResult(basesequence, sequence)
+}
+
+fun debugDataSource(dataSource: DataSource) {
+    println(dataSource.name)
+    dataSource.tables.forEach {
+        println(it)
+    }
 }
 
 fun debugSequence(sequence: ArrayList<Action>) {
@@ -38,9 +44,10 @@ fun debugSequence(sequence: ArrayList<Action>) {
 }
 
 fun printResult(basesequence: ArrayList<Action>, sequence: ArrayList<Action>) {
+    println("\n")
     val df = DecimalFormat("#.##")
     df.roundingMode = RoundingMode.CEILING
-    val percentage = (sequence.count().toDouble()/basesequence.count()) * 100
+    val percentage = (sequence.count().toDouble() / basesequence.count()) * 100
     println("Base: ${basesequence.count()}")
     println("Path Taken: ${sequence.count()}")
     println("Coverage: ${df.format(percentage)}%")

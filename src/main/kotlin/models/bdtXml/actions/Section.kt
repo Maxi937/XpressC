@@ -6,24 +6,24 @@ import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
 import models.bdtXml.BdtSolver
 
 data class Section(
-    val name: String, val revisionUnit: String?, val block: Block?
+    val name: String, val revisionUnits: ArrayList<String>, val block: Block?
 ) : Action {
     companion object {
         fun xml(k: Konsumer): Section {
             k.checkCurrent("InsertSection")
             val name: String = k.attributes.getValue("name")
 
-            var revisionUnit: String? = null
+            val revisionUnits: ArrayList<String> = ArrayList()
             var block: Block? = null
 
             k.allChildrenAutoIgnore(Names.of("RevisionUnit", "Block")) {
                 when (localName) {
-                    "RevisionUnit" -> this.child("UnitName") { revisionUnit = this.attributes.getValueOrNull("value") }
+                    "RevisionUnit" -> this.children("UnitName") { revisionUnits.add(this.attributes.getValueOrNull("value").toString()) }
                     "Block" -> block = Block.xml(this)
                 }
             }
 
-            return Section(name, revisionUnit, block)
+            return Section(name, revisionUnits, block)
         }
     }
 

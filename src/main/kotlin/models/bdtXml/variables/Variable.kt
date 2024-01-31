@@ -18,7 +18,7 @@ data class Variable(
         }
     }
 
-    override fun bind(bdtSolver: BdtSolver) : Var? {
+    override fun bind(bdtSolver: BdtSolver) : Variable {
         value = bdtSolver.getVariable(name)?.value.toString()
         return this
     }

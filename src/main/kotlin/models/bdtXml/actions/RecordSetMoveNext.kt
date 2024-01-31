@@ -23,11 +23,12 @@ data class RecordSetMoveNext(
     }
 
     override fun evaluate(bdtSolver: BdtSolver) {
-        bdtSolver.setRecordSet(recordSetVar.name)
+        bdtSolver.recordSetMoveNext()
+        bdtSolver.addActionToSequence(this)
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
-//        sequence.add(this)
+        sequence.add(this)
         return sequence
     }
 

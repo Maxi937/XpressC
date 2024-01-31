@@ -4,9 +4,8 @@ import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
 import models.bdtXml.BdtSolver
-import models.bdtXml.variables.Value
-import models.bdtXml.variables.Var
-import models.bdtXml.variables.Variable
+import models.bdtXml.variables.*
+
 
 data class Assignment(
     val assignments: ArrayList<Var>,
@@ -17,10 +16,12 @@ data class Assignment(
 
             val assignments: ArrayList<Var> = ArrayList()
 
-            k.allChildrenAutoIgnore(Names.of("Variable", "Value")) {
+            k.allChildrenAutoIgnore(Names.any()) {
                 when (localName) {
                     "Variable" -> assignments.add(Variable.xml(this))
                     "Value" -> assignments.add(Value.xml(this))
+                    "Multiply" -> assignments.add(Multiply.xml(this))
+                    "Add" -> assignments.add(Add.xml(this))
                 }
             }
             return Assignment(assignments)
@@ -28,6 +29,10 @@ data class Assignment(
     }
 
     override fun evaluate(bdtSolver: BdtSolver) {
+        assignments.forEach {
+            it.bind(bdtSolver)
+        }
+
         bdtSolver.assignVariable(assignments[0], assignments[1])
         bdtSolver.addActionToSequence(this)
     }

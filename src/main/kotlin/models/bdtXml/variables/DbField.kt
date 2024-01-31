@@ -17,7 +17,7 @@ data class DbField(
         }
     }
 
-    override fun bind(bdtSolver: BdtSolver): Var? {
+    override fun bind(bdtSolver: BdtSolver): DbField {
         value = bdtSolver.getDbVariable(name).toString()
         return this
     }

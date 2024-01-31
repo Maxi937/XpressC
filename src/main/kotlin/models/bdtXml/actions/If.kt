@@ -30,12 +30,15 @@ data class If(
     }
 
     override fun evaluate(bdtSolver: BdtSolver) {
+        bdtSolver.addActionToSequence(this)
         if(condition?.evaluate(bdtSolver) == true) {
             block.evaluate(bdtSolver)
         }
+
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
+        sequence.add(this)
         block.gather(sequence)
         return sequence
     }
