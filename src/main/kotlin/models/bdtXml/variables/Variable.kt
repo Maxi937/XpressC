@@ -1,7 +1,7 @@
 package models.bdtXml.variables
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.bdtXml.BdtSolver
+import models.BdtSolver
 
 data class Variable(
     override var dType: String = "null",

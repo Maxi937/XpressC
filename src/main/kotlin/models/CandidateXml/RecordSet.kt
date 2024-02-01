@@ -14,7 +14,6 @@ data class RecordSet(val name: String, val data: List<Table> = ArrayList()) {
 
     fun isNotEod(): Boolean {
         val currentIndx = data.indexOf(activeRecordSet)
-        println("$name -> ${currentIndx + 1} out of ${data.size}")
 
         if(currentIndx + 1 < data.size) {
             return true
@@ -30,7 +29,6 @@ data class RecordSet(val name: String, val data: List<Table> = ArrayList()) {
             println(it)
         }
         val curIndx = data.indexOf(activeRecordSet)
-        println("$name moving index $curIndx -> ${curIndx + 1}")
         activeRecordSet = data[curIndx + 1]
     }
 }

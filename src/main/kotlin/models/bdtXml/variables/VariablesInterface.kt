@@ -1,6 +1,6 @@
 package models.bdtXml.variables
 
-import models.bdtXml.BdtSolver
+import models.BdtSolver
 
 interface Var {
   val name: String

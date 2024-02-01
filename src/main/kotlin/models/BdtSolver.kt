@@ -1,10 +1,13 @@
-package models.bdtXml
+package models
 
+import Actions.Subdocument.SubdocumentBdtProvider
 import exceptions.BdtException
 import models.CandidateXml.DataSource
 import models.CandidateXml.RecordSet
 import models.Content.ContentItem
 import models.Content.ContentItemsDb
+import models.bdtXml.Bdt
+import models.bdtXml.Key
 import models.bdtXml.actions.*
 import models.bdtXml.variables.Var
 import models.bdtXml.variables.Variable
@@ -13,6 +16,7 @@ class BdtSolver(
     private val sequenceToSolve: ArrayList<Action>,
     private val dataSource: DataSource,
     private val contentDb: ContentItemsDb,
+    private val bdtProvider: SubdocumentBdtProvider,
     private val variables: ArrayList<Var> = ArrayList(),
     private val basesequence: ArrayList<Action> = ArrayList()
 ) {
@@ -31,13 +35,11 @@ class BdtSolver(
         if (action is Rule) {
             currentRule = action.name
         }
-
         sequence.add(action)
-        println(action)
     }
 
     fun collectState(): BdtState {
-        return BdtState(variables, dataSource, contentDb, basesequence)
+        return BdtState(variables, dataSource, contentDb, basesequence, bdtProvider)
     }
 
     private fun getBdtFromRepository(name: String): String {
@@ -47,17 +49,16 @@ class BdtSolver(
     // TODO - Launches BDT but state is not carried over
     // The key also contains a pointer to a variable that needs to passed as an input param
     fun launchSubdocument(name: String, key: Key) {
-        val bdtstr = getBdtFromRepository(name)
+        val bdtstr = bdtProvider.getBdt(name)
         val subdocBdt = Bdt.fromXmlString(bdtstr)
 
-        val subSolver = BdtSolver.subSolver(subdocBdt.sequence, this)
-
+        val subSolver = subSolver(subdocBdt.sequence, this)
         subSolver.go()
 
         val (basesequence, sequence) = subSolver.result()
 
-//        this.basesequence += basesequence
-//        this.sequence += sequence
+        this.basesequence += basesequence
+        this.sequence += sequence
     }
 
     fun isEod(name: String): Boolean {
@@ -75,7 +76,6 @@ class BdtSolver(
     fun setRecordSet(name: String) {
         val record = name.substring(name.indexOf(":") + 1)
         activeRecordSet = dataSource.getRecordSet(record)
-        println("Setting Record: $record")
     }
 
     fun recordSetMoveNext() {
@@ -117,7 +117,6 @@ class BdtSolver(
     }
 
 
-
     fun getVariable(name: String): Var? {
         return variables.find { it.name.lowercase() == name.lowercase() }
     }
@@ -138,7 +137,7 @@ class BdtSolver(
     // Te effect of this is that when individual actions are changed in what order they add to the sequence
     // This loop, loops indefinately - probably some issue with the entry and exit points
     fun jump(labelName: String) {
-        val jump = sequence.find { it is Jump && it.toLabel == labelName}
+        val jump = sequence.find { it is Jump && it.toLabel == labelName }
         val label = sequence.find { it is Label && it.name == labelName }
 
         if (label != null) {
@@ -146,7 +145,7 @@ class BdtSolver(
             val exitPoint = sequence.indexOf(jump)
 
             val loopSequence = ArrayList(sequence.slice(IntRange(entryPoint, exitPoint)))
-            val loopSolver = BdtSolver.subSolver(loopSequence, this)
+            val loopSolver = subSolver(loopSequence, this)
             loopSolver.go()
 
             loopSolver.sequence.forEach {
@@ -165,9 +164,15 @@ class BdtSolver(
     }
 
     companion object {
-        fun subSolver(sequenceToSolve: ArrayList<Action>, bdtSolver: BdtSolver) : BdtSolver {
+        fun subSolver(sequenceToSolve: ArrayList<Action>, bdtSolver: BdtSolver): BdtSolver {
             val state = bdtSolver.collectState()
-            return BdtSolver(sequenceToSolve, state.dataSource, state.contentItemsDb, state.variables)
+            return BdtSolver(
+                sequenceToSolve,
+                dataSource = state.dataSource,
+                contentDb = state.contentItemsDb,
+                variables = state.variables,
+                bdtProvider = state.bdtProvider
+            )
         }
     }
 }

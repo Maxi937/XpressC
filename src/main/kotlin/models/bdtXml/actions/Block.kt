@@ -2,7 +2,7 @@ package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
-import models.bdtXml.BdtSolver
+import models.BdtSolver
 
 data class Block(
     val actions: ArrayList<Action>,

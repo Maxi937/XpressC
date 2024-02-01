@@ -2,7 +2,7 @@ package models.bdtXml.variables
 
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.bdtXml.BdtSolver
+import models.BdtSolver
 
 data class DbField(
     override val name: String,

@@ -2,7 +2,7 @@ package models.bdtXml.variables
 import java.util.UUID;
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.bdtXml.BdtSolver
+import models.BdtSolver
 
 data class Value(
     override var dType: String = "null",

@@ -2,7 +2,7 @@ package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import models.Content.ContentItem
-import models.bdtXml.BdtSolver
+import models.BdtSolver
 import models.bdtXml.ObjectRefListVar
 
 data class InsertTextpiece(

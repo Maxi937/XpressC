@@ -16,18 +16,18 @@ object bdtFolder {
 }
 
 fun main(args: Array<String>) {
-    val bdts = "GSLOT-11133-XP_Schedule_of_Benefit_Aggregate_ADF_Table"
-
-    val bdtString = File("./src/Test-Data/Stop_Loss_Contract/$bdts/$bdts/BDT_Structure.xml").readText()
-    val candidateXmlString = File("./src/Test-Data/alaska.xml").readText()
-
-    val bdt = Bdt.fromXmlString(bdtString)
-    val dataSource = DataSource.fromXmlString(bdt.primaryDataSource, candidateXmlString)
-    val contentDb = ContentItemsDb.fromCsv(File("./src/Test-Data/Stop_Loss_Contract/${bdt.name}/${bdt.name}_Content_Items.csv"))
-    val (basesequence, sequence) = bdt.solve(dataSource, contentDb)
-//    debugSequence(sequence)
+//    val bdts = "GSLOT-11133-XP_Schedule_of_Benefit_Aggregate_ADF_Table"
 //
-//    printResult(basesequence, sequence)
+//    val bdtString = File("./src/Test-Data/Stop_Loss_Contract/$bdts/$bdts/BDT_Structure.xml").readText()
+//    val candidateXmlString = File("./src/Test-Data/alaska.xml").readText()
+//
+//    val bdt = Bdt.fromXmlString(bdtString)
+//    val dataSource = DataSource.fromXmlString(bdt.primaryDataSource, candidateXmlString)
+//    val contentDb = ContentItemsDb.fromCsv(File("./src/Test-Data/Stop_Loss_Contract/${bdt.name}/${bdt.name}_Content_Items.csv"))
+//    val (basesequence, sequence) = bdt.solve(dataSource, contentDb)
+////    debugSequence(sequence)
+////
+////    printResult(basesequence, sequence)
 }
 
 fun debugDataSource(dataSource: DataSource) {

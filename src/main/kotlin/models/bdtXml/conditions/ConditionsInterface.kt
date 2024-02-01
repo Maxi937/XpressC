@@ -2,8 +2,7 @@ package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
-import models.bdtXml.BdtSolver
-import models.bdtXml.conditions.RecordSetTest
+import models.BdtSolver
 
 interface Condition {
     fun evaluate(bdtSolver: BdtSolver) : Boolean

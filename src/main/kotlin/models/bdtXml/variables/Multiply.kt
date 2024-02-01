@@ -3,8 +3,7 @@ package models.bdtXml.variables
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.bdtXml.BdtSolver
-import models.bdtXml.actions.Action
+import models.BdtSolver
 import java.util.*
 import kotlin.collections.ArrayList
 

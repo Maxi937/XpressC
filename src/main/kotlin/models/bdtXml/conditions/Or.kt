@@ -2,7 +2,7 @@ package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
-import models.bdtXml.BdtSolver
+import models.BdtSolver
 
 data class Or(
     val conditions: ArrayList<Condition>

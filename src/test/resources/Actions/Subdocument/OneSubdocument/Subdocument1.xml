@@ -1,0 +1,49 @@
+<!--Test Subdocument-->
+
+<!--Expects-->
+<!--Variable [Situs_State] = AK-->
+<!--Then-->
+<!--Inset Textpiece -->
+
+<BDT name="Subdocument1" primaryDataSource="Stop_Loss_Contract_DS" serverVer="4.7.0.19">
+    <Define>
+        <InputParameters>
+            <Variable dtype="integer" name="CONTRACTPK"/>
+            <Variable dtype="string" name="STATUS">APPROVED</Variable>
+            <Variable dtype="integer" name="optionalObjectsMode">3</Variable>
+        </InputParameters>
+        <Variable dtype="integer" name="PRODUCT_ID">Dummy value</Variable>
+        <Variable dtype="integer" name="TEXTCLASS_ID">-1</Variable>
+    </Define>
+    <DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+        <SelectFields/>
+        <FromTables>
+            <DBTable tableName="CONTRACT"/>
+        </FromTables>
+        <WhereCondition>
+            <Comparison operator="eq">
+                <DBField columnName="CONTRACTPK"/>
+                <Variable dtype="integer" name="CONTRACTPK"/>
+            </Comparison>
+        </WhereCondition>
+    </DBQuery>
+    <GetRSFieldValue>
+        <Variable dtype="string" name="SITUS_STATE"/>
+        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+        <DBField columnName="STATE"/>
+    </GetRSFieldValue>
+    <If>
+        <Condition>
+            <Comparison operator="eq">
+                <Variable dtype="string" name="SITUS_STATE"/>
+                <Value dtype="string">AK</Value>
+            </Comparison>
+        </Condition>
+        <Block>
+            <InsertTextpiece name="SAAT_Table_Data_By_Benefit_Spacer" noOfObject="1" requiredFlag="false">
+                <ObjectRefListVar name="DLSTP"/>
+            </InsertTextpiece>
+        </Block>
+    </If>
+</BDT>

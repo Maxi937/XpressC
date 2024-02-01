@@ -3,7 +3,7 @@ package models.bdtXml.actions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.bdtXml.BdtSolver
+import models.BdtSolver
 
 data class Section(
     val name: String, val revisionUnits: ArrayList<String>, val block: Block?

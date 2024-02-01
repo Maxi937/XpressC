@@ -1,9 +1,11 @@
 package models.bdtXml
 
+import Actions.Subdocument.SubdocumentBdtProvider
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
 import com.gitlab.mvysny.konsumexml.konsumeXml
+import models.BdtSolver
 import models.bdtXml.actions.*
 import models.CandidateXml.DataSource
 import models.Content.ContentItemsDb
@@ -32,8 +34,8 @@ data class Bdt(
         return results
     }
 
-    fun solve(dataSource: DataSource, contentDb: ContentItemsDb): Pair<ArrayList<Action>, ArrayList<Action>> {
-        val bdtSolver = BdtSolver(sequence, dataSource, contentDb)
+    fun solve(dataSource: DataSource, contentDb: ContentItemsDb, bdtProvider: SubdocumentBdtProvider): Pair<ArrayList<Action>, ArrayList<Action>> {
+        val bdtSolver = BdtSolver(sequence, dataSource, contentDb, bdtProvider)
 
         try {
             bdtSolver.go()
@@ -87,7 +89,7 @@ data class Bdt(
                 name,
                 primaryDataSource,
                 serverVer,
-                sequence
+                sequence,
             )
         }
     }

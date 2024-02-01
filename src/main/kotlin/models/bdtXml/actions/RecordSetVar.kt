@@ -1,7 +1,7 @@
 package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.bdtXml.BdtSolver
+import models.BdtSolver
 
 // RecordSetVar sets the current active DB Table, Commonly can be seen as part of a READ which is expressed in the
 // BDT as a DbQuery. A RecordSetVar will always happen before a field from a Db is read, the field must be in

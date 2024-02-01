@@ -1,8 +1,7 @@
 package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.bdtXml.BdtSolver
-import models.bdtXml.actions.Action
+import models.BdtSolver
 import models.bdtXml.actions.RecordSetVar
 
 data class RecordSetTest(
@@ -28,17 +27,9 @@ data class RecordSetTest(
     override fun evaluate(bdtSolver: BdtSolver): Boolean {
 
         when (operator) {
-            "noteod" -> {
-                println("Checking EOD: ${recordSetVar.name}")
-                if(bdtSolver.isNotEod(recordSetVar.name)) {
-                    println("NOT EOD: ${recordSetVar.name}")
-                    recordSetVar.evaluate(bdtSolver)
-                    return true
-                }
-            }
+            "noteod" -> return bdtSolver.isNotEod(recordSetVar.name)
             "eod" -> return bdtSolver.isEod(recordSetVar.name)
         }
-        println("EOD: ${recordSetVar.name}")
         return false
     }
 }
