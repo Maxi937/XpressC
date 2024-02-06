@@ -1,6 +1,5 @@
 package models.bdtXml
 
-import Actions.Subdocument.SubdocumentBdtProvider
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
@@ -9,10 +8,10 @@ import models.BdtSolver
 import models.bdtXml.actions.*
 import models.CandidateXml.DataSource
 import models.Content.ContentItemsDb
+import utils.SubdocumentBdtProvider
 import java.io.File
 
-val globalElementsAccountedFor =
-    setOf("Define", "DBQuery", "GetRSFieldValue", "Assign", "If", "ReplaceVariables", "CurrentRule", "InsertSection")
+val globalElementsAccountedFor = setOf("Define", "DBQuery", "GetRSFieldValue", "Assign", "If", "ReplaceVariables", "CurrentRule", "InsertSection")
 
 data class Bdt(
     val name: String,

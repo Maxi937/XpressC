@@ -1,0 +1,261 @@
+
+<?xml version="1.0" ?>
+<BDT name="Jump" primaryDataSource="Stop_Loss_Contract_DS" serverVer="4.7.0.19">
+    <Define>
+        <InputParameters>
+            <Variable dtype="integer" name="CONTRACTPK"/>
+            <Variable dtype="string" name="STATUS">APPROVED</Variable>
+            <Variable dtype="integer" name="optionalObjectsMode">3</Variable>
+        </InputParameters>
+        <Variable dtype="integer" name="PRODUCT_ID">Dummy value</Variable>
+        <Variable dtype="integer" name="TEXTCLASS_ID">-1</Variable>
+    </Define>
+    <GlobalJavaScript/>
+    <DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+        <SelectFields/>
+        <FromTables>
+            <DBTable tableName="CONTRACT"/>
+        </FromTables>
+        <WhereCondition>
+            <Comparison operator="eq">
+                <DBField columnName="CONTRACTPK"/>
+                <Variable dtype="integer" name="CONTRACTPK"/>
+            </Comparison>
+        </WhereCondition>
+    </DBQuery>
+    <GetRSFieldValue>
+        <Variable dtype="string" name="BASE_VARIATION_INDICATOR"/>
+        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+        <DBField columnName="XQBASEVARIATIONCD"/>
+    </GetRSFieldValue>
+    <GetRSFieldValue>
+        <Variable dtype="dateTime" name="EFFECTIVE_DATE"/>
+        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+        <DBField columnName="XQSYSTEMDATE"/>
+    </GetRSFieldValue>
+    <GetRSFieldValue>
+        <Variable dtype="string" name="LANGUAGE"/>
+        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+        <DBField columnName="XQLANGUAGE"/>
+    </GetRSFieldValue>
+    <GetRSFieldValue>
+        <Variable dtype="string" name="SITUS_STATE"/>
+        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+        <DBField columnName="STATE"/>
+    </GetRSFieldValue>
+    <GetRSFieldValue>
+        <Variable dtype="dateTime" name="WITHDRAW_DATE"/>
+        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+        <DBField columnName="XQSYSTEMDATE"/>
+    </GetRSFieldValue>
+    <InsertSection name="DUMMY">
+        <Block/>
+    </InsertSection>
+    <CurrentRule name="Initialize_Variables"/>
+    <Assign>
+        <Variable dtype="string" global="false" name="SUD_COVERED_BENEFIT" static="false"/>
+        <Variable dtype="string" name="SUD_COVERED_BENEFIT"/>
+    </Assign>
+    <Assign>
+        <Variable dtype="integer" global="false" name="IUD_ROW_COUNTER" static="false"/>
+        <Value dtype="integer">0</Value>
+    </Assign>
+    <ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+        <Variable dtype="string" name="SUD_COVERED_BENEFIT"/>
+        <Variable dtype="integer" name="IUD_ROW_COUNTER"/>
+    </ReplaceVariables>
+    <CurrentRule name="READ:Stop_Loss_Contract_DSG:ADF"/>
+    <GetRSFieldValue>
+        <Variable dtype="float" name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTPK"/>
+        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+        <DBField columnName="CONTRACTPK"/>
+    </GetRSFieldValue>
+    <DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+        <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+        <SelectFields/>
+        <FromTables>
+            <DBTable tableName="ADF"/>
+        </FromTables>
+        <WhereCondition>
+            <And>
+                <Comparison operator="eq">
+                    <DBField columnName="CONTRACTFK"/>
+                    <Variable dtype="integer" name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTPK"/>
+                </Comparison>
+                <Comparison operator="eq">
+                    <DBField columnName="TYPE"/>
+                    <Variable dtype="string" name="SUD_COVERED_BENEFIT"/>
+                </Comparison>
+            </And>
+        </WhereCondition>
+    </DBQuery>
+    <If>
+        <Condition>
+            <RecordsetTest operator="noteod">
+                <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+            </RecordsetTest>
+        </Condition>
+        <Block>
+            <ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+                <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+            </ReplaceVariables>
+        </Block>
+    </If>
+    <CurrentRule name="SAAT_Table_Data_By_Benefit"/>
+    <GetRSFieldValue>
+        <Variable dtype="string" name="Stop_Loss_Contract_DSG:ADF.TYPE"/>
+        <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+        <DBField columnName="TYPE"/>
+    </GetRSFieldValue>
+    <InsertSection name="SAAT_Table_Data_By_Benefit">
+        <RevisionUnit>
+
+
+            <UnitName value="SL23_SAAT_Table_Data_By_Benefit_"/>
+
+
+            <UnitName dsGrp="Stop_Loss_Contract_DSG" field="TYPE" table="ADF"/>
+
+
+        </RevisionUnit>
+        <Block>
+            <CurrentRule name="LABEL:ADF_Loop_Begin"/>
+            <Label name="ADF_Loop_Begin"/>
+            <CurrentRule name="Increment Row Counter"/>
+            <Assign>
+                <Variable dtype="integer" global="false" name="IUD_ROW_COUNTER" static="false"/>
+                <Add>
+                    <Variable dtype="integer" name="IUD_ROW_COUNTER"/>
+                    <Value dtype="integer">1234</Value>
+                </Add>
+            </Assign>
+            <ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+                <Variable dtype="integer" name="IUD_ROW_COUNTER"/>
+            </ReplaceVariables>
+            <CurrentRule name="Set_Row_Description"/>
+            <If>
+                <Condition>
+                    <Comparison operator="eq">
+                        <Variable dtype="integer" name="IUD_ROW_COUNTER"/>
+                        <Value dtype="integer">1234</Value>
+                    </Comparison>
+                </Condition>
+                <Block>
+                    <Assign>
+                        <Variable dtype="string" global="false" name="SUD_ROW_DESCRIPTION" static="false"/>
+                        <Variable dtype="string" name="SUD_COVERED_BENEFIT"/>
+                    </Assign>
+                    <ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+                        <Variable dtype="string" name="SUD_ROW_DESCRIPTION"/>
+                    </ReplaceVariables>
+                </Block>
+            </If>
+            <CurrentRule name="Blank_Row_Description"/>
+            <If>
+                <Condition>
+                    <Comparison operator="gt">
+                        <Variable dtype="integer" name="IUD_ROW_COUNTER"/>
+                        <Value dtype="integer">1234</Value>
+                    </Comparison>
+                </Condition>
+                <Block>
+                    <Assign>
+                        <Variable dtype="string" global="false" name="SUD_ROW_DESCRIPTION" static="false"/>
+                        <Value dtype="string"/>
+                    </Assign>
+                    <ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+                        <Variable dtype="string" name="SUD_ROW_DESCRIPTION"/>
+                    </ReplaceVariables>
+                </Block>
+            </If>
+            <CurrentRule name="SAAT_Table_Data_By_Benefit"/>
+            <Reset>
+                <ObjectRefListVar name="DLSTP"/>
+            </Reset>
+            <Assign>
+                <Variable dtype="integer" name="TEXTCLASS_ID"/>
+                <Value dtype="integer">1234</Value>
+            </Assign>
+            <CRQuery>
+                <ObjectRefListVar name="DLSTP"/>
+                <CRQueryLogicRef name=""/>
+            </CRQuery>
+            <If>
+                <Condition>
+                    <Comparison operator="ne">
+                        <Variable dtype="integer" name="TEXTCLASS_ID"/>
+                        <Value dtype="integer">0</Value>
+                    </Comparison>
+                </Condition>
+                <Block>
+                    <InsertTextpiece name="SAAT_Table_Data_By_Benefit" noOfObject="1" requiredFlag="false">
+                        <ObjectRefListVar name="DLSTP"/>
+                    </InsertTextpiece>
+                </Block>
+            </If>
+            <CurrentRule name="READ NEXT:Stop_Loss_Contract_DSG:ADF"/>
+            <RecordsetMoveNext>
+                <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+            </RecordsetMoveNext>
+            <If>
+                <Condition>
+                    <RecordsetTest operator="noteod">
+                        <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+                    </RecordsetTest>
+                </Condition>
+                <Block>
+                    <ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+                        <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+                    </ReplaceVariables>
+                </Block>
+            </If>
+            <CurrentRule name="GOTO:ADF_Loop_Begin"/>
+            <If>
+                <Condition>
+                    <RecordsetTest operator="noteod">
+                        <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+                    </RecordsetTest>
+                </Condition>
+                <Block>
+                    <Jump toLabel="ADF_Loop_Begin"/>
+                </Block>
+            </If>
+            <CurrentRule name="SAAT_Table_Data_By_Benefit_Spacer"/>
+            <Reset>
+                <ObjectRefListVar name="DLSTP"/>
+            </Reset>
+            <Assign>
+                <Variable dtype="integer" name="TEXTCLASS_ID"/>
+                <Value dtype="integer">1234</Value>
+            </Assign>
+            <CRQuery>
+                <ObjectRefListVar name="DLSTP"/>
+                <CRQueryLogicRef name=""/>
+            </CRQuery>
+            <If>
+                <Condition>
+                    <Comparison operator="ne">
+                        <Variable dtype="integer" name="TEXTCLASS_ID"/>
+                        <Value dtype="integer">0</Value>
+                    </Comparison>
+                </Condition>
+                <Block>
+                    <InsertTextpiece name="SAAT_Table_Data_By_Benefit_Spacer" noOfObject="1" requiredFlag="false">
+                        <ObjectRefListVar name="DLSTP"/>
+                    </InsertTextpiece>
+                </Block>
+            </If>
+        </Block>
+    </InsertSection>
+    <CurrentRule name=""/>
+    <ResolveOPFields/>
+    <ReplaceVariables validThrough="all">
+        <Variable dtype="string" name="SUD_COVERED_BENEFIT"/>
+        <Variable dtype="integer" name="IUD_ROW_COUNTER"/>
+        <Variable dtype="string" name="SUD_ROW_DESCRIPTION"/>
+    </ReplaceVariables>
+    <ReplaceVariables validThrough="all">
+        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+    </ReplaceVariables>
+</BDT>

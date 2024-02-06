@@ -1,34 +1,35 @@
 package models.CandidateXml
 
-data class RecordSet(val name: String, val data: List<Table> = ArrayList()) {
-    private var activeRecordSet = data[0]
+import models.bdtXml.conditions.Comparison
+
+data class RecordSet(val name: String, var data: List<Table> = ArrayList()) {
+    var activeRecordSet = data[0]
+
+    fun reset() {
+        activeRecordSet = data[0]
+    }
+
 
     fun isEod(): Boolean {
-        val currentIndx = data.indexOf(activeRecordSet)
-
-        if(currentIndx + 1 > data.size) {
-            return true
-        }
-        return false
+        return activeRecordSet.name == "EOF"
     }
 
     fun isNotEod(): Boolean {
-        val currentIndx = data.indexOf(activeRecordSet)
+//        println("Checking Not EOD: $name\tcurrent record: ${activeRecordSet.name}")
+        return activeRecordSet.name != "EOF"
+    }
 
-        if(currentIndx + 1 < data.size) {
-            return true
-        }
-        return false
+    fun getIndex(): Int {
+        return data.indexOf(activeRecordSet)
     }
 
     fun getDbField(name: String): String? {
         return activeRecordSet.getField(name)
     }
+
     fun recordSetMoveNext() {
-        data.forEach {
-            println(it)
-        }
         val curIndx = data.indexOf(activeRecordSet)
+        //println("Moving ${activeRecordSet.name} $curIndx -> ${curIndx + 1}")
         activeRecordSet = data[curIndx + 1]
     }
 }

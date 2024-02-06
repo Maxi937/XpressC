@@ -12,68 +12,100 @@ data class DataSource(
     val tables: ArrayList<Table>,
     val recordSets: ArrayList<RecordSet> = ArrayList(),
 ) {
-
-    fun getRecordSet() : RecordSet {
-        return recordSets[0]
+    init {
+        recordSets.add(RecordSet(tables[0].name, listOf(tables[0])))
     }
 
-    fun getRecordSet(name: String) : RecordSet {
-        val recordSet = recordSets.find { it.name.lowercase() == name.lowercase() }
-        return recordSet ?: throw BdtDataSourceRecordException(name, this)
+    fun getRecordSet(name: String): RecordSet? {
+        return recordSets.find { it.name.lowercase() == name.lowercase() }
     }
 
-    private fun createTablesFromJson(json: JSONObject) {
-        val tables = ArrayList<Table>()
-
-        json.keys().forEach { property ->
-            val table = Table(property.toString())
-            val data = json.getJSONObject(table.name)
-
-            data.keys().forEach { key ->
-                when (val obj = data.get(key)) {
-                    is JSONObject -> tables += Table.fromJson(key, obj)
-                    is JSONArray -> obj.forEach { tables += Table.fromJson(key, it as JSONObject) }
-                    else -> table.columns.add(Column(key, obj.toString()))
-                }
-            }
-            tables.add(table)
-        }
-        tables.reverse()
-        createRecordSetsFromTables(tables)
+    private fun executeQuery(tableName: String, tables: ArrayList<Table>, query: Query): List<Table> {
+        return tables.filter { it.getField(query.columnName) == query.value && it.name.lowercase() == tableName.lowercase() }
     }
 
-    private fun createRecordSetsFromTables(tables: ArrayList<Table>) {
-        val tableNamesProcessed: ArrayList<String> = ArrayList()
+    // Query executes and adds the resulting set of records to recordSets
+    // If recordSet is already in the list of recordSet the recordSets data is reset to the query
+    fun query(tableName: String, queries: ArrayList<Query>): RecordSet {
+//        println("QUERY: $tableName")
+//        println(queries)
 
-        tables.forEach { table ->
-            if(!tableNamesProcessed.contains(table.name)) {
-                val tablesToAdd = tables.filter { it.name == table.name }
-                recordSets.add(RecordSet(table.name, tablesToAdd))
-                tableNamesProcessed.add(table.name)
+        var result = executeQuery(tableName, tables, queries[0])
+
+        queries.forEachIndexed { indx, element ->
+            if (indx != 0) {
+                result = executeQuery(tableName, ArrayList(result), element)
             }
         }
+
+        result.addLast(Table("EOF"))
+
+        val recordSet = getRecordSet(tableName)
+
+        if (recordSet != null) {
+            recordSet.data = result
+            recordSet.activeRecordSet = recordSet.data[0]
+            return recordSet
+        }
+
+        recordSets.add(RecordSet(tableName, result))
+        return recordSets.last()
     }
+
+//    private fun createRecordSetsFromTables(tables: ArrayList<Table>) {
+//        val tableNamesProcessed: ArrayList<String> = ArrayList()
+//
+//        tables.forEach { table ->
+//            if(!tableNamesProcessed.contains(table.name)) {
+//                val tablesToAdd = tables.filter { it.name == table.name }
+//                tablesToAdd.addFirst(Table("EOF", ArrayList()))
+//                recordSets.add(RecordSet(table.name, tablesToAdd.reversed()))
+//                tableNamesProcessed.add(table.name)
+//            }
+//        }
+//    }
 
     companion object {
 
-        fun fromFilePath(name: String, path: String) : DataSource {
+        fun fromFilePath(name: String, path: String): DataSource {
             val xml = File(path).readText()
             return fromXmlString(name, xml)
         }
+
         fun fromXmlString(name: String, xmlString: String): DataSource {
             val json = XML.toJSONObject(xmlString)
             return fromJson(name, json)
         }
 
         fun fromJson(name: String, json: JSONObject): DataSource {
-            val dataSource = DataSource(name, ArrayList())
+            var tables = ArrayList<Table>()
 
             json.keys().forEach { key ->
                 val document = json.getJSONObject(key)
-                dataSource.createTablesFromJson(document)
+                tables = createTablesFromJson(document)
             }
 
-            return dataSource
+            return DataSource(name, tables)
+        }
+
+        private fun createTablesFromJson(json: JSONObject): ArrayList<Table> {
+            val tables = ArrayList<Table>()
+
+            json.keys().forEach { property ->
+                val table = Table(property.toString())
+                val data = json.getJSONObject(table.name)
+
+                data.keys().forEach { key ->
+                    when (val obj = data.get(key)) {
+                        is JSONObject -> tables += Table.fromJson(key, obj)
+                        is JSONArray -> obj.forEach { tables += Table.fromJson(key, it as JSONObject) }
+                        else -> table.columns.add(Column(key, obj.toString()))
+                    }
+                }
+                tables.add(table)
+            }
+            tables.reverse()
+            return tables
         }
     }
 

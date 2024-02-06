@@ -22,10 +22,7 @@ data class RecordSetTest(
     }
 
 
-    // The bdtSolver will return True for End of Document and False for Not End of Document
-    // If this method returns True the condition calling it will be evaluated so it must return inversely for the correct outcome
     override fun evaluate(bdtSolver: BdtSolver): Boolean {
-
         when (operator) {
             "noteod" -> return bdtSolver.isNotEod(recordSetVar.name)
             "eod" -> return bdtSolver.isEod(recordSetVar.name)

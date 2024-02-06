@@ -4,9 +4,11 @@ import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
 import models.BdtSolver
+import models.CandidateXml.Query
 import models.bdtXml.DbTable
-import models.bdtXml.conditions.Condition
-import models.bdtXml.conditions.whichCondition
+import models.bdtXml.conditions.*
+import models.bdtXml.variables.DbField
+import models.bdtXml.variables.Variable
 
 data class DbQuery(
 
@@ -40,14 +42,30 @@ data class DbQuery(
         }
     }
 
-    override fun evaluate(bdtSolver: BdtSolver) {
-        recordSetVar.evaluate(bdtSolver)
+    fun comparisonToQuery(comparison: Comparison, bdtSolver: BdtSolver): Query {
+        val variable = comparison.compares.find { it is Variable }
+        variable!!.bind(bdtSolver)
+        return Query(comparison.compares.find { it is DbField }!!.name, variable.value, comparison.operator)
+    }
 
-        if(condition.evaluate(bdtSolver)) {
-            bdtSolver.addActionToSequence(this)
-        } else {
-//            throw Exception("${condition.compares}\nnot ${condition.operator}")
+    private fun handleConditions(condition: Condition, bdtSolver: BdtSolver): ArrayList<Query> {
+        val queries = ArrayList<Query>()
+
+        when(condition) {
+            is Comparison -> queries.add(comparisonToQuery(condition, bdtSolver))
+            is And -> condition.conditions.forEach { queries += handleConditions(it, bdtSolver)}
+            is Or -> condition.conditions.forEach { queries += handleConditions(it, bdtSolver)}
         }
+        return queries
+    }
+
+    override fun evaluate(bdtSolver: BdtSolver) {
+        val record = recordSetVar.name.substring(recordSetVar.name.indexOf(":") + 1)
+
+        val queries = handleConditions(condition, bdtSolver)
+
+        bdtSolver.query(record, queries)
+
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {

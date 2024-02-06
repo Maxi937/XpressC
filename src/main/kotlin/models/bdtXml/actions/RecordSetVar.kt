@@ -3,10 +3,6 @@ package models.bdtXml.actions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import models.BdtSolver
 
-// RecordSetVar sets the current active DB Table, Commonly can be seen as part of a READ which is expressed in the
-// BDT as a DbQuery. A RecordSetVar will always happen before a field from a Db is read, the field must be in
-// the record set or this is an exception.
-
 data class RecordSetVar(
     val name: String,
 ) : Action {
@@ -19,11 +15,11 @@ data class RecordSetVar(
     }
 
     override fun evaluate(bdtSolver: BdtSolver) {
-        bdtSolver.setRecordSet(name)
+        val record = name.substring(name.indexOf(":") + 1)
+        bdtSolver.setActiveRecord(record)
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
-        return sequence
+        TODO("Not yet implemented")
     }
-
 }

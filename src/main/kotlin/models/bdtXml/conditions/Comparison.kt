@@ -40,11 +40,6 @@ data class Comparison(
         return variable1.value != variable2.value
     }
 
-    private fun notEod() : Boolean {
-        println("NotEod not implemented: returning pass")
-        return true
-    }
-
     private fun lessThan(variable1: Var, variable2: Var) : Boolean {
         when(variable1.dType) {
             "dateTime" -> return LocalDate.parse(variable1.value) < LocalDate.parse(variable2.value)
@@ -103,6 +98,8 @@ data class Comparison(
             return false
         }
 
+//        println("Comparing: ${compares[0]} $operator ${compares[1]}")
+
         return when(operator) {
             "le" -> lessThanOrEqualTo(compares[0], compares[1])
             "ge" -> greaterThanOrEqualTo(compares[0], compares[1])
@@ -110,9 +107,9 @@ data class Comparison(
             "lt" -> lessThan(compares[0], compares[1])
             "ne" -> notEquals(compares[0], compares[1])
             "eq" -> equals(compares[0], compares[1])
-            "noteod" -> notEod()
             else -> false
         }
     }
+
 
 }

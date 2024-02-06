@@ -1,10 +1,10 @@
 package models.bdtXml.actions
 
-import Actions.Subdocument.SubdocumentBdtProvider
 import models.CandidateXml.DataSource
 import models.Content.ContentItemsDb
 import models.bdtXml.Bdt
 import org.junit.jupiter.api.Test
+import utils.SubdocumentBdtProvider
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertIsNot

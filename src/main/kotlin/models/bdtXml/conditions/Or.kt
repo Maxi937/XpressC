@@ -25,6 +25,7 @@ data class Or(
     }
 
     override fun evaluate(bdtSolver: BdtSolver): Boolean {
+//        println("OR: ${conditions[0].evaluate(bdtSolver) || conditions[1].evaluate(bdtSolver)}")
         return conditions[0].evaluate(bdtSolver) || conditions[1].evaluate(bdtSolver)
     }
 }

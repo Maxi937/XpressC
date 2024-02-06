@@ -6,6 +6,7 @@ import models.BdtSolver
 
 interface Condition {
     fun evaluate(bdtSolver: BdtSolver) : Boolean
+
 }
 
 fun whichCondition(k: Konsumer) : Condition? {

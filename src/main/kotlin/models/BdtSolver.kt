@@ -1,28 +1,32 @@
 package models
 
-import Actions.Subdocument.SubdocumentBdtProvider
 import exceptions.BdtException
 import models.CandidateXml.DataSource
+import models.CandidateXml.Query
 import models.CandidateXml.RecordSet
+import models.CandidateXml.Table
 import models.Content.ContentItem
 import models.Content.ContentItemsDb
 import models.bdtXml.Bdt
 import models.bdtXml.Key
 import models.bdtXml.actions.*
+import models.bdtXml.conditions.And
+import models.bdtXml.conditions.Condition
 import models.bdtXml.variables.Var
 import models.bdtXml.variables.Variable
+import utils.SubdocumentBdtProvider
 
 class BdtSolver(
     private val sequenceToSolve: ArrayList<Action>,
-    private val dataSource: DataSource,
+    val dataSource: DataSource,
     private val contentDb: ContentItemsDb,
     private val bdtProvider: SubdocumentBdtProvider,
     private val variables: ArrayList<Var> = ArrayList(),
     private val basesequence: ArrayList<Action> = ArrayList()
 ) {
     private val sequence: ArrayList<Action> = ArrayList()
-    private var currentRule: String = "Begin"
-    private var activeRecordSet: RecordSet = dataSource.getRecordSet()
+    var currentRule: String = "Begin"
+    var activeRecordSet: RecordSet = dataSource.recordSets[0]
 
     fun go() {
         sequenceToSolve.forEach {
@@ -32,22 +36,18 @@ class BdtSolver(
     }
 
     fun addActionToSequence(action: Action) {
+//        println(action)
         if (action is Rule) {
             currentRule = action.name
         }
         sequence.add(action)
     }
 
+
     fun collectState(): BdtState {
         return BdtState(variables, dataSource, contentDb, basesequence, bdtProvider)
     }
 
-    private fun getBdtFromRepository(name: String): String {
-        return bdtFolder.getBdt(name)
-    }
-
-    // TODO - Launches BDT but state is not carried over
-    // The key also contains a pointer to a variable that needs to passed as an input param
     fun launchSubdocument(name: String, key: Key) {
         val bdtstr = bdtProvider.getBdt(name)
         val subdocBdt = Bdt.fromXmlString(bdtstr)
@@ -63,26 +63,21 @@ class BdtSolver(
 
     fun isEod(name: String): Boolean {
         val record = name.substring(name.indexOf(":") + 1)
-        val recordSet = dataSource.getRecordSet(record)
+        val recordSet = dataSource.getRecordSet(record) ?: return true
+
         return recordSet.isEod()
     }
 
     fun isNotEod(name: String): Boolean {
         val record = name.substring(name.indexOf(":") + 1)
-        val recordSet = dataSource.getRecordSet(record)
+        val recordSet = dataSource.getRecordSet(record) ?: return false
         return recordSet.isNotEod()
-    }
-
-    fun setRecordSet(name: String) {
-        val record = name.substring(name.indexOf(":") + 1)
-        activeRecordSet = dataSource.getRecordSet(record)
     }
 
     fun recordSetMoveNext() {
         activeRecordSet.recordSetMoveNext()
     }
 
-    // need to assign dtype probably
     fun assignVariable(assignee: Var, assignor: Var): Var {
         val v = getVariable(assignee.name)
         return if (v != null) {
@@ -98,6 +93,7 @@ class BdtSolver(
     fun bindInputParam(variable: Variable) {
         if (variable.value.isEmpty()) {
             val dbValue = getDbVariable(variable.name)
+
             if (dbValue?.isNotEmpty() == true) {
                 variable.value = dbValue
             }
@@ -116,6 +112,14 @@ class BdtSolver(
         }
     }
 
+    fun query(recordSetName: String, queries: ArrayList<Query>) {
+        activeRecordSet = dataSource.query(recordSetName, queries)
+    }
+
+    fun setActiveRecord(recordSetName: String) {
+        activeRecordSet = dataSource.getRecordSet(recordSetName)!!
+    }
+
 
     fun getVariable(name: String): Var? {
         return variables.find { it.name.lowercase() == name.lowercase() }
@@ -132,10 +136,6 @@ class BdtSolver(
         return contentItem
     }
 
-    // Indexing issue with loop, this loop is dependant on the actions that have been added to this sequence
-    // This sequences actions are not one - to - one with the actual solving sequence
-    // Te effect of this is that when individual actions are changed in what order they add to the sequence
-    // This loop, loops indefinately - probably some issue with the entry and exit points
     fun jump(labelName: String) {
         val jump = sequence.find { it is Jump && it.toLabel == labelName }
         val label = sequence.find { it is Label && it.name == labelName }
@@ -144,14 +144,17 @@ class BdtSolver(
             val entryPoint = sequence.indexOf(label)
             val exitPoint = sequence.indexOf(jump)
 
-            val loopSequence = ArrayList(sequence.slice(IntRange(entryPoint, exitPoint)))
+            val loopSequence = ArrayList(sequence.slice(IntRange(entryPoint, exitPoint - 1)))
             val loopSolver = subSolver(loopSequence, this)
+
+            loopSolver.activeRecordSet = activeRecordSet
             loopSolver.go()
 
-            loopSolver.sequence.forEach {
-                println(it)
-            }
+            val (loopbasesequence, resolvedLoopSequence) = loopSolver.result()
 
+            sequence.removeAll(loopSequence)
+            sequence += resolvedLoopSequence
+            basesequence += loopbasesequence
         }
     }
 

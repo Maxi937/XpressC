@@ -11,6 +11,11 @@ data class Table(val name: String, val columns: ArrayList<Column> = ArrayList())
         return column?.value
     }
 
+    fun getDbField(columnName: String) : String? {
+        val column = columns.find { it.name.lowercase() == columnName.lowercase() }
+        return column?.value
+    }
+
     companion object {
 
         fun fromJson(tableName: String, data: JSONObject): ArrayList<Table> {

@@ -2,23 +2,19 @@ package utils
 
 import models.bdtXml.actions.Action
 import models.bdtXml.actions.If
-import models.bdtXml.actions.Section
 import java.io.File
 
 
 fun writeSequenceToFile(sequence: ArrayList<Action>, fileName: String) {
     sequence.forEach {
-        File("./src/Test-Data/$fileName.txt").appendText("$it\n")
+        File("./src/main/resources/Test-Data/$fileName.txt").appendText("$it\n")
     }
 }
 
 fun deleteResultFile(fileName: String) {
-    File("./src/Test-Data/$fileName.txt").delete()
+    File("./src/main/resources/Test-Data/$fileName.txt").delete()
 }
 
-fun stringToDate(dateStr: String) {
-
-}
 fun unwrapAction(action: Action) {
     when (action) {
         is If -> unwrapIf(action)

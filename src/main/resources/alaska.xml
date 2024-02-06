@@ -180,12 +180,6 @@
 				<rate>500.00000</rate>
 				<type>PDP</type>
 			</ADF>
-			<ADF>
-				<ContractFK>1</ContractFK>
-				<MergedDescription>Single Employee and Employee and Family</MergedDescription>
-				<rate>1500.00000</rate>
-				<type>PDP</type>
-			</ADF>
 		</XQADFs>
 	</Contract>
 </Documents>
