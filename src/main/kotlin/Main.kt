@@ -11,22 +11,16 @@ import java.io.File
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
-//"./src/Test-Data/Stop_Loss_Contract/Definition/Definition/BDT_Structure.xml"
-object bdtFolder {
-    fun getBdt(name: String): String {
-        return File("./src/Test-Data/Stop_Loss_Contract/$name/$name/BDT_Structure.xml").readText()
-    }
-}
 
 fun main(args: Array<String>) {
-    val bdts = "GSLOT-11133-XP_Schedule_of_Benefit_Aggregate_ADF_Table"
+    val bdts = "GSLOT-11133-XP_Face_Page"
     val bdtString = File("./src/main/resources/Test-Data/Stop_Loss_Contract/$bdts/$bdts/BDT_Structure.xml").readText()
     val candidateXmlString = File("src/test/resources/Candidate/Stop_Loss_2023SL_AK.xml").readText()
 
     val bdt = Bdt.fromXmlString(bdtString)
 
     val dataSource = DataSource.fromXmlString(bdt.primaryDataSource, candidateXmlString)
-    val contentDb = ContentItemsDb.fromCsv(File("./src/main/resources/Test-Data/Stop_Loss_Contract/${bdt.name}/${bdt.name}_Content_Items.csv"))
+    val contentDb = ContentItemsDb.fromCsv(File("./src/main/resources/Test-Data/Stop_Loss_Contract/${bdts}/${bdts}_Content_Items.csv"))
     val (basesequence, sequence) = bdt.solve(dataSource, contentDb, SubdocumentBdtProvider("./src/main/resources/Test-Data/Stop_Loss_Contract/"))
 
     compareOnContentItems(basesequence, sequence)

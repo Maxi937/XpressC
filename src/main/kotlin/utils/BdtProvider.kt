@@ -10,6 +10,6 @@ import java.io.File
  */
 class SubdocumentBdtProvider(var directory: String) {
     fun getBdt(name: String): String {
-        return File("$directory/$name.xml").readText()
+        return File("$directory/$name/$name/BDT_Structure.xml").readText()
     }
 }
