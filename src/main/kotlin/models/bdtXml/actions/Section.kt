@@ -4,6 +4,7 @@ import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
 import models.BdtSolver
+import org.json.JSONObject
 
 data class Section(
     val name: String, val revisionUnits: ArrayList<String>, val block: Block?
@@ -30,6 +31,14 @@ data class Section(
     override fun evaluate(bdtSolver: BdtSolver) {
         bdtSolver.addActionToSequence(this)
         block?.evaluate(bdtSolver)
+    }
+
+    override fun toJson(): JSONObject {
+        val result = JSONObject()
+        result.put("revisionUnits", revisionUnits)
+        result.put("name", name)
+        result.put("block", block?.toJsonArray())
+        return result
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {

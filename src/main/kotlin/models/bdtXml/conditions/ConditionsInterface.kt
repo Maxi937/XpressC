@@ -3,9 +3,12 @@ package models.bdtXml.conditions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import models.BdtSolver
+import org.json.JSONObject
 
 interface Condition {
     fun evaluate(bdtSolver: BdtSolver) : Boolean
+
+    fun toJson(): JSONObject
 
 }
 

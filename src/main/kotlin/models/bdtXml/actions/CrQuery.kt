@@ -5,6 +5,7 @@ import com.gitlab.mvysny.konsumexml.Names
 import models.BdtSolver
 import models.bdtXml.CrQueryLogicRef
 import models.bdtXml.ObjectRefListVar
+import org.json.JSONObject
 
 data class CrQuery(
     val objectRefListVar: ObjectRefListVar, val crQueryLogicRef: CrQueryLogicRef
@@ -27,8 +28,11 @@ data class CrQuery(
         }
     }
     override fun evaluate(bdtSolver: BdtSolver) {
+        bdtSolver.crLength += 1
+    }
 
-
+    override fun toJson(): JSONObject {
+        return JSONObject(this)
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {

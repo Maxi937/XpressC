@@ -4,6 +4,7 @@ import com.gitlab.mvysny.konsumexml.Konsumer
 import models.Content.ContentItem
 import models.BdtSolver
 import models.bdtXml.ObjectRefListVar
+import org.json.JSONObject
 
 data class InsertTextpiece(
     val name: String, val noOfObject: String, val requiredFlag: String, val objectRefListVar: ObjectRefListVar, var contentItem: ContentItem? = null
@@ -26,8 +27,16 @@ data class InsertTextpiece(
     }
 
     override fun evaluate(bdtSolver: BdtSolver) {
-        contentItem = bdtSolver.bindContentItem(name, requiredFlag.toBoolean())
-        bdtSolver.addActionToSequence(this)
+        if(bdtSolver.crLength >= 1) {
+            contentItem = bdtSolver.bindContentItem(name, requiredFlag.toBoolean())
+            bdtSolver.addActionToSequence(this)
+            bdtSolver.crLength -= 1
+        }
+
+    }
+
+    override fun toJson(): JSONObject {
+        return JSONObject(this)
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {

@@ -3,6 +3,7 @@ package models.bdtXml.conditions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import models.BdtSolver
 import models.bdtXml.actions.RecordSetVar
+import org.json.JSONObject
 
 data class RecordSetTest(
     val operator: String,
@@ -19,6 +20,10 @@ data class RecordSetTest(
 
             return RecordSetTest(operator, recordSetVar)
         }
+    }
+
+    override fun toJson(): JSONObject {
+        return JSONObject(this)
     }
 
 

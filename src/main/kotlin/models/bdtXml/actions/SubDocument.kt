@@ -3,10 +3,11 @@ package models.bdtXml.actions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import models.BdtSolver
 import models.bdtXml.Key
+import org.json.JSONObject
 
 data class SubDocument(
     val mappingType: String,
-    val name: String,
+    val documentId: Long,
     val key: Key
 ) : Action {
     companion object {
@@ -14,7 +15,7 @@ data class SubDocument(
             k.checkCurrent("SubDocument")
 
             val mappingType = k.attributes.getValue("mappingType")
-            val name = k.attributes.getValue("sdName")
+            val documentId = k.attributes.getValue("sdDocumentId")
             var key: Key? = null
 
             k.child("Key") {
@@ -22,13 +23,17 @@ data class SubDocument(
 
             }
 
-            return SubDocument(mappingType, name, key!!)
+            return SubDocument(mappingType, documentId.toLong(), key!!)
         }
     }
 
     override fun evaluate(bdtSolver: BdtSolver) {
         bdtSolver.addActionToSequence(this)
-        bdtSolver.launchSubdocument(name, key)
+        bdtSolver.launchSubdocument(documentId, key)
+    }
+
+    override fun toJson(): JSONObject {
+        return JSONObject(this)
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {

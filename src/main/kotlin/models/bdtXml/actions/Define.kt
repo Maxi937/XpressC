@@ -3,6 +3,7 @@ package models.bdtXml.actions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import models.BdtSolver
 import models.bdtXml.variables.Variable
+import org.json.JSONObject
 
 
 data class Define(val inputParameters: List<Variable>, val variables: List<Variable> = ArrayList()) : Action {
@@ -30,5 +31,10 @@ data class Define(val inputParameters: List<Variable>, val variables: List<Varia
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
         sequence.add(this)
         return sequence
+    }
+
+    override fun toJson(): JSONObject {
+        val obj = JSONObject(this)
+        return obj
     }
 }

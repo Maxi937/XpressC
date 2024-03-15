@@ -3,6 +3,7 @@ package models.bdtXml.actions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import models.BdtSolver
+import org.json.JSONObject
 
 
 interface Action {
@@ -10,6 +11,7 @@ interface Action {
 
     fun gather(sequence: ArrayList<Action>) : ArrayList<Action>
 
+    fun toJson(): JSONObject
 }
 
 fun whichAction(k: Konsumer): Action? {

@@ -5,6 +5,8 @@ import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
 import models.BdtSolver
 import models.bdtXml.variables.*
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 data class Assignment(
@@ -35,6 +37,21 @@ data class Assignment(
 
         bdtSolver.assignVariable(assignments[0], assignments[1])
         bdtSolver.addActionToSequence(this)
+    }
+
+    override fun toJson(): JSONObject {
+        val obj = JSONObject()
+
+        val assignments = JSONArray()
+
+        this.assignments.forEach {
+            val ass = JSONObject()
+            ass.put(it.javaClass.simpleName, JSONObject(it))
+            assignments.put(ass)
+        }
+
+        obj.put("assignments", assignments)
+        return obj
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {

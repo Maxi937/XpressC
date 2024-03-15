@@ -3,6 +3,8 @@ package models.bdtXml.conditions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import models.BdtSolver
+import org.json.JSONArray
+import org.json.JSONObject
 
 data class Or(
     val conditions: ArrayList<Condition>
@@ -22,6 +24,21 @@ data class Or(
             }
             return Or(conditions)
         }
+    }
+
+    override fun toJson(): JSONObject {
+        val obj = JSONObject()
+
+        val cnds = JSONArray()
+
+        this.conditions.forEach {
+            val cmp = JSONObject()
+            cmp.put(it.javaClass.simpleName, it.toJson())
+            cnds.put(cmp)
+        }
+
+        obj.put("conditions", cnds)
+        return obj
     }
 
     override fun evaluate(bdtSolver: BdtSolver): Boolean {

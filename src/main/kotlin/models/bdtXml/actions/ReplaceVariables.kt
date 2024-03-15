@@ -5,6 +5,7 @@ import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
 import models.BdtSolver
 import models.bdtXml.variables.Variable
+import org.json.JSONObject
 
 
 data class ReplaceVariables(
@@ -31,6 +32,10 @@ data class ReplaceVariables(
 
     override fun evaluate(bdtSolver: BdtSolver) {
 //        return true
+    }
+
+    override fun toJson(): JSONObject {
+        return JSONObject(this)
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {

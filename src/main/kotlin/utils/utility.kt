@@ -15,21 +15,20 @@ fun deleteResultFile(fileName: String) {
     File("./src/main/resources/Test-Data/$fileName.txt").delete()
 }
 
-fun unwrapAction(action: Action) {
-    when (action) {
-        is If -> unwrapIf(action)
-        else -> println("-\t$action")
-    }
-}
+//fun unwrapAction(action: Action) {
+//    when (action) {
+//        is If -> unwrapIf(action)
+//        else -> println("-\t$action")
+//    }
+//}
 
-fun unwrapIf(action: If) {
-    if (action.block.actions.isEmpty()) {
-        println("-\tSkip")
-    } else {
-        action.block.actions.forEach {
-            println("-\t$it")
-        }
-
-    }
-
-}
+//fun unwrapIf(action: If) {
+//    if (action.block.actions.isEmpty()) {
+//        println("-\tSkip")
+//    } else {
+//        action.block.actions.forEach {
+//            println("-\t$it")
+//        }
+//
+//    }
+//}

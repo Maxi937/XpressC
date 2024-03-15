@@ -1,6 +1,8 @@
 package models
 
+import api.DartService
 import exceptions.BdtException
+import kotlinx.coroutines.runBlocking
 import models.CandidateXml.DataSource
 import models.CandidateXml.Query
 import models.CandidateXml.RecordSet
@@ -25,8 +27,9 @@ class BdtSolver(
     private val basesequence: ArrayList<Action> = ArrayList()
 ) {
     private val sequence: ArrayList<Action> = ArrayList()
-    var currentRule: String = "Begin"
+    private var currentRule: String = "Begin"
     var activeRecordSet: RecordSet = dataSource.recordSets[0]
+    var crLength: Int = 0
 
     fun go() {
         sequenceToSolve.forEach {
@@ -48,11 +51,10 @@ class BdtSolver(
         return BdtState(variables, dataSource, contentDb, basesequence, bdtProvider)
     }
 
-    fun launchSubdocument(name: String, key: Key) {
-        val bdtstr = bdtProvider.getBdt(name)
-        val subdocBdt = Bdt.fromXmlString(bdtstr)
+    fun launchSubdocument(documentId: Long, key: Key) {
+        val bdt = runBlocking { Bdt.fromNetwork(documentId) }
 
-        val subSolver = subSolver(subdocBdt.sequence, this)
+        val subSolver = subSolver(bdt.sequence, this)
         subSolver.go()
 
         val (basesequence, sequence) = subSolver.result()

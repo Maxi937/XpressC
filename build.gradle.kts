@@ -20,6 +20,9 @@ dependencies {
     implementation("org.json:json:20231013")
     implementation("com.gitlab.mvysny.konsume-xml:konsume-xml:1.1")
     implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.9.3")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
 }
 
 tasks.test {
@@ -35,8 +38,10 @@ application {
 }
 
 runtime {
-    imageDir.set(project.file("${project.distsDirectory.get()}/xpression-bdt"))
-    imageZip.set(project.file("${project.distsDirectory}/xpression-bdt/xpression-bdt.zip"))
+//    "${project.distsDirectory.get()}/xpression-bdt"
+
+    imageDir.set(project.file("C:\\Users\\YK09\\Development\\Projects\\dart\\dart-node-app\\server\\xpression-bdt"))
+    imageZip.set(project.file("${project.distsDirectory.get()}/xpression-bdt.zip"))
     options.set(listOf("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages"))
-    modules.set(listOf("java.desktop", "jdk.unsupported", "java.scripting", "java.logging", "java.xml"))
+    modules.set(listOf("java.desktop", "jdk.unsupported", "java.scripting", "java.logging", "java.xml", "java.sql"))
 }

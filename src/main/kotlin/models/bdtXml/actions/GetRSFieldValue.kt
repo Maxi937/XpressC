@@ -6,6 +6,7 @@ import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
 import models.BdtSolver
 import models.bdtXml.variables.DbField
 import models.bdtXml.variables.Variable
+import org.json.JSONObject
 
 
 data class GetRSFieldValue(
@@ -40,6 +41,10 @@ data class GetRSFieldValue(
         bdtSolver.bindVariable(variable)
         variable.bind(bdtSolver)
         bdtSolver.addActionToSequence(this)
+    }
+
+    override fun toJson(): JSONObject {
+        return JSONObject(this)
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {

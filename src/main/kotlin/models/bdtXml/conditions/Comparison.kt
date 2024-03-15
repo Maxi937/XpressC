@@ -8,6 +8,8 @@ import models.bdtXml.variables.DbField
 import models.bdtXml.variables.Value
 import models.bdtXml.variables.Var
 import models.bdtXml.variables.Variable
+import org.json.JSONArray
+import org.json.JSONObject
 import java.time.LocalDate
 
 data class Comparison(
@@ -109,6 +111,22 @@ data class Comparison(
             "eq" -> equals(compares[0], compares[1])
             else -> false
         }
+    }
+
+    override fun toJson(): JSONObject {
+        val obj = JSONObject()
+        obj.put("operator", operator)
+
+        val compares = JSONArray()
+
+        this.compares.forEach {
+            val cmp = JSONObject()
+            cmp.put(it.javaClass.simpleName, JSONObject(it))
+            compares.put(cmp)
+        }
+
+        obj.put("compares", compares)
+        return obj
     }
 
 

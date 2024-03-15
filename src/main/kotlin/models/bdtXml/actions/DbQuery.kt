@@ -9,9 +9,10 @@ import models.bdtXml.DbTable
 import models.bdtXml.conditions.*
 import models.bdtXml.variables.DbField
 import models.bdtXml.variables.Variable
+import org.json.JSONArray
+import org.json.JSONObject
 
 data class DbQuery(
-
     val dataSourceName: String,
     val dsGroupName: String,
     val recordSetVar: RecordSetVar,
@@ -66,6 +67,16 @@ data class DbQuery(
 
         bdtSolver.query(record, queries)
 
+    }
+
+    override fun toJson(): JSONObject {
+        val obj = JSONObject()
+        obj.put(condition.javaClass.simpleName, condition.toJson())
+        obj.put("dataSourceName", dataSourceName)
+        obj.put("dsGroupName", dsGroupName)
+        obj.put("recordSetVar", recordSetVar)
+        obj.put("fromTables", JSONArray(fromTables))
+        return obj
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {

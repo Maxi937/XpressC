@@ -2,6 +2,7 @@ package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import models.BdtSolver
+import org.json.JSONObject
 
 data class Rule(
     val name: String
@@ -16,6 +17,12 @@ data class Rule(
 
     override fun evaluate(bdtSolver: BdtSolver) {
         bdtSolver.addActionToSequence(this)
+    }
+
+    override fun toJson(): JSONObject {
+        val result = JSONObject(this)
+        result.put("type", this.javaClass.simpleName)
+        return result
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {

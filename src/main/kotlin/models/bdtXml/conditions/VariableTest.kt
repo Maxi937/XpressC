@@ -3,6 +3,7 @@ package models.bdtXml.conditions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import models.BdtSolver
 import models.bdtXml.variables.Variable
+import org.json.JSONObject
 
 data class VariableTest(
     val operator: String,
@@ -22,8 +23,12 @@ data class VariableTest(
         }
     }
 
-    private fun notNull(value: String?) : Boolean {
+    private fun notNull(variable: Variable, value: String?) : Boolean {
         return !(value.isNullOrEmpty() || value === "null")
+    }
+
+    override fun toJson(): JSONObject {
+        return JSONObject(this)
     }
 
     override fun evaluate(bdtSolver: BdtSolver) : Boolean{
@@ -31,7 +36,7 @@ data class VariableTest(
         val value = variable.value
 
         return when(operator) {
-            "notNull" -> notNull(value)
+            "notNull" -> notNull(variable, value)
             else -> false
         }
     }

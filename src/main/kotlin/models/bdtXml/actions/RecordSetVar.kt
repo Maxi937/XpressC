@@ -2,6 +2,7 @@ package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import models.BdtSolver
+import org.json.JSONObject
 
 data class RecordSetVar(
     val name: String,
@@ -17,6 +18,10 @@ data class RecordSetVar(
     override fun evaluate(bdtSolver: BdtSolver) {
         val record = name.substring(name.indexOf(":") + 1)
         bdtSolver.setActiveRecord(record)
+    }
+
+    override fun toJson(): JSONObject {
+        return JSONObject(this)
     }
 
     override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {

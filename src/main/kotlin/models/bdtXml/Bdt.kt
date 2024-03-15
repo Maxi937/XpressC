@@ -1,13 +1,19 @@
 package models.bdtXml
 
+import api.DartClient
+import api.models.NetworkResult
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
 import com.gitlab.mvysny.konsumexml.konsumeXml
+import kotlinx.coroutines.*
 import models.BdtSolver
 import models.bdtXml.actions.*
 import models.CandidateXml.DataSource
 import models.Content.ContentItemsDb
+import org.json.JSONArray
+import org.json.JSONObject
+import org.json.JSONPropertyName
 import utils.SubdocumentBdtProvider
 import java.io.File
 
@@ -19,6 +25,16 @@ data class Bdt(
     val serverVer: String,
     val sequence: ArrayList<Action>,
 ) {
+    fun getSequence(): JSONArray {
+        val result = JSONArray()
+
+        sequence.forEach {
+            val obj = JSONObject()
+            obj.put(it.javaClass.simpleName, it.toJson())
+            result.put(obj)
+        }
+        return result
+    }
 
     fun getRevisionUnits(): ArrayList<String> {
         val results: ArrayList<String> = ArrayList()
@@ -45,9 +61,27 @@ data class Bdt(
         return bdtSolver.result()
     }
 
+
+
     companion object {
         private fun excludeXMLVersioningInfo(xmlString: String) : String {
             return xmlString.replace("\\<\\?xml(.+?)\\?\\>", "").trim();
+        }
+
+        suspend fun fromNetwork(documentName: String) : Bdt {
+            when(val bdt = DartClient.service.getBdtXml(documentName)) {
+                is NetworkResult.Success -> return fromXmlString(bdt.data.bdtXml)
+                is NetworkResult.Error -> throw Exception(bdt.errorMsg)
+                is NetworkResult.Exception -> throw Exception(bdt.e)
+            }
+        }
+
+        suspend fun fromNetwork(documentId: Long) : Bdt {
+            when(val bdt = DartClient.service.getBdtXml(documentId)) {
+                is NetworkResult.Success -> return fromXmlString(bdt.data.bdtXml)
+                is NetworkResult.Error -> throw Exception(bdt.errorMsg)
+                is NetworkResult.Exception -> throw Exception(bdt.e)
+            }
         }
 
         fun fromFilePath(path: String) : Bdt {
