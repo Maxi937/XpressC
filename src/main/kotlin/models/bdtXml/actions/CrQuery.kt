@@ -2,13 +2,15 @@ package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
-import models.BdtSolver
 import models.bdtXml.CrQueryLogicRef
 import models.bdtXml.ObjectRefListVar
+import models.bdtXml.bdtsolver.BdtSolver
 import org.json.JSONObject
 
 data class CrQuery(
-    val objectRefListVar: ObjectRefListVar, val crQueryLogicRef: CrQueryLogicRef
+    val objectRefListVar: ObjectRefListVar, val crQueryLogicRef: CrQueryLogicRef,
+    override var sequenceId: Int = 0,
+    var evaluated: Boolean = false
 ) : Action {
     companion object {
         fun xml(k: Konsumer): CrQuery {
@@ -18,7 +20,7 @@ data class CrQuery(
             var crQueryLogicRef: CrQueryLogicRef? = null
 
             k.children(Names.of("ObjectRefListVar", "CRQueryLogicRef")) {
-                when(localName) {
+                when (localName) {
                     "ObjectRefListVar" -> objectRefListVar = ObjectRefListVar.xml(this)
                     "CRQueryLogicRef" -> crQueryLogicRef = CrQueryLogicRef.xml(this)
                 }
@@ -27,7 +29,10 @@ data class CrQuery(
             return CrQuery(objectRefListVar!!, crQueryLogicRef!!)
         }
     }
+
     override fun evaluate(bdtSolver: BdtSolver) {
+        evaluated = true
+        bdtSolver.crRequests.add(bdtSolver.getVariable("TEXTCLASS_ID")?.value!!.toLong())
         bdtSolver.crLength += 1
     }
 
@@ -35,8 +40,4 @@ data class CrQuery(
         return JSONObject(this)
     }
 
-    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
-//        sequence.add(this)
-        return sequence
-    }
 }

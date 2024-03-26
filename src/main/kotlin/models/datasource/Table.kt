@@ -1,17 +1,16 @@
-package models.CandidateXml
+package models.datasource
 
 import org.json.JSONArray
 import org.json.JSONObject
-import org.json.XML
 
 data class Table(val name: String, val columns: ArrayList<Column> = ArrayList()) {
 
-    fun getField(columnName: String) : String? {
+    fun getField(columnName: String): String? {
         val column = columns.find { it.name.lowercase() == columnName.lowercase() }
         return column?.value
     }
 
-    fun getDbField(columnName: String) : String? {
+    fun getDbField(columnName: String): String? {
         val column = columns.find { it.name.lowercase() == columnName.lowercase() }
         return column?.value
     }
@@ -31,7 +30,7 @@ data class Table(val name: String, val columns: ArrayList<Column> = ArrayList())
                 }
 
             }
-            if(table.columns.isNotEmpty()) {
+            if (table.columns.isNotEmpty()) {
                 result.add(table)
             }
 

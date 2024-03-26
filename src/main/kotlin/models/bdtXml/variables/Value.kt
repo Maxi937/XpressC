@@ -1,8 +1,8 @@
 package models.bdtXml.variables
-import java.util.UUID;
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.BdtSolver
+import models.bdtXml.bdtsolver.BdtSolver
+import java.util.*
 
 data class Value(
     override var dType: String = "null",
@@ -19,7 +19,7 @@ data class Value(
     }
 
     override fun bind(bdtSolver: BdtSolver): Var? {
-        if(value.isEmpty()) {
+        if (value.isEmpty()) {
             return null
         }
         return this

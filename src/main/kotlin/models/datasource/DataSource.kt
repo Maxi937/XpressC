@@ -1,6 +1,5 @@
-package models.CandidateXml
+package models.datasource
 
-import exceptions.BdtDataSourceRecordException
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.XML
@@ -24,12 +23,7 @@ data class DataSource(
         return tables.filter { it.getField(query.columnName) == query.value && it.name.lowercase() == tableName.lowercase() }
     }
 
-    // Query executes and adds the resulting set of records to recordSets
-    // If recordSet is already in the list of recordSet the recordSets data is reset to the query
     fun query(tableName: String, queries: ArrayList<Query>): RecordSet {
-//        println("QUERY: $tableName")
-//        println(queries)
-
         var result = executeQuery(tableName, tables, queries[0])
 
         queries.forEachIndexed { indx, element ->
@@ -66,10 +60,9 @@ data class DataSource(
 //    }
 
     companion object {
-
-        fun fromFilePath(name: String, path: String): DataSource {
+        fun fromFilePath(path: String): DataSource {
             val xml = File(path).readText()
-            return fromXmlString(name, xml)
+            return fromXmlString(path, xml)
         }
 
         fun fromXmlString(name: String, xmlString: String): DataSource {

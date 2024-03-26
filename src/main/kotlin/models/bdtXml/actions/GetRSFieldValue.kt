@@ -3,7 +3,7 @@ package models.bdtXml.actions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.BdtSolver
+import models.bdtXml.bdtsolver.BdtSolver
 import models.bdtXml.variables.DbField
 import models.bdtXml.variables.Variable
 import org.json.JSONObject
@@ -12,7 +12,9 @@ import org.json.JSONObject
 data class GetRSFieldValue(
     val recordSetVar: RecordSetVar,
     val dbField: DbField,
-    val variable: Variable
+    val variable: Variable,
+    override var sequenceId: Int = 0,
+    var evaluated: Boolean = false
 ) : Action {
     companion object {
         fun xml(k: Konsumer): GetRSFieldValue {
@@ -35,6 +37,7 @@ data class GetRSFieldValue(
     }
 
     override fun evaluate(bdtSolver: BdtSolver) {
+        evaluated = true
         recordSetVar.evaluate(bdtSolver)
         dbField.bind(bdtSolver)
         variable.value = dbField.value
@@ -45,10 +48,5 @@ data class GetRSFieldValue(
 
     override fun toJson(): JSONObject {
         return JSONObject(this)
-    }
-
-    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
-        sequence.add(this)
-        return sequence
     }
 }

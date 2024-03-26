@@ -1,12 +1,14 @@
 package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.BdtSolver
+import models.bdtXml.bdtsolver.BdtSolver
 import org.json.JSONObject
 
 
 data class RecordSetMoveNext(
-    val recordSetVar: RecordSetVar
+    val recordSetVar: RecordSetVar,
+    override var sequenceId: Int = 0,
+    var evaluated: Boolean = false
 ) : Action {
     companion object {
         fun xml(k: Konsumer): RecordSetMoveNext {
@@ -24,17 +26,14 @@ data class RecordSetMoveNext(
     }
 
     override fun evaluate(bdtSolver: BdtSolver) {
-        bdtSolver.recordSetMoveNext()
+        evaluated = true
         bdtSolver.addActionToSequence(this)
+        bdtSolver.recordSetMoveNext()
+
     }
 
     override fun toJson(): JSONObject {
         return JSONObject(this)
-    }
-
-    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
-        sequence.add(this)
-        return sequence
     }
 
 }

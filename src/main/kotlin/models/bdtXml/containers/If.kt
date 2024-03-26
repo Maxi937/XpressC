@@ -1,9 +1,10 @@
-package models.bdtXml.actions
+package models.bdtXml.containers
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.BdtSolver
+import models.bdtXml.actions.Action
+import models.bdtXml.bdtsolver.BdtSolver
 import models.bdtXml.conditions.Condition
 import models.bdtXml.conditions.whichCondition
 import org.json.JSONObject
@@ -14,6 +15,8 @@ import org.json.JSONObject
 data class If(
     val condition: Condition,
     val blocks: ArrayList<Block>,
+    var evaluated: Boolean = false,
+    override var sequenceId: Int = 0,
 ) : Action {
     companion object {
         fun xml(k: Konsumer): If {
@@ -34,12 +37,22 @@ data class If(
 
     override fun evaluate(bdtSolver: BdtSolver) {
         bdtSolver.addActionToSequence(this)
-        if(condition.evaluate(bdtSolver)) {
+
+        if (condition.evaluate(bdtSolver)) {
+            evaluated = true
             blocks[0].evaluate(bdtSolver)
         } else {
-            if(blocks.size == 2) {
+            evaluated = false
+            if (blocks.size == 2) {
                 blocks[1].evaluate(bdtSolver)
             }
+        }
+    }
+
+    override fun setup(bdtSolver: BdtSolver) {
+        super.setup(bdtSolver)
+        blocks.forEach {
+            it.setup(bdtSolver)
         }
     }
 
@@ -48,17 +61,12 @@ data class If(
         obj.put(condition.javaClass.simpleName, condition.toJson())
         obj.put("true", blocks[0].toJsonArray())
 
-        if(blocks.size == 2) {
+        if (blocks.size == 2) {
             obj.put("false", blocks[1].toJsonArray())
         }
-        return obj
-    }
 
-    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
-        sequence.add(this)
-        blocks.forEach {
-            it.gather(sequence)
-        }
-        return sequence
+        obj.put("sequenceId", sequenceId)
+        obj.put("evaluated", evaluated)
+        return obj
     }
 }

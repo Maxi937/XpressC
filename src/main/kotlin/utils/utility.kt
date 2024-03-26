@@ -1,7 +1,6 @@
 package utils
 
 import models.bdtXml.actions.Action
-import models.bdtXml.actions.If
 import java.io.File
 
 

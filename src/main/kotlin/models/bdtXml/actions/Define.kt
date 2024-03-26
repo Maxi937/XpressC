@@ -1,12 +1,16 @@
 package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.BdtSolver
+import models.bdtXml.bdtsolver.BdtSolver
 import models.bdtXml.variables.Variable
 import org.json.JSONObject
 
 
-data class Define(val inputParameters: List<Variable>, val variables: List<Variable> = ArrayList()) : Action {
+data class Define(
+    val inputParameters: List<Variable>, val variables: List<Variable> = ArrayList(),
+    override var sequenceId: Int = 0,
+    var evaluated: Boolean = false,
+) : Action {
     companion object {
         fun xml(k: Konsumer): Define {
             k.checkCurrent("Define")
@@ -17,6 +21,7 @@ data class Define(val inputParameters: List<Variable>, val variables: List<Varia
     }
 
     override fun evaluate(bdtSolver: BdtSolver) {
+        evaluated = true
         variables.forEach {
             bdtSolver.bindVariable(it)
         }
@@ -24,17 +29,10 @@ data class Define(val inputParameters: List<Variable>, val variables: List<Varia
         inputParameters.forEach {
             bdtSolver.bindInputParam(it)
         }
-
         bdtSolver.addActionToSequence(this)
     }
 
-    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
-        sequence.add(this)
-        return sequence
-    }
-
     override fun toJson(): JSONObject {
-        val obj = JSONObject(this)
-        return obj
+        return JSONObject(this)
     }
 }

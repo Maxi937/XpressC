@@ -1,8 +1,8 @@
 package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.BdtSolver
 import models.bdtXml.actions.RecordSetVar
+import models.bdtXml.bdtsolver.BdtSolver
 import org.json.JSONObject
 
 data class RecordSetTest(

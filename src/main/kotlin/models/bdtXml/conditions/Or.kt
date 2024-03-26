@@ -2,7 +2,7 @@ package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
-import models.BdtSolver
+import models.bdtXml.bdtsolver.BdtSolver
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -18,7 +18,7 @@ data class Or(
             k.children(Names.any(), 2, 2) {
                 val condition = whichCondition(this)
 
-                if(condition != null) {
+                if (condition != null) {
                     conditions.add(condition)
                 }
             }

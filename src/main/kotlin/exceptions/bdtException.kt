@@ -1,9 +1,8 @@
 package exceptions
 
-import models.CandidateXml.DataSource
-import models.CandidateXml.RecordSet
-import models.CandidateXml.Table
 import models.bdtXml.variables.Var
+import models.datasource.DataSource
+import models.datasource.Table
 
 
 // mainly xml parsing exceptions upon Konsume
@@ -15,7 +14,11 @@ class BdtException(override val message: String?) : Exception(message) {
 }
 
 // Exceptions where the BDT state is invalid, like double revision units or normal crash occurances in an xpression document
-class BdtVariableAccessException(private val accessedVariable: String, val variables: ArrayList<Var>, cause: Throwable? = null) :
+class BdtVariableAccessException(
+    private val accessedVariable: String,
+    val variables: ArrayList<Var>,
+    cause: Throwable? = null
+) :
     Exception(null, cause) {
 
     override fun toString(): String {
@@ -33,7 +36,11 @@ class BdtVariableAccessException(private val accessedVariable: String, val varia
 class CandidateException(override val message: String?) : Exception(message) {
 }
 
-class BdtDataSourceRecordException(private val name: String, private val dataSource: DataSource, cause: Throwable? = null) :
+class BdtDataSourceRecordException(
+    private val name: String,
+    private val dataSource: DataSource,
+    cause: Throwable? = null
+) :
     Exception(null, cause) {
 
     override fun toString(): String {
@@ -45,7 +52,13 @@ class BdtDataSourceRecordException(private val name: String, private val dataSou
         return message
     }
 }
-class BdtDataSourceFieldAccessException(private val accessedVariable: String, private val recordSet: Table, private val currentRule: String, cause: Throwable? = null) :
+
+class BdtDataSourceFieldAccessException(
+    private val accessedVariable: String,
+    private val recordSet: Table,
+    private val currentRule: String,
+    cause: Throwable? = null
+) :
     Exception(null, cause) {
 
     override fun toString(): String {

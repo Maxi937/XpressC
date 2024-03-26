@@ -2,17 +2,17 @@ package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
-import models.BdtSolver
+import models.bdtXml.bdtsolver.BdtSolver
 import org.json.JSONObject
 
 interface Condition {
-    fun evaluate(bdtSolver: BdtSolver) : Boolean
+    fun evaluate(bdtSolver: BdtSolver): Boolean
 
     fun toJson(): JSONObject
 
 }
 
-fun whichCondition(k: Konsumer) : Condition? {
+fun whichCondition(k: Konsumer): Condition? {
     return when (k.localName) {
         "WhereCondition" -> k.child(Names.any()) { whichCondition(this) }
         "Condition" -> k.child(Names.any()) { whichCondition(this) }

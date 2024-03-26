@@ -1,6 +1,4 @@
-package models.CandidateXml
-
-import models.bdtXml.conditions.Comparison
+package models.datasource
 
 data class RecordSet(val name: String, var data: List<Table> = ArrayList()) {
     var activeRecordSet = data[0]
@@ -15,7 +13,6 @@ data class RecordSet(val name: String, var data: List<Table> = ArrayList()) {
     }
 
     fun isNotEod(): Boolean {
-//        println("Checking Not EOD: $name\tcurrent record: ${activeRecordSet.name}")
         return activeRecordSet.name != "EOF"
     }
 
@@ -29,7 +26,6 @@ data class RecordSet(val name: String, var data: List<Table> = ArrayList()) {
 
     fun recordSetMoveNext() {
         val curIndx = data.indexOf(activeRecordSet)
-        //println("Moving ${activeRecordSet.name} $curIndx -> ${curIndx + 1}")
         activeRecordSet = data[curIndx + 1]
     }
 }

@@ -1,72 +1,64 @@
-package models
+package models.bdtXml.bdtsolver
 
-import api.DartService
-import exceptions.BdtException
-import kotlinx.coroutines.runBlocking
-import models.CandidateXml.DataSource
-import models.CandidateXml.Query
-import models.CandidateXml.RecordSet
-import models.CandidateXml.Table
-import models.Content.ContentItem
-import models.Content.ContentItemsDb
 import models.bdtXml.Bdt
 import models.bdtXml.Key
-import models.bdtXml.actions.*
-import models.bdtXml.conditions.And
-import models.bdtXml.conditions.Condition
+import models.bdtXml.actions.Action
+import models.bdtXml.actions.Jump
+import models.bdtXml.actions.Label
+import models.bdtXml.actions.Rule
 import models.bdtXml.variables.Var
 import models.bdtXml.variables.Variable
-import utils.SubdocumentBdtProvider
+import models.bdtassetprovider.BdtAssetProvider
+import models.datasource.DataSource
+import models.datasource.Query
+import models.datasource.RecordSet
+import kotlin.system.exitProcess
 
 class BdtSolver(
+    private val name: String,
     private val sequenceToSolve: ArrayList<Action>,
     val dataSource: DataSource,
-    private val contentDb: ContentItemsDb,
-    private val bdtProvider: SubdocumentBdtProvider,
+    private val assetProvider: BdtAssetProvider,
     private val variables: ArrayList<Var> = ArrayList(),
-    private val basesequence: ArrayList<Action> = ArrayList()
 ) {
-    private val sequence: ArrayList<Action> = ArrayList()
+    private var solvedSequence: ArrayList<Action> = ArrayList()
+    private val eventSequence: ArrayList<Action> = ArrayList()
     private var currentRule: String = "Begin"
     var activeRecordSet: RecordSet = dataSource.recordSets[0]
+    val crRequests: ArrayList<Long> = ArrayList()
     var crLength: Int = 0
 
-    fun go() {
+    fun solve(): BdtSolverResult {
         sequenceToSolve.forEach {
-            it.gather(basesequence)
+            solvedSequence.add(it)
+            it.setup(this)
             it.evaluate(this)
         }
+        return BdtSolverResult(solvedSequence, eventSequence, variables, dataSource.name)
     }
 
     fun addActionToSequence(action: Action) {
-//        println(action)
+
         if (action is Rule) {
             currentRule = action.name
         }
-        sequence.add(action)
+
+        eventSequence.add(action)
+        action.sequenceId = eventSequence.size
     }
 
 
     fun collectState(): BdtState {
-        return BdtState(variables, dataSource, contentDb, basesequence, bdtProvider)
+        return BdtState(name, variables, dataSource, activeRecordSet, assetProvider)
     }
 
-    fun launchSubdocument(documentId: Long, key: Key) {
-        val bdt = runBlocking { Bdt.fromNetwork(documentId) }
-
-        val subSolver = subSolver(bdt.sequence, this)
-        subSolver.go()
-
-        val (basesequence, sequence) = subSolver.result()
-
-        this.basesequence += basesequence
-        this.sequence += sequence
+    fun getSubdocument(documentId: Long, key: Key): Bdt {
+        return assetProvider.getBdt(documentId)
     }
 
     fun isEod(name: String): Boolean {
         val record = name.substring(name.indexOf(":") + 1)
         val recordSet = dataSource.getRecordSet(record) ?: return true
-
         return recordSet.isEod()
     }
 
@@ -82,6 +74,7 @@ class BdtSolver(
 
     fun assignVariable(assignee: Var, assignor: Var): Var {
         val v = getVariable(assignee.name)
+
         return if (v != null) {
             v.value = assignor.value
             v
@@ -110,7 +103,6 @@ class BdtSolver(
             v.value = variable.value
         } else {
             variables.add(variable)
-
         }
     }
 
@@ -127,36 +119,29 @@ class BdtSolver(
         return variables.find { it.name.lowercase() == name.lowercase() }
     }
 
-    fun bindContentItem(contentItemName: String, required: Boolean = false): ContentItem? {
-        val situsState = getVariable("SITUS_STATE")?.value ?: throw BdtException("No Situs State Variable Bound")
-        val contentItem = contentDb.getContentItem(contentItemName, situsState)
-
-        if (contentItem == null && required) {
-            throw Exception("Required Content Item $contentItemName, but was unable to bind from ContentDb")
-        }
-
-        return contentItem
+    fun bindContentItem(contentItemName: String, required: Boolean = false): Long {
+        return crRequests.last()
     }
 
     fun jump(labelName: String) {
-        val jump = sequence.find { it is Jump && it.toLabel == labelName }
-        val label = sequence.find { it is Label && it.name == labelName }
+        val jump = eventSequence.find { it is Jump && it.toLabel == labelName }
+        val label = eventSequence.find { it is Label && it.name == labelName }
 
         if (label != null) {
-            val entryPoint = sequence.indexOf(label)
-            val exitPoint = sequence.indexOf(jump)
+            val entryPoint = eventSequence.indexOf(label)
+            val exitPoint = eventSequence.indexOf(jump)
 
-            val loopSequence = ArrayList(sequence.slice(IntRange(entryPoint, exitPoint - 1)))
+            val loopSequence = ArrayList(eventSequence.slice(IntRange(entryPoint, exitPoint - 1)))
+
+            loopSequence.forEach {
+                println(it)
+            }
+
+            exitProcess(0)
             val loopSolver = subSolver(loopSequence, this)
+            val result = loopSolver.solve()
 
-            loopSolver.activeRecordSet = activeRecordSet
-            loopSolver.go()
-
-            val (loopbasesequence, resolvedLoopSequence) = loopSolver.result()
-
-            sequence.removeAll(loopSequence)
-            sequence += resolvedLoopSequence
-            basesequence += loopbasesequence
+            result.eventSequence.forEach { println(it) }
         }
     }
 
@@ -164,20 +149,21 @@ class BdtSolver(
         return activeRecordSet.getDbField(name)
     }
 
-    fun result(): Pair<ArrayList<Action>, ArrayList<Action>> {
-        return (Pair(basesequence, sequence))
-    }
 
     companion object {
         fun subSolver(sequenceToSolve: ArrayList<Action>, bdtSolver: BdtSolver): BdtSolver {
             val state = bdtSolver.collectState()
-            return BdtSolver(
+
+            val solver = BdtSolver(
+                name = state.name,
                 sequenceToSolve,
                 dataSource = state.dataSource,
-                contentDb = state.contentItemsDb,
+                assetProvider = state.assetProvider,
                 variables = state.variables,
-                bdtProvider = state.bdtProvider
             )
+
+            solver.activeRecordSet = state.activeRecordSet
+            return solver
         }
     }
 }

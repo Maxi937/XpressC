@@ -1,12 +1,14 @@
 package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.BdtSolver
 import models.bdtXml.ObjectRefListVar
+import models.bdtXml.bdtsolver.BdtSolver
 import org.json.JSONObject
 
 data class Reset(
-    val objectRefListVar: ObjectRefListVar
+    val objectRefListVar: ObjectRefListVar,
+    override var sequenceId: Int = 0,
+    var evaluated: Boolean = false
 ) : Action {
     companion object {
         fun xml(k: Konsumer): Reset {
@@ -25,17 +27,13 @@ data class Reset(
     // Might need to evaluate the objectList var by name but for now will just generally always reset crLength
 
     override fun evaluate(bdtSolver: BdtSolver) {
-        if(objectRefListVar.name == "DLSTP") {
+        if (objectRefListVar.name == "DLSTP") {
+            evaluated = true
             bdtSolver.crLength = 0
         }
     }
 
     override fun toJson(): JSONObject {
         return JSONObject(this)
-    }
-
-    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
-        sequence.add(this)
-        return sequence
     }
 }

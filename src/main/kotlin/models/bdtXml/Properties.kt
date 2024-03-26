@@ -1,8 +1,6 @@
 package models.bdtXml
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.BdtSolver
-import models.bdtXml.actions.Action
 
 
 data class ObjectRefListVar(val name: String) {

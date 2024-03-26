@@ -1,13 +1,16 @@
-package models.bdtXml.actions
+package models.bdtXml.containers
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
-import models.BdtSolver
+import models.bdtXml.actions.Action
+import models.bdtXml.actions.whichAction
+import models.bdtXml.bdtsolver.BdtSolver
 import org.json.JSONArray
 import org.json.JSONObject
 
 data class Block(
     val actions: ArrayList<Action>,
+    override var sequenceId: Int = 0,
 ) : Action {
     companion object {
         fun xml(k: Konsumer): Block {
@@ -34,7 +37,14 @@ data class Block(
         }
     }
 
-    fun toJsonArray() : JSONArray {
+    override fun setup(bdtSolver: BdtSolver) {
+        super.setup(bdtSolver)
+        actions.forEach {
+            it.setup(bdtSolver)
+        }
+    }
+
+    fun toJsonArray(): JSONArray {
         val result = JSONArray()
 
         actions.forEach {
@@ -42,22 +52,16 @@ data class Block(
             obj.put(it.javaClass.simpleName, it.toJson())
             result.put(obj)
         }
+
         return result
     }
 
-    override fun toJson() : JSONObject {
-        val result = JSONObject()
+    override fun toJson(): JSONObject {
+        val obj = JSONObject()
 
         actions.forEach {
-            result.put(this.javaClass.simpleName, it.toJson())
+            obj.put(this.javaClass.simpleName, it.toJson())
         }
-        return result
-    }
-
-    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
-        actions.forEach {
-            it.gather(sequence)
-        }
-        return sequence
+        return obj
     }
 }

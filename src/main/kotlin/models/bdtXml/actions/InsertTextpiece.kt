@@ -1,13 +1,18 @@
 package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.Content.ContentItem
-import models.BdtSolver
 import models.bdtXml.ObjectRefListVar
+import models.bdtXml.bdtsolver.BdtSolver
 import org.json.JSONObject
 
 data class InsertTextpiece(
-    val name: String, val noOfObject: String, val requiredFlag: String, val objectRefListVar: ObjectRefListVar, var contentItem: ContentItem? = null
+    val name: String,
+    val noOfObject: String,
+    val requiredFlag: String,
+    val objectRefListVar: ObjectRefListVar,
+    var textClassId: Long = 0,
+    override var sequenceId: Int = 0,
+    var evaluated: Boolean = false
 ) : Action {
     companion object {
         fun xml(k: Konsumer): InsertTextpiece {
@@ -27,8 +32,9 @@ data class InsertTextpiece(
     }
 
     override fun evaluate(bdtSolver: BdtSolver) {
-        if(bdtSolver.crLength >= 1) {
-            contentItem = bdtSolver.bindContentItem(name, requiredFlag.toBoolean())
+        if (bdtSolver.crLength >= 1) {
+            evaluated = true
+            textClassId = bdtSolver.bindContentItem(name, requiredFlag.toBoolean())
             bdtSolver.addActionToSequence(this)
             bdtSolver.crLength -= 1
         }
@@ -39,8 +45,4 @@ data class InsertTextpiece(
         return JSONObject(this)
     }
 
-    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
-        sequence.add(this)
-        return sequence
-    }
 }

@@ -3,7 +3,7 @@ package models.bdtXml.actions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.BdtSolver
+import models.bdtXml.bdtsolver.BdtSolver
 import models.bdtXml.variables.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -11,6 +11,8 @@ import org.json.JSONObject
 
 data class Assignment(
     val assignments: ArrayList<Var>,
+    override var sequenceId: Int = 0,
+    var evaluated: Boolean = false
 ) : Action {
     companion object {
         fun xml(k: Konsumer): Assignment {
@@ -31,6 +33,8 @@ data class Assignment(
     }
 
     override fun evaluate(bdtSolver: BdtSolver) {
+        evaluated = true
+
         assignments.forEach {
             it.bind(bdtSolver)
         }
@@ -51,11 +55,9 @@ data class Assignment(
         }
 
         obj.put("assignments", assignments)
+        obj.put("sequenceId", sequenceId)
+        obj.put("evaluated", evaluated)
         return obj
     }
 
-    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
-        sequence.add(this)
-        return sequence
-    }
 }

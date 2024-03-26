@@ -3,7 +3,7 @@ package models.bdtXml.conditions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.BdtSolver
+import models.bdtXml.bdtsolver.BdtSolver
 import models.bdtXml.variables.DbField
 import models.bdtXml.variables.Value
 import models.bdtXml.variables.Var
@@ -34,40 +34,40 @@ data class Comparison(
         }
     }
 
-    private fun equals(variable1: Var, variable2: Var) : Boolean {
+    private fun equals(variable1: Var, variable2: Var): Boolean {
         return variable1.value == variable2.value
     }
 
-    private fun notEquals(variable1: Var, variable2: Var) : Boolean {
+    private fun notEquals(variable1: Var, variable2: Var): Boolean {
         return variable1.value != variable2.value
     }
 
-    private fun lessThan(variable1: Var, variable2: Var) : Boolean {
-        when(variable1.dType) {
+    private fun lessThan(variable1: Var, variable2: Var): Boolean {
+        when (variable1.dType) {
             "dateTime" -> return LocalDate.parse(variable1.value) < LocalDate.parse(variable2.value)
             "string" -> return variable1.value.toFloat() > variable2.value.toFloat()
         }
         return false
     }
 
-    private fun greaterThan(variable1: Var, variable2: Var) : Boolean {
-        when(variable1.dType) {
+    private fun greaterThan(variable1: Var, variable2: Var): Boolean {
+        when (variable1.dType) {
             "dateTime" -> return LocalDate.parse(variable1.value) > LocalDate.parse(variable2.value)
             "string" -> return variable1.value.toFloat() > variable2.value.toFloat()
         }
         return false
     }
 
-    private fun lessThanOrEqualTo(variable1: Var, variable2: Var) : Boolean {
-        when(variable1.dType) {
+    private fun lessThanOrEqualTo(variable1: Var, variable2: Var): Boolean {
+        when (variable1.dType) {
             "dateTime" -> return LocalDate.parse(variable1.value) <= LocalDate.parse(variable2.value)
             "string" -> return variable1.value.toFloat() <= variable2.value.toFloat()
         }
         return false
     }
 
-    private fun greaterThanOrEqualTo(variable1: Var, variable2: Var) : Boolean {
-        when(variable1.dType) {
+    private fun greaterThanOrEqualTo(variable1: Var, variable2: Var): Boolean {
+        when (variable1.dType) {
             "dateTime" -> return LocalDate.parse(variable1.value) >= LocalDate.parse(variable2.value)
             "string" -> return variable1.value.toFloat() >= variable2.value.toFloat()
         }
@@ -81,12 +81,12 @@ data class Comparison(
         }
     }
 
-    private fun bothHaveValues() : Boolean {
-        if(compares[0].value == "null" && compares[1].value != "null") {
+    private fun bothHaveValues(): Boolean {
+        if (compares[0].value == "null" && compares[1].value != "null") {
             return false
         }
 
-        if(compares[0].value != "null" && compares[1].value == "null") {
+        if (compares[0].value != "null" && compares[1].value == "null") {
             return false
         }
 
@@ -96,13 +96,13 @@ data class Comparison(
     override fun evaluate(bdtSolver: BdtSolver): Boolean {
         bind(bdtSolver)
 
-        if(!bothHaveValues()) {
+        if (!bothHaveValues()) {
             return false
         }
 
 //        println("Comparing: ${compares[0]} $operator ${compares[1]}")
 
-        return when(operator) {
+        return when (operator) {
             "le" -> lessThanOrEqualTo(compares[0], compares[1])
             "ge" -> greaterThanOrEqualTo(compares[0], compares[1])
             "gt" -> greaterThan(compares[0], compares[1])

@@ -3,12 +3,12 @@ package models.bdtXml.actions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.BdtSolver
-import models.CandidateXml.Query
 import models.bdtXml.DbTable
+import models.bdtXml.bdtsolver.BdtSolver
 import models.bdtXml.conditions.*
 import models.bdtXml.variables.DbField
 import models.bdtXml.variables.Variable
+import models.datasource.Query
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -17,7 +17,9 @@ data class DbQuery(
     val dsGroupName: String,
     val recordSetVar: RecordSetVar,
     val fromTables: List<DbTable>,
-    val condition: Condition
+    val condition: Condition,
+    override var sequenceId: Int = 0,
+    var evaluated: Boolean = false
 ) : Action {
     companion object {
         fun xml(k: Konsumer): DbQuery {
@@ -52,21 +54,19 @@ data class DbQuery(
     private fun handleConditions(condition: Condition, bdtSolver: BdtSolver): ArrayList<Query> {
         val queries = ArrayList<Query>()
 
-        when(condition) {
+        when (condition) {
             is Comparison -> queries.add(comparisonToQuery(condition, bdtSolver))
-            is And -> condition.conditions.forEach { queries += handleConditions(it, bdtSolver)}
-            is Or -> condition.conditions.forEach { queries += handleConditions(it, bdtSolver)}
+            is And -> condition.conditions.forEach { queries += handleConditions(it, bdtSolver) }
+            is Or -> condition.conditions.forEach { queries += handleConditions(it, bdtSolver) }
         }
         return queries
     }
 
     override fun evaluate(bdtSolver: BdtSolver) {
+        evaluated = true
         val record = recordSetVar.name.substring(recordSetVar.name.indexOf(":") + 1)
-
         val queries = handleConditions(condition, bdtSolver)
-
         bdtSolver.query(record, queries)
-
     }
 
     override fun toJson(): JSONObject {
@@ -76,13 +76,11 @@ data class DbQuery(
         obj.put("dsGroupName", dsGroupName)
         obj.put("recordSetVar", recordSetVar)
         obj.put("fromTables", JSONArray(fromTables))
+        obj.put("sequenceId", sequenceId)
+        obj.put("evaluated", evaluated)
         return obj
     }
 
-    override fun gather(sequence: ArrayList<Action>): ArrayList<Action> {
-        sequence.add(this)
-        return sequence
-    }
 }
 
 

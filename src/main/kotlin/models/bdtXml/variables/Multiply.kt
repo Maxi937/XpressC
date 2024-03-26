@@ -3,9 +3,8 @@ package models.bdtXml.variables
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.BdtSolver
+import models.bdtXml.bdtsolver.BdtSolver
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 data class Multiply(
@@ -39,7 +38,7 @@ data class Multiply(
         return calculate()
     }
 
-    private fun calculate() : Var {
+    private fun calculate(): Var {
 //        when(variables[0].dType) {
 //            "float" -> variables[0].value = (variables[0].value.toFloat() * variables[1].value.toFloat()).toString()
 //            "int" -> variables[0].value = (variables[0].value.toInt() * variables[1].value.toInt()).toString()
