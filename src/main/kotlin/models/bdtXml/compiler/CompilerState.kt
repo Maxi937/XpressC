@@ -1,14 +1,13 @@
-package models.bdtXml.bdtsolver
+package models.bdtXml.compiler
 
 import models.bdtXml.variables.Var
-import models.bdtassetprovider.BdtAssetProvider
+import models.bdtassetprovider.AssetProviderInterface
 import models.datasource.DataSource
 import models.datasource.RecordSet
 
-data class BdtState(
-    val name: String,
+data class CompilerState(
     val variables: ArrayList<Var>,
     val dataSource: DataSource,
     val activeRecordSet: RecordSet,
-    val assetProvider: BdtAssetProvider
+    val assetProvider: AssetProviderInterface
 )

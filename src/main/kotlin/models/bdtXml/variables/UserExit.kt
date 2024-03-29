@@ -1,7 +1,7 @@
 package models.bdtXml.variables
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtXml.compiler.Compiler
 
 data class UserExit(
     override var dType: String = "null",
@@ -24,7 +24,7 @@ data class UserExit(
         }
     }
 
-    override fun bind(bdtSolver: BdtSolver): UserExit {
+    override fun bind(bdtSolver: Compiler): UserExit {
         value = bdtSolver.getVariable(name)?.value.toString()
         return this
     }

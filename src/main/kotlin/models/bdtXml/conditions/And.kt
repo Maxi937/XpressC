@@ -2,7 +2,7 @@ package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtXml.compiler.Compiler
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -41,7 +41,7 @@ data class And(
         return obj
     }
 
-    override fun evaluate(bdtSolver: BdtSolver): Boolean {
+    override fun evaluate(bdtSolver: Compiler): Boolean {
         return conditions[0].evaluate(bdtSolver) && conditions[1].evaluate(bdtSolver)
     }
 }

@@ -33,31 +33,17 @@ data class DataSource(
         }
 
         result.addLast(Table("EOF"))
-
         val recordSet = getRecordSet(tableName)
 
         if (recordSet != null) {
             recordSet.data = result
-            recordSet.activeRecordSet = recordSet.data[0]
+            recordSet.reset()
             return recordSet
         }
 
         recordSets.add(RecordSet(tableName, result))
         return recordSets.last()
     }
-
-//    private fun createRecordSetsFromTables(tables: ArrayList<Table>) {
-//        val tableNamesProcessed: ArrayList<String> = ArrayList()
-//
-//        tables.forEach { table ->
-//            if(!tableNamesProcessed.contains(table.name)) {
-//                val tablesToAdd = tables.filter { it.name == table.name }
-//                tablesToAdd.addFirst(Table("EOF", ArrayList()))
-//                recordSets.add(RecordSet(table.name, tablesToAdd.reversed()))
-//                tableNamesProcessed.add(table.name)
-//            }
-//        }
-//    }
 
     companion object {
         fun fromFilePath(path: String): DataSource {

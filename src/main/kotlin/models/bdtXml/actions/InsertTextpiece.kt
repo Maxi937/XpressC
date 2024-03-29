@@ -2,8 +2,9 @@ package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import models.bdtXml.ObjectRefListVar
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtXml.compiler.Compiler
 import org.json.JSONObject
+import java.util.*
 
 data class InsertTextpiece(
     val name: String,
@@ -11,9 +12,31 @@ data class InsertTextpiece(
     val requiredFlag: String,
     val objectRefListVar: ObjectRefListVar,
     var textClassId: Long = 0,
-    override var sequenceId: Int = 0,
-    var evaluated: Boolean = false
+    override var uuid: UUID = UUID.randomUUID()
 ) : Action {
+
+
+    override fun evaluate(compiler: Compiler): Boolean {
+        val id = compiler.getVariable("TEXTCLASS_ID")
+
+        if (id != null) {
+            textClassId = id.value.toLong()
+
+            if (textClassId >= 1) {
+                return true
+            }
+        }
+        return false
+    }
+
+    override fun toJson(): JSONObject {
+        return JSONObject(this)
+    }
+
+    override fun copy(): Action {
+        return this.copy(name, noOfObject, requiredFlag, objectRefListVar, textClassId, uuid = uuid)
+    }
+
     companion object {
         fun xml(k: Konsumer): InsertTextpiece {
             k.checkCurrent("InsertTextpiece")
@@ -31,18 +54,5 @@ data class InsertTextpiece(
         }
     }
 
-    override fun evaluate(bdtSolver: BdtSolver) {
-        if (bdtSolver.crLength >= 1) {
-            evaluated = true
-            textClassId = bdtSolver.bindContentItem(name, requiredFlag.toBoolean())
-            bdtSolver.addActionToSequence(this)
-            bdtSolver.crLength -= 1
-        }
-
-    }
-
-    override fun toJson(): JSONObject {
-        return JSONObject(this)
-    }
 
 }

@@ -6,17 +6,17 @@ import kotlinx.coroutines.runBlocking
 import models.Content.ContentGroup
 import models.bdtXml.Bdt
 
-class BdtAssetProvider(private val env: String) {
+class NetworkAssetProvider(private val env: String) : AssetProviderInterface {
 
-    fun getBdt(documentId: Long): Bdt {
+    override fun getBdt(documentId: Long): Bdt {
         return runBlocking { Bdt.fromNetwork(documentId, env) }
     }
 
-    fun getBdt(documentName: String): Bdt {
+    override fun getBdt(documentName: String): Bdt {
         return runBlocking { Bdt.fromNetwork(documentName, env) }
     }
 
-    fun getContentGroup(documentName: String, textClassId: Int): ContentGroup {
+    override fun getContentGroup(documentName: String, textClassId: Int): ContentGroup {
         return runBlocking {
             when (val response = DartClient.service.getContentGroup(documentName, textClassId, env)) {
                 is NetworkResult.Success -> return@runBlocking response.data.content

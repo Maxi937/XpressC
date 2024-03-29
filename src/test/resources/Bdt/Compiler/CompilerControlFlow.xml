@@ -26,6 +26,14 @@
             </Comparison>
         </WhereCondition>
     </DBQuery>
+    <InsertSection name="Initialise result fail">
+        <Block>
+            <Assign>
+                <Variable name="RESULT" dtype="integer"/>
+                <Value dtype="string">fail</Value>
+            </Assign>
+        </Block>
+    </InsertSection>
     <GetRSFieldValue>
         <Variable dtype="string" name="SITUS_STATE"/>
         <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
@@ -34,14 +42,15 @@
     <If>
         <Condition>
             <Comparison operator="eq">
-                <Variable dtype="string" name="SITUS_STATE"/>
+                <Variable name="SITUS_STATE" dtype="string"/>
                 <Value dtype="string">AK</Value>
             </Comparison>
         </Condition>
         <Block>
-            <InsertTextpiece name="SAAT_Table_Data_By_Benefit_Spacer" noOfObject="1" requiredFlag="false">
-                <ObjectRefListVar name="DLSTP"/>
-            </InsertTextpiece>
+            <Assign>
+                <Variable name="RESULT" dtype="integer"/>
+                <Value dtype="string">pass</Value>
+            </Assign>
         </Block>
     </If>
 </BDT>

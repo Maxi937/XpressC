@@ -1,28 +1,19 @@
-package models.bdtXml.bdtsolver
+package models.bdtXml.compiler
 
+import models.bdtXml.Sequence
 import models.bdtXml.actions.Action
 import models.bdtXml.actions.InsertTextpiece
-import models.bdtXml.containers.If
 import models.bdtXml.containers.Section
-import models.bdtXml.containers.SubDocument
 import models.bdtXml.variables.Var
 import org.json.JSONArray
 import org.json.JSONObject
 
-class BdtSolverResult(
-    /**
-     * This is the sequence that was passed to the solver. This sequence will include every action that could have happened within the BDT.
-     * **/
-    val solvedSequence: ArrayList<Action>,
-    /**
-     * This is a FLAT Array of each evaluated action that happened when solving the BDT. Only TOP level items are evaluated elements, the sub
-     * properties can be ignored.
-     * **/
+class CompilerResult(
+    val sequence: Sequence,
     val eventSequence: ArrayList<Action>,
-
-    private val runtimeVariables: ArrayList<Var>,
-
-    private val candidate: String
+    val contentItems: ArrayList<InsertTextpiece>,
+    val runtimeVariables: ArrayList<Var>,
+    val candidate: String
 ) {
     fun toJson(): JSONObject {
         val response = JSONObject()
@@ -37,14 +28,14 @@ class BdtSolverResult(
         val solved = JSONObject()
 
         val s = JSONArray()
-        solvedSequence.forEach {
+        sequence.execute { it ->
             val item = this.wrapActionAsJsonObject(it)
             s.put(item)
         }
 
         solved.put("sequence", s)
 
-        val contentItems = getContentItemsFromAction(solvedSequence)
+        val contentItems = getContentItemsFromAction(sequence)
         solved.put("contentItems", JSONArray(contentItems))
 
         return solved
@@ -69,6 +60,7 @@ class BdtSolverResult(
         taken.put("revisionUnits", revisionUnits)
 
         val contentItems = JSONArray()
+
         eventSequence.filterIsInstance<InsertTextpiece>().forEach {
             val item = wrapActionAsJsonObject(it)
             contentItems.put(item)
@@ -90,29 +82,30 @@ class BdtSolverResult(
         return item
     }
 
-    private fun getContentItemsFromAction(actions: ArrayList<Action>): ArrayList<InsertTextpiece> {
+    private fun getContentItemsFromAction(sequence: Sequence): ArrayList<InsertTextpiece> {
         val contentItems: ArrayList<InsertTextpiece> = ArrayList()
 
-        actions.forEach {
-            when (it) {
-                is InsertTextpiece -> contentItems.add(it)
-                is Section -> {
-                    if (it.block != null) {
-                        contentItems += getContentItemsFromAction(it.block.actions)
-                    }
-                }
-
-                is SubDocument -> {
-                    contentItems += getContentItemsFromAction(it.block)
-                }
-
-                is If -> {
-                    it.blocks.forEach { ifblock ->
-                        contentItems += getContentItemsFromAction(ifblock.actions)
-                    }
-                }
-            }
-        }
+//        sequence.execute { it ->
+//            when (it) {
+//                is InsertTextpiece -> contentItems.add(it)
+//
+//                is Section -> {
+//                    if (it.block != null) {
+//                        contentItems += getContentItemsFromAction(it.block.actions)
+//                    }
+//                }
+//
+//                is SubDocument -> {
+//                    contentItems += getContentItemsFromAction(it.block.actions)
+//                }
+//
+//                is If -> {
+//                    it.blocks.forEach { ifblock ->
+//                        contentItems += getContentItemsFromAction(ifblock.actions)
+//                    }
+//                }
+//            }
+//        }
         return contentItems
     }
 }

@@ -3,7 +3,7 @@ package models.bdtXml.conditions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtXml.compiler.Compiler
 import models.bdtXml.variables.DbField
 import models.bdtXml.variables.Value
 import models.bdtXml.variables.Var
@@ -75,9 +75,9 @@ data class Comparison(
     }
 
 
-    private fun bind(bdtSolver: BdtSolver) {
+    private fun bind(compiler: Compiler) {
         compares.forEach {
-            it.bind(bdtSolver)
+            it.bind(compiler)
         }
     }
 
@@ -93,7 +93,7 @@ data class Comparison(
         return true
     }
 
-    override fun evaluate(bdtSolver: BdtSolver): Boolean {
+    override fun evaluate(bdtSolver: Compiler): Boolean {
         bind(bdtSolver)
 
         if (!bothHaveValues()) {

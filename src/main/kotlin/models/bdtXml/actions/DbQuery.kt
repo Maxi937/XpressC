@@ -4,13 +4,14 @@ import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
 import models.bdtXml.DbTable
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtXml.compiler.Compiler
 import models.bdtXml.conditions.*
 import models.bdtXml.variables.DbField
 import models.bdtXml.variables.Variable
 import models.datasource.Query
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
 
 data class DbQuery(
     val dataSourceName: String,
@@ -18,8 +19,7 @@ data class DbQuery(
     val recordSetVar: RecordSetVar,
     val fromTables: List<DbTable>,
     val condition: Condition,
-    override var sequenceId: Int = 0,
-    var evaluated: Boolean = false
+    override var uuid: UUID = UUID.randomUUID()
 ) : Action {
     companion object {
         fun xml(k: Konsumer): DbQuery {
@@ -45,28 +45,28 @@ data class DbQuery(
         }
     }
 
-    fun comparisonToQuery(comparison: Comparison, bdtSolver: BdtSolver): Query {
+    private fun comparisonToQuery(comparison: Comparison, bdtSolver: Compiler): Query {
         val variable = comparison.compares.find { it is Variable }
         variable!!.bind(bdtSolver)
         return Query(comparison.compares.find { it is DbField }!!.name, variable.value, comparison.operator)
     }
 
-    private fun handleConditions(condition: Condition, bdtSolver: BdtSolver): ArrayList<Query> {
+    private fun handleConditions(condition: Condition, compiler: Compiler): ArrayList<Query> {
         val queries = ArrayList<Query>()
 
         when (condition) {
-            is Comparison -> queries.add(comparisonToQuery(condition, bdtSolver))
-            is And -> condition.conditions.forEach { queries += handleConditions(it, bdtSolver) }
-            is Or -> condition.conditions.forEach { queries += handleConditions(it, bdtSolver) }
+            is Comparison -> queries.add(comparisonToQuery(condition, compiler))
+            is And -> condition.conditions.forEach { queries += handleConditions(it, compiler) }
+            is Or -> condition.conditions.forEach { queries += handleConditions(it, compiler) }
         }
         return queries
     }
 
-    override fun evaluate(bdtSolver: BdtSolver) {
-        evaluated = true
+    override fun evaluate(compiler: Compiler): Boolean {
         val record = recordSetVar.name.substring(recordSetVar.name.indexOf(":") + 1)
-        val queries = handleConditions(condition, bdtSolver)
-        bdtSolver.query(record, queries)
+        val queries = handleConditions(condition, compiler)
+        compiler.query(record, queries)
+        return true
     }
 
     override fun toJson(): JSONObject {
@@ -76,9 +76,12 @@ data class DbQuery(
         obj.put("dsGroupName", dsGroupName)
         obj.put("recordSetVar", recordSetVar)
         obj.put("fromTables", JSONArray(fromTables))
-        obj.put("sequenceId", sequenceId)
-        obj.put("evaluated", evaluated)
+        obj.put("uuid", this.uuid)
         return obj
+    }
+
+    override fun copy(): Action {
+        return this.copy(dataSourceName, dsGroupName, recordSetVar, fromTables, condition, uuid = uuid)
     }
 
 }

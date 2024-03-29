@@ -1,15 +1,15 @@
 package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtXml.compiler.Compiler
 import models.bdtXml.variables.Variable
 import org.json.JSONObject
+import java.util.*
 
 
 data class Define(
     val inputParameters: List<Variable>, val variables: List<Variable> = ArrayList(),
-    override var sequenceId: Int = 0,
-    var evaluated: Boolean = false,
+    override var uuid: UUID = UUID.randomUUID()
 ) : Action {
     companion object {
         fun xml(k: Konsumer): Define {
@@ -20,19 +20,22 @@ data class Define(
         }
     }
 
-    override fun evaluate(bdtSolver: BdtSolver) {
-        evaluated = true
+    override fun evaluate(compiler: Compiler): Boolean {
         variables.forEach {
-            bdtSolver.bindVariable(it)
+            compiler.bindVariable(it)
         }
 
         inputParameters.forEach {
-            bdtSolver.bindInputParam(it)
+            compiler.bindInputParam(it)
         }
-        bdtSolver.addActionToSequence(this)
+        return true
     }
 
     override fun toJson(): JSONObject {
         return JSONObject(this)
+    }
+
+    override fun copy(): Action {
+        return this.copy(inputParameters, variables, uuid)
     }
 }

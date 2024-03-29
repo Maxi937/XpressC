@@ -2,15 +2,15 @@ package models.bdtXml.actions
 
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtXml.compiler.Compiler
 import models.bdtXml.variables.UserExit
 import org.json.JSONObject
+import java.util.*
 
 
 data class GetUserExit(
     val userExit: UserExit,
-    override var sequenceId: Int = 0,
-    var evaluated: Boolean = false
+    override var uuid: UUID = UUID.randomUUID()
 ) : Action {
     companion object {
         fun xml(k: Konsumer): GetUserExit {
@@ -24,12 +24,16 @@ data class GetUserExit(
         }
     }
 
-    override fun evaluate(bdtSolver: BdtSolver) {
-
+    override fun evaluate(compiler: Compiler): Boolean {
+        return true
     }
 
     override fun toJson(): JSONObject {
         return JSONObject(this)
+    }
+
+    override fun copy(): Action {
+        return this.copy(userExit, uuid)
     }
 
 }

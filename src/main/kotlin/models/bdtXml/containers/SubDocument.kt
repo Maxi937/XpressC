@@ -3,19 +3,53 @@ package models.bdtXml.containers
 import com.gitlab.mvysny.konsumexml.Konsumer
 import models.bdtXml.Key
 import models.bdtXml.actions.Action
-import models.bdtXml.bdtsolver.BdtSolver
-import org.json.JSONArray
+import models.bdtXml.compiler.Compiler
+import models.bdtXml.compiler.Instructions
 import org.json.JSONObject
+import java.util.*
 
 data class SubDocument(
     var documentName: String?,
     val mappingType: String,
     val documentId: Long,
     val key: Key,
-    val block: ArrayList<Action> = ArrayList(),
-    override var sequenceId: Int = 0,
-    var evaluated: Boolean = false
-) : Action {
+    override val instructions: Instructions<Action>,
+    override var uuid: UUID = UUID.randomUUID(),
+) : Container {
+
+    private var isSetUp: Boolean = false
+
+
+    override fun evaluate(compiler: Compiler): Boolean {
+//        block.evaluate(compiler)
+        return true
+    }
+
+    override fun toJson(): JSONObject {
+        val obj = JSONObject()
+        obj.put("documentName", documentName)
+        obj.put("documentId", documentId)
+        obj.put("key", key)
+//        obj.put("block", this.block.toJsonArray())
+        return obj
+    }
+
+    override fun setup(compiler: Compiler) {
+        if (!isSetUp) {
+            val subdocument = compiler.getSubdocument(documentId, key)
+            documentName = subdocument.name
+
+            subdocument.sequence.execute { it ->
+                instructions.append(it)
+            }
+            isSetUp = true
+        }
+    }
+
+    override fun copy(): Action {
+        return this.copy(documentName, mappingType, documentId, key, instructions, uuid)
+    }
+
     companion object {
         fun xml(k: Konsumer): SubDocument {
             k.checkCurrent("SubDocument")
@@ -29,45 +63,7 @@ data class SubDocument(
                 key = Key.xml(this)
             }
 
-            return SubDocument(documentName, mappingType, documentId.toLong(), key!!)
-        }
-    }
-
-    override fun evaluate(bdtSolver: BdtSolver) {
-        bdtSolver.addActionToSequence(this)
-        evaluated = true
-        block.forEach {
-            it.evaluate(bdtSolver)
-        }
-    }
-
-    override fun toJson(): JSONObject {
-        val obj = JSONObject()
-        obj.put("documentName", documentName)
-        obj.put("documentId", documentId)
-        obj.put("key", key)
-
-        val actions = JSONArray()
-
-        this.block.forEach {
-            val item = JSONObject()
-            item.put(it.javaClass.simpleName, it.toJson())
-            actions.put(item)
-        }
-
-        obj.put("block", actions)
-        obj.put("sequenceId", sequenceId)
-        obj.put("evaluated", evaluated)
-
-        return obj
-    }
-
-    override fun setup(bdtSolver: BdtSolver) {
-        val subdocument = bdtSolver.getSubdocument(documentId, key)
-        documentName = subdocument.name
-        block += subdocument.sequence
-        block.forEach {
-            it.setup(bdtSolver)
+            return SubDocument(documentName, mappingType, documentId.toLong(), key!!, Instructions())
         }
     }
 }

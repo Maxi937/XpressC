@@ -3,18 +3,30 @@ package models.bdtXml.actions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtXml.compiler.Compiler
 import models.bdtXml.variables.Variable
 import org.json.JSONObject
+import java.util.*
 
 
 data class ReplaceVariables(
     val id: String?, val validThrough: String,
     val variables: List<Variable>,
     val recordSetVar: RecordSetVar? = null,
-    override var sequenceId: Int = 0,
-    var evaluated: Boolean = false
+    override var uuid: UUID = UUID.randomUUID()
 ) : Action {
+    override fun evaluate(compiler: Compiler): Boolean {
+        return true
+    }
+
+    override fun toJson(): JSONObject {
+        return JSONObject(this)
+    }
+
+    override fun copy(): Action {
+        return this.copy(id, validThrough, variables, recordSetVar, uuid = uuid)
+    }
+
     companion object {
         fun xml(k: Konsumer): ReplaceVariables {
             k.checkCurrent("ReplaceVariables")
@@ -34,12 +46,5 @@ data class ReplaceVariables(
         }
     }
 
-    override fun evaluate(bdtSolver: BdtSolver) {
-        evaluated = true
-//        return true
-    }
 
-    override fun toJson(): JSONObject {
-        return JSONObject(this)
-    }
 }

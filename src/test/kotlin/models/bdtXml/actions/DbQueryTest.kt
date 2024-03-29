@@ -1,44 +1,46 @@
 package models.bdtXml.actions
 
-import models.Content.ContentItemsDb
 import models.bdtXml.Bdt
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtassetprovider.NetworkAssetProvider
 import models.datasource.DataSource
+import models.datasource.Query
 import org.junit.jupiter.api.Test
-import utils.SubdocumentBdtProvider
+import kotlin.test.assertEquals
 
 // TODO: DB query needs to be refactored to read and set the active record set similar to how an
 class DbQueryTest {
     @Test
     fun dbQueryValid() {
-        val bdt: Bdt = Bdt.fromFilePath("src/test/resources/Actions/DbQuery/DbQuery.xml")
-        val bdtProvider = SubdocumentBdtProvider("")
-        val contentDb =
-            ContentItemsDb.fromCsv("src/test/resources/ContentDb/GSLOT-11133-XP_Schedule_of_Benefit_Aggregate_ADF_Table_Content_Items.csv")
+        val assetProvider = NetworkAssetProvider("dev")
+        val bdt: Bdt = Bdt.fromFilePath("src/test/resources/Bdt/DbQuery/DbQueryMultiTables.xml")
+        val dataSource = DataSource.fromFilePath("src/test/resources/Candidate/Stop_Loss_2023SL_AK.xml")
+        bdt.compile(dataSource, assetProvider)
+        val queries = ArrayList<Query>()
 
-        val dataSource =
-            DataSource.fromFilePath(bdt.primaryDataSource, "src/test/resources/Candidate/Stop_Loss_2023SL_AK.xml")
-        val bdtSolver = BdtSolver(bdt.sequence, dataSource, contentDb, bdtProvider)
+        queries.add(Query("CONTRACTPK", "1", "eq"))
 
-        bdtSolver.go()
-        val (_, sequence) = bdtSolver.result()
-        println(bdtSolver.activeRecordSet)
+        val result = dataSource.query("Contract", queries)
+
+        assertEquals(2, result.data.size)
     }
 
     @Test
-    fun dbQueryMultipleTables() {
-        val bdt: Bdt = Bdt.fromFilePath("src/test/resources/Actions/DbQuery/DbQueryMultiTables.xml")
-        val bdtProvider = SubdocumentBdtProvider("")
-        val contentDb =
-            ContentItemsDb.fromCsv("src/test/resources/ContentDb/GSLOT-11133-XP_Schedule_of_Benefit_Aggregate_ADF_Table_Content_Items.csv")
-        val dataSource =
-            DataSource.fromFilePath(bdt.primaryDataSource, "src/test/resources/Candidate/Stop_Loss_2023SL_AK.xml")
-        val bdtSolver = BdtSolver(bdt.sequence, dataSource, contentDb, bdtProvider)
+    fun dbQueryMultiple() {
+        val assetProvider = NetworkAssetProvider("dev")
+        val bdt: Bdt = Bdt.fromFilePath("src/test/resources/Bdt/DbQuery/DbQueryMultiTables.xml")
+        val dataSource = DataSource.fromFilePath("src/test/resources/Candidate/Stop_Loss_2023SL_CA.xml")
+        bdt.compile(dataSource, assetProvider)
+        val queries = ArrayList<Query>()
 
-        bdtSolver.go()
-        val (_, sequence) = bdtSolver.result()
-        bdtSolver.dataSource.recordSets.forEach {
+        queries.add(Query("TYPE", "PDP", "eq"))
+        queries.add(Query("CONTRACTFK", "1", "eq"))
+
+        val result = dataSource.query("ADF", queries)
+
+        result.data.forEach {
             println(it)
         }
+
+        assertEquals(3, result.data.size)
     }
 }

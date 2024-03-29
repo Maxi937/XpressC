@@ -2,11 +2,11 @@ package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtXml.compiler.Compiler
 import org.json.JSONObject
 
 interface Condition {
-    fun evaluate(bdtSolver: BdtSolver): Boolean
+    fun evaluate(bdtSolver: Compiler): Boolean
 
     fun toJson(): JSONObject
 

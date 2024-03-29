@@ -1,37 +1,56 @@
 package models.bdtXml.actions
 
 
-import models.Content.ContentItemsDb
 import models.bdtXml.Bdt
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtassetprovider.LocalAssetProvider
+import models.bdtassetprovider.NetworkAssetProvider
 import models.datasource.DataSource
 import org.junit.jupiter.api.Test
-import utils.SubdocumentBdtProvider
+import kotlin.io.path.Path
 import kotlin.test.assertEquals
 
 
 class JumpTest {
     @Test
     fun jump() {
-        val bdt: Bdt = Bdt.fromFilePath("src/test/resources/Actions/Jump/JumpInSubdoc.xml")
-        val bdtProvider = SubdocumentBdtProvider("src/test/resources/Actions/Jump/")
-        val contentDb =
-            ContentItemsDb.fromCsv("src/test/resources/ContentDb/GSLOT-11133-XP_Schedule_of_Benefit_Aggregate_ADF_Table_Content_Items.csv")
-        val dataSource =
-            DataSource.fromFilePath(bdt.primaryDataSource, "src/test/resources/Candidate/Stop_Loss_2023SL_AK.xml")
+        val assetProvider = LocalAssetProvider(Path("src/test/resources/Bdt/Jump"))
+        val bdt: Bdt = Bdt.fromFilePath("src/test/resources/Bdt/Jump/JumpInSubdoc.xml")
+        val dataSource = DataSource.fromFilePath("src/test/resources/Candidate/6_ADF_Classes.xml")
 
-        val solver = BdtSolver(bdt.sequence, dataSource, contentDb, bdtProvider)
+        val spacerContentName = "SAAT_Table_Data_By_Benefit_Spacer"
+        val contentItemName = "SAAT_Table_Data_By_Benefit"
+        val contentItems = bdt.compile(dataSource, assetProvider).contentItems
 
-        solver.go()
-
-        val (_, sequence) = solver.result()
-
-        val result = sequence.filter { it is InsertTextpiece && it.name == "SAAT_Table_Data_By_Benefit" }
-
-        result.forEach {
+        contentItems.forEach {
             println(it)
         }
 
-        assertEquals(3, result.count())
+        assertEquals(8, contentItems.count())
+
+        assert(contentItems[0].name == contentItemName)
+        assert(contentItems[1].name == contentItemName)
+        assert(contentItems[2].name == contentItemName)
+        assert(contentItems[3].name == spacerContentName)
+        assert(contentItems[4].name == contentItemName)
+        assert(contentItems[5].name == contentItemName)
+        assert(contentItems[6].name == contentItemName)
+        assert(contentItems[7].name == spacerContentName)
+
+
+    }
+
+    @Test
+    fun realWorldScenaio() {
+        val assetProvider = NetworkAssetProvider("dev")
+        val bdt: Bdt =
+            Bdt.fromFilePath("C:\\Users\\YK09\\Development\\Projects\\dart\\dart-node-app\\server\\jobs\\compile\\06e9e835-48b7-4a72-a2d6-77169c42e2ef\\bdt.xml")
+        val dataSource =
+            DataSource.fromFilePath("C:\\Users\\YK09\\Development\\Projects\\dart\\dart-node-app\\server\\jobs\\compile\\06e9e835-48b7-4a72-a2d6-77169c42e2ef\\candidate.xml")
+
+        val result = bdt.compile(dataSource, assetProvider)
+
+        result.contentItems.forEach {
+            println(it)
+        }
     }
 }

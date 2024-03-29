@@ -3,18 +3,18 @@ package models.bdtXml.actions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtXml.compiler.Compiler
 import models.bdtXml.variables.DbField
 import models.bdtXml.variables.Variable
 import org.json.JSONObject
+import java.util.*
 
 
 data class GetRSFieldValue(
     val recordSetVar: RecordSetVar,
     val dbField: DbField,
     val variable: Variable,
-    override var sequenceId: Int = 0,
-    var evaluated: Boolean = false
+    override var uuid: UUID = UUID.randomUUID()
 ) : Action {
     companion object {
         fun xml(k: Konsumer): GetRSFieldValue {
@@ -36,17 +36,20 @@ data class GetRSFieldValue(
         }
     }
 
-    override fun evaluate(bdtSolver: BdtSolver) {
-        evaluated = true
-        recordSetVar.evaluate(bdtSolver)
-        dbField.bind(bdtSolver)
+    override fun evaluate(compiler: Compiler): Boolean {
+        recordSetVar.evaluate(compiler)
+        dbField.bind(compiler)
         variable.value = dbField.value
-        bdtSolver.bindVariable(variable)
-        variable.bind(bdtSolver)
-        bdtSolver.addActionToSequence(this)
+        compiler.bindVariable(variable)
+        variable.bind(compiler)
+        return true
     }
 
     override fun toJson(): JSONObject {
         return JSONObject(this)
+    }
+
+    override fun copy(): Action {
+        return this.copy(recordSetVar, dbField, variable, uuid = uuid)
     }
 }

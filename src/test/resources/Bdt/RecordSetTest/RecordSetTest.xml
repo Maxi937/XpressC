@@ -1,0 +1,113 @@
+<?xml version="1.0" ?>
+<!--
+Assign Medical -> SUD_COVERED_BENEFIT
+DB QUERY ADF WHERE CONTRACTPK=CONTRACTPK AND TYPE = SUD_COVERED_BENEFIT
+
+ASSERT 2 Records
+RECORDS SET MOVE NEXT 4 times
+-->
+<BDT name="Jump" primaryDataSource="Stop_Loss_Contract_DS" serverVer="4.7.0.19">
+    <Define>
+        <InputParameters>
+            <Variable dtype="integer" name="CONTRACTPK"/>
+            <Variable dtype="string" name="STATUS">yourmum</Variable>
+            <Variable dtype="integer" name="optionalObjectsMode">3</Variable>
+        </InputParameters>
+        <Variable dtype="integer" name="PRODUCT_ID">Dummy value</Variable>
+        <Variable dtype="integer" name="TEXTCLASS_ID">-1</Variable>
+    </Define>
+    <Assign>
+        <Variable dtype="string" global="false" name="SUD_COVERED_BENEFIT"
+                  static="false"/>
+        <Value dtype="string">Medical</Value>
+    </Assign>
+    <GetRSFieldValue>
+        <Variable dtype="float" name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTPK"/>
+        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+        <DBField columnName="CONTRACTPK"/>
+    </GetRSFieldValue>
+    <DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+        <SelectFields/>
+        <FromTables>
+            <DBTable tableName="CONTRACT"/>
+        </FromTables>
+        <WhereCondition>
+            <Comparison operator="eq">
+                <DBField columnName="CONTRACTPK"/>
+                <Variable dtype="integer" name="CONTRACTPK"/>
+            </Comparison>
+        </WhereCondition>
+    </DBQuery>
+    <CurrentRule name="Initialize_Variables"/>
+    <DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+        <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+        <SelectFields/>
+        <FromTables>
+            <DBTable tableName="ADF"/>
+        </FromTables>
+        <WhereCondition>
+            <And>
+                <Comparison operator="eq">
+                    <DBField columnName="CONTRACTFK"/>
+                    <Variable dtype="integer" name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTPK"/>
+                </Comparison>
+                <Comparison operator="eq">
+                    <DBField columnName="TYPE"/>
+                    <Variable dtype="string" name="SUD_COVERED_BENEFIT"/>
+                </Comparison>
+            </And>
+        </WhereCondition>
+    </DBQuery>
+    <CurrentRule name="Get Value"/>
+    <Block>
+        <InsertSection name="Test">
+            <Block>
+                <If>
+                    <Condition>
+                        <RecordsetTest operator="noteod">
+                            <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+                        </RecordsetTest>
+                    </Condition>
+                    <Block>
+                        <RecordsetMoveNext>
+                            <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+                        </RecordsetMoveNext>
+                        <If>
+                            <Condition>
+                                <RecordsetTest operator="noteod">
+                                    <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+                                </RecordsetTest>
+                            </Condition>
+                            <Block>
+                                <RecordsetMoveNext>
+                                    <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+                                </RecordsetMoveNext>
+                                <If>
+                                    <Condition>
+                                        <RecordsetTest operator="noteod">
+                                            <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+                                        </RecordsetTest>
+                                    </Condition>
+                                    <Block>
+                                        <RecordsetMoveNext>
+                                            <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+                                        </RecordsetMoveNext>
+                                        <Block>
+                                            <RecordsetMoveNext>
+                                                <RecordsetVar name="Stop_Loss_Contract_DSG:ADF"/>
+                                            </RecordsetMoveNext>
+                                        </Block>
+                                    </Block>
+                                </If>
+                            </Block>
+                        </If>
+                    </Block>
+                </If>
+            </Block>
+        </InsertSection>
+
+    </Block>
+
+    <CurrentRule name=""/>
+</BDT>

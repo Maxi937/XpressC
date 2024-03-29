@@ -2,25 +2,31 @@ package models.bdtXml.actions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtXml.compiler.Compiler
 import models.bdtXml.containers.If
 import models.bdtXml.containers.Section
 import models.bdtXml.containers.SubDocument
 import org.json.JSONObject
+import java.util.*
 
 
 interface Action {
-    var sequenceId: Int
-    fun evaluate(bdtSolver: BdtSolver)
+
+    val uuid: UUID
+
+    fun evaluate(compiler: Compiler): Boolean
 
     fun toJson(): JSONObject
 
-    fun setup(bdtSolver: BdtSolver) {}
+    fun setup(compiler: Compiler) {}
+
+    fun copy(): Action
 }
 
 fun whichAction(k: Konsumer): Action? {
     return when (k.localName) {
         "Block" -> k.childOrNull(Names.any()) { whichAction(this) }
+        "Define" -> Define.xml(k)
         "CurrentRule" -> Rule.xml(k)
         "ReplaceVariables" -> ReplaceVariables.xml(k)
         "GetRSFieldValue" -> GetRSFieldValue.xml(k)
@@ -36,8 +42,13 @@ fun whichAction(k: Konsumer): Action? {
         "Jump" -> Jump.xml(k)
         "GetUserExitValue" -> GetUserExit.xml(k)
         "DBQuery" -> DbQuery.xml(k)
+        "UCD" -> {
+            k.skipContents()
+            return null
+        }
+
         else -> {
-            null
+            return null
         }
     }
 }

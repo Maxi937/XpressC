@@ -1,7 +1,7 @@
 package models.bdtXml.conditions
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtXml.compiler.Compiler
 import models.bdtXml.variables.Variable
 import org.json.JSONObject
 
@@ -31,7 +31,7 @@ data class VariableTest(
         return JSONObject(this)
     }
 
-    override fun evaluate(bdtSolver: BdtSolver): Boolean {
+    override fun evaluate(bdtSolver: Compiler): Boolean {
         variable.bind(bdtSolver)
         val value = variable.value
 

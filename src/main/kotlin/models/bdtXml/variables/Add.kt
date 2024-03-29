@@ -3,7 +3,7 @@ package models.bdtXml.variables
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtXml.compiler.Compiler
 import java.util.*
 
 
@@ -31,7 +31,7 @@ data class Add(
         }
     }
 
-    override fun bind(bdtSolver: BdtSolver): Var {
+    override fun bind(bdtSolver: Compiler): Var {
         variables.forEach {
             it.bind(bdtSolver)
         }

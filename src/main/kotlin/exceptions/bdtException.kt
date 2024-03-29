@@ -44,7 +44,7 @@ class BdtDataSourceRecordException(
     Exception(null, cause) {
 
     override fun toString(): String {
-        var message = ": Datasource Record Access Violation: [${name}] not within DataSource\n\nTABLE RANGES:\n"
+        var message = ": Datasource Record Access Violation: [${name}] not within DataSource \n\nTABLE RANGES:\n"
 
         dataSource.recordSets.forEachIndexed { index, recordset ->
             message = message + "[$index]" + "\t" + recordset.name + "\n"

@@ -2,7 +2,7 @@ package models.bdtXml.variables
 
 
 import com.gitlab.mvysny.konsumexml.Konsumer
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtXml.compiler.Compiler
 
 data class DbField(
     override val name: String,
@@ -17,7 +17,7 @@ data class DbField(
         }
     }
 
-    override fun bind(bdtSolver: BdtSolver): DbField {
+    override fun bind(bdtSolver: Compiler): DbField {
         value = bdtSolver.getDbVariable(name).toString()
         return this
     }

@@ -1,6 +1,6 @@
 import kotlinx.coroutines.runBlocking
 import models.bdtXml.Bdt
-import models.bdtassetprovider.BdtAssetProvider
+import models.bdtassetprovider.NetworkAssetProvider
 import models.datasource.DataSource
 import org.json.JSONArray
 import org.json.JSONObject
@@ -8,8 +8,6 @@ import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.system.exitProcess
 
-
-// TODO: Ensure Candidate XML data is transofrmed to post before processing compilation.
 fun main(args: Array<String>) {
     val job = args[0]
 
@@ -46,17 +44,18 @@ fun analyse(jobPath: Path, env: String) {
     response.put("success", true)
     response.put("bdt", bdt.name)
     response.put("serverVer", bdt.serverVer)
-    response.put("bdtsequence", bdt.getSequence())
+    response.put("bdtsequence", bdt.toJson())
     response.put("revisionUnits", JSONArray(bdt.getRevisionUnits()))
     println(response)
     exitProcess(0)
 }
 
 fun compile(jobPath: Path, canPath: Path, env: String) {
-    val assetProvider = BdtAssetProvider(env)
+    val assetProvider = NetworkAssetProvider(env)
     val bdt = Bdt.fromFilePath(jobPath.toString())
     val dataSource = DataSource.fromFilePath(canPath.toString())
-    val result = bdt.solve(dataSource, assetProvider)
+    val result = bdt.compile(dataSource, assetProvider)
+    println(result.toJson())
     exitProcess(0)
 }
 

@@ -1,10 +1,9 @@
-
 <?xml version="1.0" ?>
 <BDT name="Jump" primaryDataSource="Stop_Loss_Contract_DS" serverVer="4.7.0.19">
     <Define>
         <InputParameters>
             <Variable dtype="integer" name="CONTRACTPK"/>
-            <Variable dtype="string" name="STATUS">APPROVED</Variable>
+            <Variable dtype="string" name="STATUS">yourmum</Variable>
             <Variable dtype="integer" name="optionalObjectsMode">3</Variable>
         </InputParameters>
         <Variable dtype="integer" name="PRODUCT_ID">Dummy value</Variable>
@@ -24,34 +23,6 @@
             </Comparison>
         </WhereCondition>
     </DBQuery>
-    <GetRSFieldValue>
-        <Variable dtype="string" name="BASE_VARIATION_INDICATOR"/>
-        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
-        <DBField columnName="XQBASEVARIATIONCD"/>
-    </GetRSFieldValue>
-    <GetRSFieldValue>
-        <Variable dtype="dateTime" name="EFFECTIVE_DATE"/>
-        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
-        <DBField columnName="XQSYSTEMDATE"/>
-    </GetRSFieldValue>
-    <GetRSFieldValue>
-        <Variable dtype="string" name="LANGUAGE"/>
-        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
-        <DBField columnName="XQLANGUAGE"/>
-    </GetRSFieldValue>
-    <GetRSFieldValue>
-        <Variable dtype="string" name="SITUS_STATE"/>
-        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
-        <DBField columnName="STATE"/>
-    </GetRSFieldValue>
-    <GetRSFieldValue>
-        <Variable dtype="dateTime" name="WITHDRAW_DATE"/>
-        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
-        <DBField columnName="XQSYSTEMDATE"/>
-    </GetRSFieldValue>
-    <InsertSection name="DUMMY">
-        <Block/>
-    </InsertSection>
     <CurrentRule name="Initialize_Variables"/>
     <Assign>
         <Variable dtype="string" global="false" name="SUD_COVERED_BENEFIT" static="false"/>
@@ -110,14 +81,8 @@
     </GetRSFieldValue>
     <InsertSection name="SAAT_Table_Data_By_Benefit">
         <RevisionUnit>
-
-
             <UnitName value="SL23_SAAT_Table_Data_By_Benefit_"/>
-
-
             <UnitName dsGrp="Stop_Loss_Contract_DSG" field="TYPE" table="ADF"/>
-
-
         </RevisionUnit>
         <Block>
             <CurrentRule name="LABEL:ADF_Loop_Begin"/>
@@ -145,24 +110,6 @@
                     <Assign>
                         <Variable dtype="string" global="false" name="SUD_ROW_DESCRIPTION" static="false"/>
                         <Variable dtype="string" name="SUD_COVERED_BENEFIT"/>
-                    </Assign>
-                    <ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
-                        <Variable dtype="string" name="SUD_ROW_DESCRIPTION"/>
-                    </ReplaceVariables>
-                </Block>
-            </If>
-            <CurrentRule name="Blank_Row_Description"/>
-            <If>
-                <Condition>
-                    <Comparison operator="gt">
-                        <Variable dtype="integer" name="IUD_ROW_COUNTER"/>
-                        <Value dtype="integer">1234</Value>
-                    </Comparison>
-                </Condition>
-                <Block>
-                    <Assign>
-                        <Variable dtype="string" global="false" name="SUD_ROW_DESCRIPTION" static="false"/>
-                        <Value dtype="string"/>
                     </Assign>
                     <ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
                         <Variable dtype="string" name="SUD_ROW_DESCRIPTION"/>
@@ -249,13 +196,4 @@
         </Block>
     </InsertSection>
     <CurrentRule name=""/>
-    <ResolveOPFields/>
-    <ReplaceVariables validThrough="all">
-        <Variable dtype="string" name="SUD_COVERED_BENEFIT"/>
-        <Variable dtype="integer" name="IUD_ROW_COUNTER"/>
-        <Variable dtype="string" name="SUD_ROW_DESCRIPTION"/>
-    </ReplaceVariables>
-    <ReplaceVariables validThrough="all">
-        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
-    </ReplaceVariables>
 </BDT>

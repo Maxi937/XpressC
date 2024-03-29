@@ -3,16 +3,16 @@ package models.bdtXml.actions
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.allChildrenAutoIgnore
-import models.bdtXml.bdtsolver.BdtSolver
+import models.bdtXml.compiler.Compiler
 import models.bdtXml.variables.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
 
 
 data class Assignment(
     val assignments: ArrayList<Var>,
-    override var sequenceId: Int = 0,
-    var evaluated: Boolean = false
+    override var uuid: UUID = UUID.randomUUID()
 ) : Action {
     companion object {
         fun xml(k: Konsumer): Assignment {
@@ -32,15 +32,12 @@ data class Assignment(
         }
     }
 
-    override fun evaluate(bdtSolver: BdtSolver) {
-        evaluated = true
-
+    override fun evaluate(compiler: Compiler): Boolean {
         assignments.forEach {
-            it.bind(bdtSolver)
+            it.bind(compiler)
         }
-
-        bdtSolver.assignVariable(assignments[0], assignments[1])
-        bdtSolver.addActionToSequence(this)
+        compiler.assignVariable(assignments[0], assignments[1])
+        return true
     }
 
     override fun toJson(): JSONObject {
@@ -55,9 +52,11 @@ data class Assignment(
         }
 
         obj.put("assignments", assignments)
-        obj.put("sequenceId", sequenceId)
-        obj.put("evaluated", evaluated)
         return obj
+    }
+
+    override fun copy(): Action {
+        return this.copy(this.assignments)
     }
 
 }
