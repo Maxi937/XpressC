@@ -1,6 +1,6 @@
 import kotlinx.coroutines.runBlocking
-import models.bdtXml.Bdt
-import models.bdtassetprovider.NetworkAssetProvider
+import models.Bdt
+import models.assetprovider.NetworkAssetProvider
 import models.datasource.DataSource
 import org.json.JSONArray
 import org.json.JSONObject

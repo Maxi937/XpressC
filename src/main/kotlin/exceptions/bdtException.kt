@@ -1,6 +1,6 @@
 package exceptions
 
-import models.bdtXml.variables.Var
+import interfaces.Var
 import models.datasource.DataSource
 import models.datasource.Table
 
