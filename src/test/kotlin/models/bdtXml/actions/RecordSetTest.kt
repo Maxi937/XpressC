@@ -6,7 +6,6 @@ import models.datasource.DataSource
 import org.junit.jupiter.api.Test
 import kotlin.io.path.Path
 
-// Basic necessary compiler actions - removing as logic overhead as possible
 class RecordSetTest {
     @Test
     fun recordSetTest() {

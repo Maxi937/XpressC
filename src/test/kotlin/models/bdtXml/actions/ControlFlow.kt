@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test
 import kotlin.io.path.Path
 import kotlin.test.assertEquals
 
-// Basic necessary compiler actions - removing as logic overhead as possible
-class Compiler {
+class ControlFlow {
     @Test
     fun controlFlowFail() {
         val assetProvider = LocalAssetProvider(Path("src/test/resources/Bdt/Compiler"))
