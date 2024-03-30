@@ -4,23 +4,11 @@ import api.models.BdtXmlApiResponse
 import api.models.ContentGroupApiResponse
 import api.models.NetworkResult
 import api.models.XpressionDocumentModelApiResponse
+import interfaces.ApiHandlerInterface
+import interfaces.ApiServices
+import interfaces.DartServiceInterface
 
-
-interface DartService {
-    suspend fun getDocumentModels(env: String): NetworkResult<XpressionDocumentModelApiResponse>
-
-    suspend fun getBdtXml(documentName: String, env: String): NetworkResult<BdtXmlApiResponse>
-    suspend fun getBdtXml(documentId: Long, env: String): NetworkResult<BdtXmlApiResponse>
-
-    suspend fun getContentGroup(
-        documentName: String,
-        textClassId: Int,
-        env: String
-    ): NetworkResult<ContentGroupApiResponse>
-
-}
-
-class DartServiceImpl(private val apiServices: ApiServices) : DartService, ApiHandler {
+class DartService(private val apiServices: ApiServices) : DartServiceInterface, ApiHandlerInterface {
     override suspend fun getDocumentModels(env: String): NetworkResult<XpressionDocumentModelApiResponse> =
         handleApi { apiServices.getDocumentModels(env) }
 

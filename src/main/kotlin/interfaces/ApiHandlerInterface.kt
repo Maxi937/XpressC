@@ -1,10 +1,10 @@
-package api
+package interfaces
 
 import api.models.NetworkResult
 import retrofit2.HttpException
 
 
-interface ApiHandler {
+interface ApiHandlerInterface {
     suspend fun <T : Any> handleApi(execute: suspend () -> retrofit2.Response<T>): NetworkResult<T> {
         return try {
             val response = execute()

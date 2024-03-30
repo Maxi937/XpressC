@@ -1,4 +1,4 @@
-package api
+package interfaces
 
 
 import api.models.BdtXmlApiResponse

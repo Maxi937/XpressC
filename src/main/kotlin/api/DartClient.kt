@@ -1,5 +1,6 @@
 package api
 
+import interfaces.ApiServices
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -23,5 +24,5 @@ object DartClient {
             .create(ApiServices::class.java)
     }
 
-    val service: DartService = DartServiceImpl(api)
+    val service: DartService = DartService(api)
 }
