@@ -35,8 +35,6 @@ class JumpTest {
         assert(contentItems[5].name == contentItemName)
         assert(contentItems[6].name == contentItemName)
         assert(contentItems[7].name == spacerContentName)
-
-
     }
 
     @Test
