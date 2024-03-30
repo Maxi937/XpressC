@@ -1,5 +1,5 @@
 
-rootProject.name = "xpression-test-coverage"
+rootProject.name = "xpressc"
 
 pluginManagement {
     repositories {

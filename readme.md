@@ -1,8 +1,10 @@
-# Summary
-This program is used for breaking up a BDT XML into objects based on element type > evaluating each object > constructing a sequence of played content.
+# XpressC
+
+### Summary
+This is a Compiler for Business Doc Templates (BDT). Bdt's can be assembled as in the Xpression Application with additional checks and tests.
+
 
 ### Notes on Object Models 
-
 
 ####  CR Query
 The BDT XML structure implies that conditional blocks will be evaluated out into a content piece, however each InsertTextpiece is preceded by a TextClass ID conditional within a seperate IF block to the actual conditions that would play the content.
