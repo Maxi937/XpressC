@@ -40,8 +40,8 @@ application {
 runtime {
 //    "${project.distsDirectory.get()}/xpression-bdt"
 
-    imageDir.set(project.file("C:\\Users\\YK09\\Development\\Projects\\dart\\dart-node-app\\server\\xpression-bdt"))
-    imageZip.set(project.file("${project.distsDirectory.get()}/xpression-bdt.zip"))
+    imageDir.set(project.file("C:\\Users\\YK09\\Development\\Projects\\dart\\dart-node-app\\server\\xpressc"))
+    imageZip.set(project.file("${project.distsDirectory.get()}/xpressc.zip"))
     options.set(listOf("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages"))
     modules.set(listOf("java.desktop", "jdk.unsupported", "java.scripting", "java.logging", "java.xml", "java.sql"))
 }

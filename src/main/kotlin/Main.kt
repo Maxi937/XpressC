@@ -18,11 +18,11 @@ fun main(args: Array<String>) {
         compile(Path(jobPath), Path(canPath), env)
     }
 
-    if (job == "analyse") {
-        val jobPath = args[1]
-        val env = args[2]
-        analyse(Path(jobPath), env)
-    }
+//    if (job == "analyse") {
+//        val jobPath = args[1]
+//        val env = args[2]
+//        analyse(Path(jobPath), env)
+//    }
 
     if (job == "bdt") {
         val jobPath = args[1]
@@ -38,17 +38,17 @@ suspend fun getBdt(documentId: Long, env: String) {
     println(bdt.sequence)
 }
 
-fun analyse(jobPath: Path, env: String) {
-    val bdt = Bdt.fromFilePath(jobPath.resolve("bdt.xml").toString())
-    val response = JSONObject()
-    response.put("success", true)
-    response.put("bdt", bdt.name)
-    response.put("serverVer", bdt.serverVer)
-    response.put("bdtsequence", bdt.toJson())
-    response.put("revisionUnits", JSONArray(bdt.getRevisionUnits()))
-    println(response)
-    exitProcess(0)
-}
+//fun analyse(jobPath: Path, env: String) {
+//    val bdt = Bdt.fromFilePath(jobPath.resolve("bdt.xml").toString())
+//    val response = JSONObject()
+//    response.put("success", true)
+//    response.put("bdt", bdt.name)
+//    response.put("serverVer", bdt.serverVer)
+//    response.put("bdtsequence", bdt.toJson())
+//    response.put("revisionUnits", JSONArray(bdt.getRevisionUnits()))
+//    println(response)
+//    exitProcess(0)
+//}
 
 fun compile(jobPath: Path, canPath: Path, env: String) {
     val assetProvider = NetworkAssetProvider(env)

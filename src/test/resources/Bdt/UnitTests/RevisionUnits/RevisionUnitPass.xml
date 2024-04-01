@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<BDT name="Revision Units Pass" primaryDataSource="Stop_Loss_Contract_DS" serverVer="4.7.0.19">
+    <CurrentRule name="Rev Test"/>
+    <InsertSection name="Rev Unit">
+        <RevisionUnit>
+            <UnitName value="RevisionUnit1"/>
+        </RevisionUnit>
+        <Block>
+            <CurrentRule name="Test Revision Units"/>
+            <CurrentRule name="Increment Row Counter"/>
+            <Assign>
+                <Variable dtype="integer" global="false" name="IUD_ROW_COUNTER" static="false"/>
+                <Add>
+                    <Variable dtype="integer" name="IUD_ROW_COUNTER"/>
+                    <Value dtype="integer">1234</Value>
+                </Add>
+            </Assign>
+        </Block>
+    </InsertSection>
+    <InsertSection name="Rev Unit">
+        <RevisionUnit>
+            <UnitName value="RevisionUnit2"/>
+        </RevisionUnit>
+        <Block>
+            <CurrentRule name="Test Revision Units"/>
+            <CurrentRule name="Increment Row Counter"/>
+            <Assign>
+                <Variable dtype="integer" global="false" name="IUD_ROW_COUNTER" static="false"/>
+                <Add>
+                    <Variable dtype="integer" name="IUD_ROW_COUNTER"/>
+                    <Value dtype="integer">1234</Value>
+                </Add>
+            </Assign>
+        </Block>
+    </InsertSection>
+</BDT>

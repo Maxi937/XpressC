@@ -1,8 +1,8 @@
 package models.assetprovider
 
 import interfaces.AssetProviderInterface
-import models.content.ContentGroup
-import models.content.ContentItem
+import models.contentx.ContentGroup
+import models.contentx.ContentItem
 import models.Bdt
 import java.nio.file.Path
 

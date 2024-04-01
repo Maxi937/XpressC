@@ -44,7 +44,6 @@ data class Assignment(
 
     override fun toJson(): JSONObject {
         val obj = JSONObject()
-
         val assignments = JSONArray()
 
         this.assignments.forEach {

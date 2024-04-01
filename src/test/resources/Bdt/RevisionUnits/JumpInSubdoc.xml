@@ -1,0 +1,119 @@
+<?xml version="1.0" ?>
+<BDT name="GSLOT-11133-XP_Schedule_of_Benefit_Aggregate" primaryDataSource="Stop_Loss_Contract_DS" serverVer="4.7.0.19">
+    <Define>
+        <InputParameters>
+            <Variable dtype="integer" name="CONTRACTPK"/>
+            <Variable dtype="string" name="STATUS">APPROVED</Variable>
+            <Variable dtype="integer" name="optionalObjectsMode">3</Variable>
+        </InputParameters>
+        <Variable dtype="integer" name="PRODUCT_ID">Dummy value</Variable>
+        <Variable dtype="integer" name="TEXTCLASS_ID">-1</Variable>
+    </Define>
+    <DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+        <SelectFields/>
+        <FromTables>
+            <DBTable tableName="CONTRACT"/>
+        </FromTables>
+        <WhereCondition>
+            <Comparison operator="eq">
+                <DBField columnName="CONTRACTPK"/>
+                <Variable dtype="integer" name="CONTRACTPK"/>
+            </Comparison>
+        </WhereCondition>
+    </DBQuery>
+    <CurrentRule name="READ:Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+    <GetRSFieldValue>
+        <Variable dtype="float" name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTPK"/>
+        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+        <DBField columnName="CONTRACTPK"/>
+    </GetRSFieldValue>
+    <DBQuery dataSourceName="Stop_Loss_Contract_DS" dsGroupName="Stop_Loss_Contract_DSG">
+        <RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+        <SelectFields/>
+        <FromTables>
+            <DBTable tableName="STOPLOSSAGGREGATE"/>
+        </FromTables>
+        <WhereCondition>
+            <Comparison operator="eq">
+                <DBField columnName="CONTRACTFK"/>
+                <Variable dtype="integer" name="Stop_Loss_Contract_DSG:CONTRACT.CONTRACTPK"/>
+            </Comparison>
+        </WhereCondition>
+    </DBQuery>
+    <CurrentRule name="SOBA_ADF_Table_for_Medical"/>
+    <GetRSFieldValue>
+        <Variable dtype="string" name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE.MEDICALLIVES"/>
+        <RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+        <DBField columnName="MEDICALLIVES"/>
+    </GetRSFieldValue>
+    <If>
+        <Condition>
+            <VariableTest operator="notNull">
+                <Variable name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE.MEDICALLIVES"/>
+            </VariableTest>
+        </Condition>
+        <Block>
+            <InsertSection name="SOBA_ADF_Table_for_Medical">
+                <Block>
+                    <CurrentRule name="Set_Covered_Benefit_Medical"/>
+                    <Assign>
+                        <Variable dtype="string" global="false" name="SUD_COVERED_BENEFIT"
+                                  static="false"/>
+                        <Value dtype="string">Medical</Value>
+                    </Assign>
+                    <ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+                        <Variable dtype="string" name="SUD_COVERED_BENEFIT"/>
+                    </ReplaceVariables>
+                    <CurrentRule name="Include Schedule_Aggregate_ADF_Table"/>
+                    <GetRSFieldValue>
+                        <Variable dtype="float" name="Stop_Loss_Contract_DSG.CONTRACT.CONTRACTPK"/>
+                        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+                        <DBField columnName="CONTRACTPK"/>
+                    </GetRSFieldValue>
+                    <SubDocument mappingType="1" sdName="Jump" sdDocumentId="123">
+                        <Key sdField="CONTRACTPK" sdGroup="Stop_Loss_Contract_DSG"
+                             sdKeyName="CONTRACTPK" sdKeyType="integer" sdTable="CONTRACT"/>
+                    </SubDocument>
+                </Block>
+            </InsertSection>
+        </Block>
+    </If>
+    <CurrentRule name="SOBA_ADF_Table_for_PDP"/>
+    <GetRSFieldValue>
+        <Variable dtype="string" name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE.PRESCRIPTIONDRUGLIVES"/>
+        <RecordsetVar name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE"/>
+        <DBField columnName="PRESCRIPTIONDRUGLIVES"/>
+    </GetRSFieldValue>
+    <If>
+        <Condition>
+            <VariableTest operator="notNull">
+                <Variable name="Stop_Loss_Contract_DSG:STOPLOSSAGGREGATE.PRESCRIPTIONDRUGLIVES"/>
+            </VariableTest>
+        </Condition>
+        <Block>
+            <InsertSection name="SOBA_ADF_Table_for_PDP">
+                <Block>
+                    <CurrentRule name="Set_Covered_Benefit_PDP"/>
+                    <Assign>
+                        <Variable dtype="string" global="false" name="SUD_COVERED_BENEFIT" static="false"/>
+                        <Value dtype="string">PDP</Value>
+                    </Assign>
+                    <ReplaceVariables id="(replaced for comparison purposes)" validThrough="next">
+                        <Variable dtype="string" name="SUD_COVERED_BENEFIT"/>
+                    </ReplaceVariables>
+                    <CurrentRule name="Include Schedule_Aggregate_ADF_Table"/>
+                    <GetRSFieldValue>
+                        <Variable dtype="float" name="Stop_Loss_Contract_DSG.CONTRACT.CONTRACTPK"/>
+                        <RecordsetVar name="Stop_Loss_Contract_DSG:CONTRACT"/>
+                        <DBField columnName="CONTRACTPK"/>
+                    </GetRSFieldValue>
+                    <SubDocument mappingType="1" sdName="Jump" sdDocumentId="123">
+                        <Key sdField="CONTRACTPK" sdGroup="Stop_Loss_Contract_DSG" sdKeyName="CONTRACTPK"
+                             sdKeyType="integer" sdTable="CONTRACT"/>
+                    </SubDocument>
+                </Block>
+            </InsertSection>
+        </Block>
+    </If>
+</BDT>

@@ -1,39 +1,37 @@
 package models.compiler
 
 import exceptions.BdtDataSourceRecordException
+import interfaces.*
 import models.Bdt
 import models.syntax.misc.Key
-import models.syntax.Sequence
-import interfaces.Action
 import models.syntax.actions.InsertTextpiece
 import models.syntax.actions.Jump
 import models.syntax.actions.Label
 import models.syntax.containers.Block
-import interfaces.Container
 import models.syntax.containers.If
-import interfaces.Var
 import models.syntax.variables.Variable
-import interfaces.AssetProviderInterface
 import models.datasource.DataSource
 import models.datasource.Query
 import models.datasource.RecordSet
+import models.unittest.RevisionUnitTest
 
 class Compiler(
-    private val sequence: Sequence,
+    private val sequence: ArrayList<Action>,
     val dataSource: DataSource,
     private val assetProvider: AssetProviderInterface,
     private val variables: ArrayList<Var> = ArrayList(),
 ) {
     private val instructions = Instructions<Action>()
-    private val eventSequence: ArrayList<Action> = ArrayList()
     private var activeRecordSet: RecordSet = dataSource.recordSets[0]
     private val contentItems = ArrayList<InsertTextpiece>()
     private val labels: ArrayList<Node<Action>> = ArrayList()
+    private val tests: ArrayList<UnitTestInterface> = ArrayList()
+    val eventSequence: ArrayList<Action> = ArrayList()
     val crRequests: ArrayList<Long> = ArrayList()
     var crLength: Int = 0
 
     init {
-        sequence.execute { it ->
+        sequence.forEach { it ->
             instructions.append(it)
         }
     }
@@ -44,14 +42,20 @@ class Compiler(
 
     private fun compile(block: Block): CompilerResult {
         traverseInstructions(instructions)
-        return CompilerResult(sequence, eventSequence, contentItems, variables, "dataSource")
+        runFinishingTests()
+        return CompilerResult(sequence, eventSequence, contentItems, variables, tests)
+    }
+
+    private fun runFinishingTests() {
+        val test = RevisionUnitTest()
+        test.evaluate(this)
+        tests.add(test)
     }
 
     private fun compile(instructions: Instructions<Action>): CompilerResult {
         val block = Block(instructions)
         return compile(block)
     }
-
 
     private fun addActionToEventSequence(action: Action) {
         val actionCopy = action.copy()

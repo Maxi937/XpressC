@@ -1,6 +1,6 @@
 package api.models
 
-import models.content.ContentGroup
+import models.contentx.ContentGroup
 
 data class ContentGroupApiResponse(
     val content: ContentGroup

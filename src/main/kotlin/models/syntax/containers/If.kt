@@ -9,6 +9,7 @@ import models.compiler.Instructions
 import interfaces.Condition
 import interfaces.Container
 import interfaces.whichCondition
+import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 
@@ -40,9 +41,34 @@ data class If(
 
     override fun toJson(): JSONObject {
         val obj = JSONObject()
-        obj.put(condition.javaClass.simpleName, condition.toJson())
-        obj.put("true", trueInstructions.toJson())
-        obj.put("false", falseInstructions.toJson())
+
+        val condition = JSONObject()
+        condition.put(this.condition.javaClass.simpleName, this.condition.toJson())
+        obj.put("condition", condition)
+
+        val trueBlock = JSONArray()
+        trueInstructions.forEach {
+            val trueObj = JSONObject()
+            trueObj.put(it.javaClass.simpleName, it.toJson())
+            trueBlock.put(trueObj)
+        }
+        obj.put("true", trueBlock)
+
+
+        if(falseInstructions.isNotEmpty()) {
+            val falseBlock = JSONArray()
+            falseInstructions.forEach {
+                val falseObj = JSONObject()
+                falseObj.put(it.javaClass.simpleName, it.toJson())
+                falseBlock.put(falseObj)
+            }
+            obj.put("false", falseBlock)
+        }
+
+        obj.put("false", falseInstructions)
+
+
+
 
 
         return obj
@@ -67,9 +93,8 @@ data class If(
             }
 
             val trueInstructions = blocks[0].getIntructions()
-            var falseInstructions: Instructions<Action>? = null
 
-            falseInstructions = if (blocks.size > 1) {
+            val falseInstructions: Instructions<Action> = if (blocks.size > 1) {
                 blocks[1].getIntructions()
             } else {
                 Instructions()

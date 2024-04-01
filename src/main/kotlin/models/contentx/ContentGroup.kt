@@ -1,4 +1,4 @@
-package models.content
+package models.contentx
 
 import api.models.contentItemApiResponse
 import com.google.gson.annotations.SerializedName

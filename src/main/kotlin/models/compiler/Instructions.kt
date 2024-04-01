@@ -1,5 +1,6 @@
 package models.compiler
 
+import org.json.JSONArray
 import org.json.JSONObject
 
 class Instructions<T> : Iterable<T>, Collection<T>, MutableIterable<T>, MutableCollection<T> {
@@ -38,10 +39,6 @@ class Instructions<T> : Iterable<T>, Collection<T>, MutableIterable<T>, MutableC
             if (item == element) return true
         }
         return false
-    }
-
-    fun toJson(): JSONObject {
-        return JSONObject(this)
     }
 
     fun push(value: T): Instructions<T> {
@@ -202,4 +199,6 @@ class Instructions<T> : Iterable<T>, Collection<T>, MutableIterable<T>, MutableC
             "Instruction<${head.toString()}>"
         }
     }
+
+
 }

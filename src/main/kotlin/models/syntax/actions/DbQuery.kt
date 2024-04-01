@@ -24,29 +24,7 @@ data class DbQuery(
     val condition: Condition,
     override var uuid: UUID = UUID.randomUUID()
 ) : Action {
-    companion object {
-        fun xml(k: Konsumer): DbQuery {
-            k.checkCurrent("DBQuery")
 
-            val dataSourceName = k.attributes.getValue("dataSourceName")
-            val dsGroupName = k.attributes.getValue("dsGroupName")
-
-            var recordSetVar: RecordSetVar? = null
-            val fromTables: ArrayList<DbTable> = ArrayList()
-            var condition: Condition? = null
-
-
-            k.allChildrenAutoIgnore(Names.of("RecordsetVar", "FromTables", "WhereCondition")) {
-                when (localName) {
-                    "RecordsetVar" -> recordSetVar = RecordSetVar.xml(this)
-                    "FromTables" -> this.children("DBTable") { fromTables.add(DbTable.xml(this)) }
-                    "WhereCondition" -> condition = whichCondition(this)
-                }
-            }
-
-            return DbQuery(dataSourceName, dsGroupName, recordSetVar!!, fromTables, condition!!)
-        }
-    }
 
     private fun comparisonToQuery(comparison: Comparison, bdtSolver: Compiler): Query {
         val variable = comparison.compares.find { it is Variable }
@@ -74,7 +52,11 @@ data class DbQuery(
 
     override fun toJson(): JSONObject {
         val obj = JSONObject()
-        obj.put(condition.javaClass.simpleName, condition.toJson())
+
+        val condition = JSONObject()
+        condition.put(this.condition.javaClass.simpleName, this.condition.toJson())
+        obj.put("condition", condition)
+
         obj.put("dataSourceName", dataSourceName)
         obj.put("dsGroupName", dsGroupName)
         obj.put("recordSetVar", recordSetVar)
@@ -85,6 +67,30 @@ data class DbQuery(
 
     override fun copy(): Action {
         return this.copy(dataSourceName, dsGroupName, recordSetVar, fromTables, condition, uuid = uuid)
+    }
+
+    companion object {
+        fun xml(k: Konsumer): DbQuery {
+            k.checkCurrent("DBQuery")
+
+            val dataSourceName = k.attributes.getValue("dataSourceName")
+            val dsGroupName = k.attributes.getValue("dsGroupName")
+
+            var recordSetVar: RecordSetVar? = null
+            val fromTables: ArrayList<DbTable> = ArrayList()
+            var condition: Condition? = null
+
+
+            k.allChildrenAutoIgnore(Names.of("RecordsetVar", "FromTables", "WhereCondition")) {
+                when (localName) {
+                    "RecordsetVar" -> recordSetVar = RecordSetVar.xml(this)
+                    "FromTables" -> this.children("DBTable") { fromTables.add(DbTable.xml(this)) }
+                    "WhereCondition" -> condition = whichCondition(this)
+                }
+            }
+
+            return DbQuery(dataSourceName, dsGroupName, recordSetVar!!, fromTables, condition!!)
+        }
     }
 
 }

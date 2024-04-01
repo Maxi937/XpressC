@@ -28,29 +28,20 @@ data class Block(
         }
     }
 
-
-    fun toJsonArray(): JSONArray {
-        val result = JSONArray()
-
-        instructions.forEach { it ->
-            val obj = JSONObject()
-            obj.put(it.javaClass.simpleName, it.toJson())
-            result.put(obj)
-        }
-
-        return result
-    }
-
     override fun toJson(): JSONObject {
-        val obj = JSONArray()
-        instructions.forEach { it ->
-            obj.put(it.toJson())
-        }
+//        val result = JSONObject()
+//
+//
+//        val block = JSONArray()
+//        instructions.forEach {
+//            val obj = JSONObject()
+//            obj.put(it.javaClass.simpleName, it.toJson())
+//            block.put(obj)
+//        }
+//
+//        result.put("block", block)
 
-        val res = JSONObject()
-        res.put("block", obj)
-
-        return res
+        return JSONObject(this)
     }
 
     override fun copy(): Container {

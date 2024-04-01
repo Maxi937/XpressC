@@ -1,6 +1,6 @@
 package interfaces
 
-import models.content.ContentGroup
+import models.contentx.ContentGroup
 import models.Bdt
 
 interface AssetProviderInterface {

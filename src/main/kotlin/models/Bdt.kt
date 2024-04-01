@@ -5,7 +5,7 @@ import api.models.NetworkResult
 import com.gitlab.mvysny.konsumexml.Konsumer
 import com.gitlab.mvysny.konsumexml.Names
 import com.gitlab.mvysny.konsumexml.konsumeXml
-import models.syntax.Sequence
+import interfaces.Action
 import interfaces.whichAction
 import models.compiler.Compiler
 import models.compiler.CompilerResult
@@ -13,26 +13,17 @@ import models.syntax.containers.Section
 import interfaces.AssetProviderInterface
 import models.datasource.DataSource
 import org.json.JSONArray
+import org.json.JSONObject
 import java.io.File
 
 data class Bdt(
     val name: String,
     val primaryDataSource: String,
     val serverVer: String,
-    val sequence: Sequence,
+    val sequence: ArrayList<Action>,
 ) {
     fun toJson(): JSONArray {
-        return sequence.toJson()
-    }
-
-    fun getRevisionUnits(): ArrayList<String> {
-        val results: ArrayList<String> = ArrayList()
-        sequence.execute { it ->
-            if (it is Section) {
-                results += it.revisionUnits
-            }
-        }
-        return results
+        return JSONArray(this.sequence)
     }
 
     fun compile(dataSource: DataSource, assetProvider: AssetProviderInterface): CompilerResult {
@@ -84,7 +75,7 @@ data class Bdt(
             val name = k.attributes.getValue("name")
             val primaryDataSource = k.attributes.getValue("primaryDataSource")
             val serverVer = k.attributes.getValue("serverVer")
-            val sequence: Sequence = Sequence()
+            val sequence = ArrayList<Action>()
 
             k.children(Names.any()) {
                 val action = whichAction(this)

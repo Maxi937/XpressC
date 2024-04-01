@@ -6,6 +6,7 @@ import interfaces.Action
 import interfaces.Container
 import models.compiler.Compiler
 import models.compiler.Instructions
+import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 
@@ -22,17 +23,25 @@ data class SubDocument(
 
 
     override fun evaluate(compiler: Compiler): Boolean {
-//        block.evaluate(compiler)
         return true
     }
 
     override fun toJson(): JSONObject {
-        val obj = JSONObject()
-        obj.put("documentName", documentName)
-        obj.put("documentId", documentId)
-        obj.put("key", key)
-//        obj.put("block", this.block.toJsonArray())
-        return obj
+        val result = JSONObject()
+        result.put("documentName", documentName)
+        result.put("documentId", documentId)
+        result.put("key", key)
+
+        val block = JSONArray()
+
+        instructions.forEach {
+            val obj = JSONObject()
+            obj.put(it.javaClass.simpleName, it.toJson())
+            block.put(obj)
+        }
+
+        result.put("block", block)
+        return result
     }
 
     override fun setup(compiler: Compiler) {
@@ -40,7 +49,7 @@ data class SubDocument(
             val subdocument = compiler.getSubdocument(documentId, key)
             documentName = subdocument.name
 
-            subdocument.sequence.execute { it ->
+            subdocument.sequence.forEach { it ->
                 instructions.append(it)
             }
             isSetUp = true

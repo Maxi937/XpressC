@@ -1,4 +1,4 @@
-package models.content
+package models.contentx
 
 data class ContentItem(
     val name: String,

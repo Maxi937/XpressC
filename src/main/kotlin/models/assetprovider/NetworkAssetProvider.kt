@@ -5,7 +5,7 @@ import api.models.NetworkResult
 import interfaces.AssetProviderInterface
 import kotlinx.coroutines.runBlocking
 import models.Bdt
-import models.content.ContentGroup
+import models.contentx.ContentGroup
 
 class NetworkAssetProvider(private val env: String) : AssetProviderInterface {
     override fun getBdt(documentId: Long): Bdt {
